@@ -1,18 +1,10 @@
 {
   "name": "chevron-drilling-ui",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:4201": "ng serve --port 4201",
-    "start:4202": "ng serve --port 4202",
-    "start:4203": "ng serve --port 4203",
-    "start:4204": "ng serve --port 4204",
-    "start:4205": "ng serve --port 4205",
-    "start:4206": "ng serve --port 4206",
-    "build-dev": "ng build --configuration=development --aot=true",
     "build": "ng build --configuration development",
-    "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,

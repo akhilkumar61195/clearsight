@@ -12,10 +12,10 @@ export class NumberFormatDirective implements  OnChanges,AfterViewChecked {
     // Apply formatting on page load if the input has a value
     this.formatInput();
   }
-
+    
   ngOnChanges(changes: SimpleChanges) {
     if (changes['value']) {
-      this.formatInput();
+         this.formatInput();
     }
   }
 

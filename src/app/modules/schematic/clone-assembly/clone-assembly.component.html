@@ -1,0 +1,42 @@
+<p-dialog [visible]="visible" [modal]="true" [closable]="false" [style]="{width: '20vw'}" (onShow)="onShow()">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">Clone Assembly</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="close()"></button>
+    </div>
+    <div class="dialog-content-container">
+        Select the Section and Zone where you want to place the cloned assembly.
+    </div>
+    
+    <div class="p-fluid" style="padding: 1rem;">
+        <div class="p-field">
+            <div class="parentInput">
+                <label for="sectionName" class="schematicLabel">Target Section <span class="starCss">*</span></label>
+                <p-dropdown [options]="sections" 
+                            [(ngModel)]="selectedSection"
+                            optionLabel="sectionName"
+                            placeholder="Select Target Section"
+                            class="mt-2 db"
+                            appendTo="body"
+                            (onChange)="onSectionChange()">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="p-field" *ngIf="(selectedSection?.sectionId == 1 || selectedSection?.sectionId == 2)">
+            <div class="parentInput">
+                <label for="zoneName" class="schematicLabel">Target Zone <span class="starCss">*</span></label>
+                <p-dropdown [options]="zoneOptions" 
+                           [(ngModel)]="selectedZone"
+                           optionLabel="label"
+                           appendTo="body"
+                           class="mt-2 db"
+                           [disabled]="!(selectedSection?.sectionId == 1 || selectedSection?.sectionId == 2)"
+                           placeholder="Select Target">
+                </p-dropdown>
+            </div>
+        </div>
+    </div>
+    <p-footer style="display: flex; justify-content: center;" class="pb-3">
+          <button pButton type="button" label="Cancel" class="p-button-text cancelBtn" (click)="close()"></button>
+          <button pButton type="button" label="Clone" class="saveBtn" (click)="clone()"></button>
+    </p-footer>
+</p-dialog>

@@ -1,0 +1,163 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<p-dialog [(visible)]="displaycloneHeaderDialog" [modal]="true" (onShow)="getWellHeaderData()" [style]="{ width: '400px' }" [closable]="false">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">{{ isClone ? 'Clone Well Header' : 'Create Well' }}</h3>
+       <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="cancelCloneWellHeader()"></button>
+    </div>
+
+    <form [formGroup]="cloneWellHeadersForm" (ngSubmit)="submitCloneWellHeadersForm()" class="p-2">
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="wellName" class="schematicLabel">Well Name <span class="starCss">*</span></label>
+                    <input id="wellName" type="text" formControlName="wellName" pInputText>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('wellName')?.invalid && cloneWellHeadersForm.get('wellName')?.touched" class="errorMessage">
+                    Well Name is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="p10startDate" class="schematicLabel">P10 Start Date </label>
+                    <input id="p10startDate" type="date" formControlName="p10startDate" pInputText>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('p10startDate')?.invalid && cloneWellHeadersForm.get('p10startDate')?.touched" class="errorMessage">
+                    P10 Start Date  is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="p50startDate" class="schematicLabel">P50 Start Date </label>
+                    <input id="p50startDate" type="date" formControlName="p50startDate" pInputText>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('p50startDate')?.invalid && cloneWellHeadersForm.get('p50startDate')?.touched" class="errorMessage">
+                    P50 Start Date  is required.
+                </div>
+            </div>
+        </div>
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="project" class="schematicLabel">Project</label>
+                    <p-dropdown
+                    [options]="projects"
+                    [filter]="true"
+                    class="mt-2 db"
+                    formControlName="projectId"
+                    >
+                  </p-dropdown>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="plantCode" class="schematicLabel">Plant Code </label>
+                    <!-- <input id="plantCode" type="text" formControlName="plantCode" pInputText> -->
+                    <p-dropdown
+                    [options]="plantOptions"
+                    [filter]="true"
+                    class="mt-2 db"
+                    appendTo="body"
+                    formControlName="plantId"
+                    >
+                  </p-dropdown>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('plantCode')?.invalid && cloneWellHeadersForm.get('plantCode')?.touched" class="errorMessage">
+                    Plant Code  is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="wbs" class="schematicLabel">WBS </label>
+                    <input id="wbs" type="text" formControlName="wbs" pInputText>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('wbs')?.invalid && cloneWellHeadersForm.get('wbs')?.touched" class="errorMessage">
+                    WBS is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="wellTypeId" class="schematicLabel">Well Type </label>
+                    <p-dropdown id="wellType" formControlName="wellTypeId" 
+                        [options]="wellTypeOptions"  appendTo="body">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('wellType')?.invalid && cloneWellHeadersForm.get('wellType')?.touched" class="errorMessage">
+                    Well Type is required.
+                </div>
+            </div>
+        </div>
+     <!-- for wellhead kit added this dropdown -->
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="wellheadkitId" class="schematicLabel">Wellhead Kit </label>
+                    <p-dropdown id="wellType" formControlName="wellheadkitId" 
+                        [options]="wellheadKitOptions"  appendTo="body">
+                    </p-dropdown>
+                </div>
+                <!-- <div *ngIf="cloneWellHeadersForm.get('wellheadkitId')?.invalid && cloneWellHeadersForm.get('wellheadkitId')?.touched" class="errorMessage">
+                    Wellhead Kit is required.
+                </div> -->
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="planningEngineerId" class="schematicLabel">Planning Engineer </label>
+                    <p-dropdown id="planningEngineer" formControlName="planningEngineerId"
+                        [options]="planningEngineerOptions"
+                         appendTo="body">
+                    </p-dropdown>
+                  
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('planningEngineer')?.invalid && cloneWellHeadersForm.get('planningEngineer')?.touched" class="errorMessage">
+                    Planning Engineer is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-fluid p-1">
+            <div class="p-field mb-1">
+                <div class="parentInput">
+                    <label for="rig" class="schematicLabel">RIG </label>
+                    <input id="rig" type="text" formControlName="rig" pInputText>
+                </div>
+                <div *ngIf="cloneWellHeadersForm.get('rig')?.invalid && cloneWellHeadersForm.get('rig')?.touched" class="errorMessage">
+                    Rig is required.
+                </div>
+            </div>
+        </div>
+
+
+
+        <p-footer style="display: flex; justify-content: center;" class="pb-3">
+        <button pButton label="Cancel" class="cancelBtn" type="button" (click)="cancelCloneWellHeader()"></button>
+            <button pButton label="Save" type="submit"  [disabled]="cloneWellHeadersForm.invalid" class="saveBtn"></button>
+          
+        </p-footer>
+    </form>
+</p-dialog>
+
+<app-confirmation-dialog [(visible)]="displayConfirmationComponentDialog"
+                         [cancelButtonVisibile]="true"
+                         [dialogContent]="'You are attempting to create a well. If this is correct, click Continue, otherwise click Cancel.'"
+                         [dialogTitle]="'Continue'"
+                         (onCancel)="displayConfirmationComponentDialog=false"
+                         (onContinue)="CreateNewWell()">
+</app-confirmation-dialog>

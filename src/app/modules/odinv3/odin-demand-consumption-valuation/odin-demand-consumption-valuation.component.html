@@ -1,0 +1,28 @@
+<div class="sky-background">
+  <!-- added the width auto class -->
+  <div class="select-button-container wd-auto">
+    <p-selectButton (onChange)="onViewSelectionChange($event)" [(ngModel)]="selectedView" [options]="viewOptions"
+                    optionLabel="label" optionValue="value" [allowEmpty]="false" />
+  </div>
+  <!-- added completion and drilling  toggle -->
+  <div class="select-button-container wd-auto">
+    <p-selectButton (onChange)="onFunctionSelectionChange($event)" [(ngModel)]="selectedFunction" [options]="functionOptions"
+                    optionLabel="label" optionValue="value" [allowEmpty]="false" />
+  </div>
+</div>
+<div class="mt-1">
+  <p-card class="col-12 p-0 removePCardPadding bg-none">
+    <div class="grid">
+      <div *ngIf="this.selectedView==1" class="col-12 sm:col-12 md:col-6 lg:col-12 custom-bg bg-white p-0 m-0">
+        <app-odin-consumption-valuation [selectedFunction]="selectedFunction" [selectedWell]="selectedWell"
+        [selectedWellId]="selectedWellId"></app-odin-consumption-valuation>
+      </div>
+      <!-- <div *ngIf="this.selectedView==2" class="col-12 sm:col-12 md:col-6 lg:col-12 p-6px custom-bg bg-white">
+        <app-odin-demand-valuation [selectedFunction]="selectedFunction" [selectedWell]="selectedWell"
+                                      [selectedWellId]="selectedWellId"></app-odin-demand-valuation>
+      </div> -->
+      <!-- We are not using this component as we added this data in odin consumption-->
+    </div>
+
+  </p-card>
+</div>

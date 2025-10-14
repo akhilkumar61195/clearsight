@@ -1,0 +1,95 @@
+.p-accordion-header-link {
+  border: none;
+  width: 30%;
+}
+.flex-container {
+  display: flex;
+  gap: 16px; /* Optional spacing between grids */
+}
+
+
+.consumption-grid {
+  flex: 1; /* Takes remaining 60% */
+}
+.inventory-grid {
+  height: 100%;
+  display: block;
+  position: relative;
+  flex: 0 0 40%;
+
+
+  p-table {
+    .p-datatable {
+      height: calc(100vh - 250px);
+      top: 0px !important;
+
+      &.p-datatable-scrollable {
+        > .p-datatable-wrapper {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          height: 100%;
+          max-height: calc(100%) !important;
+
+          td.contingentQuantity {
+            background-color: rgba(11, 45, 113, 0.2);
+          }
+        }
+      }
+
+      .even td {
+        background-color: rgba(217, 217, 217, 0.5) !important;
+      }
+
+      .odd td {
+        background-color: #ffffff;
+      }
+    }
+  }
+}
+
+.cursor-default {
+  cursor: default !important;
+}
+
+.p-paginator {
+  padding: 0px !important;
+}
+
+.p-paginator-left-content {
+  margin: 5px !important;
+}
+
+.p-datatable .p-datatable-tfoot > tr > td {
+  padding: 5px !important;
+}
+
+
+.select-button-container {
+  display: flex;
+  width: 257px;
+  background: #F0F9FA;
+  font-weight: bold !important;
+  border-radius: 4px;
+}
+
+.p-selectbutton {
+  padding: 1px;
+  display: flex;
+  width: 30 px;
+  gap: 2px;
+}
+
+.p-selectbutton .p-button {
+  color: black;
+  font-weight: 600;
+  background: #F0F9FA;
+  border: 0px;
+  border-radius: 4px;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background-color: #05b4bc;
+  color: #fff;
+  transform: scale(0.98);
+}

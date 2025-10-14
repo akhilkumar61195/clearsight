@@ -1,0 +1,25 @@
+<div class="sky-background">
+  <div class="left-sky-button-container">
+    <!-- Any other content here -->
+  </div>
+  <div class="select-button-container pull-right">
+    <p-selectButton 
+      [(ngModel)]="selectedView" 
+      [options]="viewOptionsButtons"
+      (ngModelChange)="onViewChange($event)" 
+      optionLabel="label" 
+      optionValue="value" 
+      [allowEmpty]="false" />
+  </div>
+</div>
+
+<!-- Conditionally render the app-addEquipmentDialog when selectedView is 1 -->
+
+<!-- Passing isUpdateEditable property for identifying user access to edit the fields-->
+<app-addEquipmentDialog *ngIf="selectedView === 1" [isPageView]="isPageView" [isUpdateEditable]="isEditableField" [isListEditable]="isListEditable"></app-addEquipmentDialog>
+
+<!-- Conditionally render the app-mdl when selectedView is 2 -->
+<app-mdl-completion *ngIf="selectedView === 2"></app-mdl-completion>
+
+<!-- Chat Component -->
+<app-chat [roomName]="'MDL'" [isChatEnabled]="isChatEnabled" (closeChat$)="onLeaveChat()"></app-chat>

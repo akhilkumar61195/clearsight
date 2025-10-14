@@ -1,0 +1,43 @@
+<p-dialog [(visible)]="displayExportToThorDialog" [modal]="true" [style]="{ width: '400px' }" [closable]="false">
+    <div class="dialog-header">
+        <h3  class="dialog-heading">Confirm THOR Publication</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeExportToOdin()"></button>
+    </div>
+    <ng-template pTemplate="body">
+       <p  class="p-4">You are attempting to publish <b>{{wellName}}</b> to THOR. If you wish to continue,click Publish. Otherwise, click Cancel.</p>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container mt-4">
+            <button pButton style="align-content:center" label="Cancel" class="p-button-secondary" (click)="closeExportToOdin()"></button>
+
+            <button pButton style="align-self:center"
+                    label="Publish"
+                    class="p-button-primary" 
+                    (click)="exportToThor()"></button>
+            
+        </div>
+    </ng-template>
+</p-dialog>
+
+
+<!-- dialog to show there is no demand for publish well -->
+<p-dialog [(visible)]="displayWellNotPublish" [modal]="true" [style]="{ width: '400px' }" [closable]="false">
+    <div class="dialog-header">
+        <h3  class="dialog-heading">Publish Information</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="displayWellNotPublish=false"></button>
+    </div>
+    <ng-template pTemplate="body">
+       <p  class="p-4">This well  <b>{{wellName}}</b>  Can't be publish because it don't have any material demand.</p>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container mt-4">
+          
+
+            <button pButton style="align-self:center"
+                    label="Ok"
+                    class="p-button-primary" 
+                    (click)="displayWellNotPublish=false"></button>
+            
+        </div>
+    </ng-template>
+</p-dialog>

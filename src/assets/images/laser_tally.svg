@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <g id="Laser_Tally" data-name="Laser Tally" transform="translate(-1119 1056)">
+    <g id="Rectangle_4114" data-name="Rectangle 4114" transform="translate(1119 -1056)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+      <rect width="200" height="200" stroke="none"/>
+      <rect x="0.5" y="0.5" width="199" height="199" fill="none"/>
+    </g>
+    <path id="Path_35284" data-name="Path 35284" d="M36.667,11h110V62.333h-110V11ZM0,12.833H7.333V64.167H0Zm22,60.5A7.328,7.328,0,0,1,14.667,66V7.333a7.333,7.333,0,0,1,14.667,0V66A7.328,7.328,0,0,1,22,73.333Zm139.333,0A7.328,7.328,0,0,1,154,66V7.333a7.333,7.333,0,0,1,14.667,0V66A7.328,7.328,0,0,1,161.333,73.333Zm22-9.167H176V12.833h7.333Z" transform="translate(1127.334 -918.03) rotate(-45)" fill="#166568"/>
+  </g>
+</svg>

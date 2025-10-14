@@ -1,0 +1,36 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ 'width': dialogWidth }" [maximizable]="maximizable"
+  [closable]="false" [draggable]="true" class="custom-dialog">
+  <!-- Dialog Header -->
+  <div class="dialog-header">
+    <h3 class="dialog-heading">{{ dialogTitle }}</h3>
+    <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+  </div>
+
+  <!-- Dialog Body -->
+  <ng-template pTemplate="body">
+    <div class="upload-select-button-container mt-3 ml-3" *ngIf="showingSelectedView">
+      <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedView" [options]="wellDocumentTypes"
+        optionLabel="name" optionValue="id" [allowEmpty]="false" />
+    </div>
+    <div class="custom-dialog-body dialog-body">
+      <p>
+        {{ description }}
+        <a *ngIf="downloadTemplateLink" (click)="downloadTemplate()" class="template-link">
+          Download template
+        </a>
+
+      </p>
+      <ng-content></ng-content> <!-- Placeholder for child content -->
+    </div>
+  </ng-template>
+
+  <!-- Dialog Footer -->
+  <p-footer>
+    <!-- custom save or create button -->
+    <button *ngIf="savebuttonName" pButton type="button" label="{{ savebuttonName }}" (click)="onCreate()"></button>
+    <button *ngIf="otherbuttonName" pButton type="button" label="{{ otherbuttonName }}"
+      (click)="onOtherClick()"></button>
+
+    <button pButton class="p-button-outlined" type="button" label="Cancel" (click)="closeDialog()"></button>
+  </p-footer>
+</p-dialog>

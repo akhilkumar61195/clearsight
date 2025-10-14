@@ -1,0 +1,113 @@
+.wellhead-custom-theme {
+ flex: none;
+ min-width: 300px;
+.side-card {
+    flex: 0.3;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .side-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    border: 1px solid lightgray;
+    background: #166568;
+    color: #fff;
+  }
+  .side-card-header-text{
+    font-weight: bold;
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 10px;    
+  }
+  .side-card-header-button{
+    padding: 10px;
+  }
+
+  .kit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  
+  .kit-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer; /* Add pointer cursor to indicate interactivity */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition for hover effects */
+    padding: 3px 10px;
+}
+  
+  .kit-name {
+    font-size: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-weight: 400;
+  }
+
+  .kit-item:hover {
+    color: #007bff; /* Change text color on hover */
+    background-color: #f0f8ff; /* Add a light background color on hover */
+    border-radius: 4px; /* Optional: Add rounded corners */
+  }
+  
+  .kit-item:active {
+    color: #0056b3; /* Darker color for active state */
+    background-color: #e6f2ff; /* Slightly darker background for active state */
+  }
+  
+  .kit-actions button {
+    margin-left: 0.1rem;
+  }
+  .kit-checkbox {
+    appearance: none; /* Removes default browser styles */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #a2a8ad;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    top:6px;
+  
+    &:checked {
+      background-color: #2196F3;
+      border-color: #2196F3;
+    }
+  
+    &:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 0px;
+      width: 4px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  
+    &:hover {
+      box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    }
+  }
+
+  .active-delete{
+    background: #fff;
+  }
+  .kit-item.active {
+    background-color: #e0f3ff;
+    .kit-name{
+      font-weight: 600;
+      color: #05b4bc;
+    }
+  }
+  
+  
+}

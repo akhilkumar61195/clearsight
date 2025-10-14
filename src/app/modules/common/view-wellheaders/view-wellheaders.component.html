@@ -1,0 +1,123 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<!--  display well headers dialog -->
+<p-dialog
+  [(visible)]="displayViewWellHeaders"
+  [modal]="true"
+  (onShow)="loadWellData()"
+  [closable]="false"
+  [style]="{ width: '80vw' }"
+  class="editwell-section"
+>
+  <div class="dialog-header">
+    <h3 class="dialog-heading">View Well Headers</h3>
+    <button
+      class="dialog-header-close-btn"
+      pButton
+      icon="pi pi-times"
+      (click)="closeDialog()"
+    ></button>
+  </div>
+  <div class="dialog-content-container">
+    <div class="flex bg-theme-blue mt-0">
+      <div class="p-6px flex-1" style="width: 25%">
+        <span class="p-input-icon-left inputsearchSpan">
+          <i class="pi pi-search"></i>
+          <!-- ADDED  ngModel for search input-->
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="searchText"
+            (input)="onSearch()"
+            class="whiteblue"
+            placeholder="Search"
+          />
+        </span>
+      </div>
+      <div class="p-6px" style="width: 45%">
+        <p-button
+          type="text"
+          label="Reset"
+          class="filterBTN runfilter"
+          (click)="resetFilter()"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+  <!-- Grid -->
+  <ng-template pTemplate="body">
+    <ag-grid-angular
+      class="ag-theme-alpine wellHeaders"
+      style="height: 78vh; margin: 1px; padding: 2px"
+      [columnDefs]="wellHaedersColumnDefs"
+      [rowData]="wellDetails"
+      [rowHeight]="rowHeight"
+      [quickFilterText]="globalFilter"
+      [defaultColDef]="{
+        flex: 1,
+        minWidth: 100,
+        suppressHeaderMenuButton: true
+      }"
+      [singleClickEdit]="true"
+      [rowDragManaged]="true"
+      [animateRows]="true"
+      [domLayout]="'normal'"
+      [rowSelection]="'single'"
+      [loading]="gridConfig.loading"
+      (gridReady)="onGridReady($event)"
+      (selectionChanged)="onRowClicked()"
+    >
+    </ag-grid-angular>
+  </ng-template>
+  <!--  -->
+  <ng-template pTemplate="footer">
+    <div class="footer-buttons-container">
+      <button
+        pButton
+        style="align-content: center"
+        label="Cancel"
+        class="p-button-secondary"
+        (click)="closeDialog()"
+      ></button>
+
+      <button
+        pButton
+        style="align-self: center"
+        [disabled]="!selectedRows?.length"
+        label="Continue"
+        (click)="onContinue()"
+        class="p-button-primary"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
+<!-- display confirmation message -->
+<app-custom-dialog
+  [(visible)]="displayConfirmationComponentDialog"
+  [dialogTitle]="'Clone Well Confirmation'"
+  [savebuttonName]="'Clone'"
+  (onCreateEvent)="submitOtherWells()"
+  [maximizable]="false"
+  (onClose)="closeConfirmationDialog()"
+>
+  <ul class="otherwell-confirmation">
+    <div class="mb-2">You are attempting to clone
+    <b>{{ existingWellName }}</b>
+    to
+    <b>{{ selectedWellName }}</b
+    >. Doing so will cause the following actions to occur:
+  </div>
+    <li>
+      In ODIN any Material Demand will be copied from the Original to the Clone
+    </li>
+
+    <li>The ODIN well being cloned to will be published to THOR</li>
+
+    <li>
+      In THOR any Material Demand not accounted for in ODIN will be added to the
+      Clone
+    </li>
+    <div class="mt-2">
+    If this correct click <b>Clone</b>, otherwise click <b>Cancel</b>.
+    </div>
+  </ul>
+</app-custom-dialog>

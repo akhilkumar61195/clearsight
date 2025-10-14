@@ -1,0 +1,41 @@
+<!-- File input for uploading Excel files -->
+
+<div class="dialog-body" *ngIf="showDescription">
+  <p>
+    To add your control line and clamp calculations, either drag your file into
+    the space below or click choose file:
+    <a (click)="downloadTemplate()" class="template-link"
+      >Download template</a
+    >
+  </p>
+</div>
+<div class="custom-file-upload" [class.disabled]="!isBulkUploadEditable"
+(click)="isBulkUploadEditable && onFileClick()" (dragover)="isBulkUploadEditable && onDragOver($event)" (drop)="isBulkUploadEditable && onDrop($event)"
+            (dragleave)="isBulkUploadEditable && onDragLeave($event)">
+  <input
+    #fileInput
+    class="file-upload"
+    style="max-width: 100%; display: none"
+    type="file"
+    accept=".xlsx, .xls, .xlsm"
+    [disabled]="!isBulkUploadEditable"
+    (change)="onFileSelected($event)"
+    pTooltip="Drag and Drop your file here, or click to browse"
+  />
+  <span *ngIf="uploadedfileName == ''">Drag and Drop your file here, or click to browse</span>
+  <span *ngIf="uploadedfileName != ''">{{ uploadedfileName }}</span>
+</div>
+<div class="uploadButton mb-4">
+  <!-- Upload button, disabled if the file is not valid -->
+  <button
+    pButton
+    class="upload-button"
+    [disabled]="!isFileValid"
+    (click)="upload()"
+  >
+    Upload
+  </button>
+</div>
+<div class="validation-label" *ngIf="isShowingProgressBar">
+  <span>Validating excel data <span class="dots"><span>.</span><span>.</span><span>.</span></span></span>
+</div>

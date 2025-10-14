@@ -1,0 +1,88 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+
+<div class="sky-background">
+    <div class="left-sky-button-container">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-2 p-6px">
+            <span class="p-input-icon-left inputsearchSpan pl-1">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" class="whiteblue" placeholder="Search by MM Number"
+                    [(ngModel)]="textValue" (ngModelChange)="onTextChange()" />
+            </span>
+        </div>
+        <div class="col-12 sm:col-12 md:col-6 lg:col-6 p-6px">
+            <span>
+                <!-- <button pButton label="Reset" class="p-button-secondary ml-2 whiteblue text-decoration-black"
+                    (click)="reset()"></button> -->
+              <p-button title="Clear Filter" class="filterBTN ml-1 text-gray-600"
+      (click)="reset()" icon="pi pi-filter-slash" severity="secondary"></p-button>
+                <!-- upload status button -->
+                <button pButton label="Upload Raw Data" (click)="showBulkUplodModel()"
+                    class="p-button-secondary ml-2 whiteblue text-decoration-black"></button>
+                <!-- upload view status button -->
+                <button pButton label="Upload View Status" (click)="displayBatchStatusDialog=true;"
+                    class="p-button-secondary ml-2 whiteblue text-decoration-black"></button>
+
+                <!-- change log to show chnages -->
+                <button pButton label="Change Log" *ngIf="allowedChangeLog.includes(selectedOption)"
+                    (click)="openChangeLog=true;"
+                    class="p-button-secondary ml-2 whiteblue text-decoration-black"></button>
+            </span>
+        </div>
+    </div>
+    <div class="mr-2">
+        <p-dropdown [options]="[
+            { label: visualizations.UnitCost, value: visualizations.UnitCost },
+            { label: visualizations.GroupedInventory, value: visualizations.GroupedInventory },
+            { label: visualizations.Inventory, value: visualizations.Inventory },
+            { label: visualizations.Tenaris, value: visualizations.Tenaris },
+            { label: visualizations.Valluorec, value: visualizations.Valluorec },
+            { label: visualizations.Lhandwellhead, value: visualizations.Lhandwellhead },
+            { label: visualizations.Wellhead, value: visualizations.Wellhead },
+            { label: visualizations.YardInventory, value: visualizations.YardInventory },]" [placeholder]="'Select Visualization'"
+            styleClass="lightBlueBG py-0 ddlSize" class="pull-right ml-2" [(ngModel)]="selectedOption"
+            (onChange)="onSelectChange()">
+        </p-dropdown>
+    </div>
+    <!-- View Selection -->
+    <div class="select-button-container">
+        <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedFunction"
+            [options]="viewOptionsButtons" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+</div>
+<div class="blue-background d-block" *ngIf="visualizations.Inventory === selectedOption">
+    <div class="pull-right">
+    <p-button  icon="pi" class="p-element p-button-secondary ml-2 whiteblue text-decoration-black p-button p-component saveUI"
+            pTooltip="Save Personalization" tooltipPosition="top" (click)="onSaveState()">
+    </p-button>
+    <p-button pButton icon="pi" 
+                    class="p-element p-button-secondary ml-2 whiteblue text-decoration-black p-button p-component reset-ui-button"
+                    pTooltip="Reset Personalization" 
+                    tooltipPosition="top"
+                    (click)="onResetState()">
+                </p-button>
+
+                </div>
+</div>
+
+<app-custom-dialog [visible]="displayBulkUploadInteractiveDialog"
+    [description]="'To add your raw data, either drag your file into the space below or click choose file:'"
+    [downloadTemplateLink]="downloadTemplate" (onClose)="closeRawDataModel()" [selectedView]="selectedDocumentView"
+    [dialogTitle]="selectedDocument" (onSelectedView)="handleSelectedView($event)"
+    [wellDocumentTypes]="wellDocumentTypes" [showingSelectedView]="isShowingSelectedButton">
+    <app-excel-upload-dialog [validateData]="customValidate" [showDescription]="isShowDescription"
+        [acceptedFileTypes]="'.xlsx, .xls, .xlsm'" [expectedHeaders]="expectedExcelHeader"
+        [additionalFields]="{schematicsID: schematicId ,uid: userDetail.uid}" [schematicId]="schematicId"
+        [selectedTabView]="selectedTabView" [isBulkUploadEditable]="isBulkUploadEditable" [columnMapping]="keyMap"
+        (onUploadFile)="handleUpload($event)" [headerIndexNumber]="headerIndexNumber" [sheetName]="sheetName"
+        [isDialogClose]="isDialogClose" (onValidationErrorMessage)="errorMessage($event)"
+        [bulkUploadScreen]="bulkUploadScreen"></app-excel-upload-dialog>
+
+</app-custom-dialog>
+
+<!-- change log for raw data -->
+<change-log *ngIf="openChangeLog" [entityName]="selectedOption" (onClose)="openChangeLog = false"></change-log>
+
+<!-- upload view status for raw data -->
+<app-file-log-status-dialog [(displayBatchStatusDialog)]="displayBatchStatusDialog"
+    (onClose)="displayBatchStatusDialog=false" [taskType]="'Vallourec,Tenaris,Liner Hanger,Wellhead,Inventory,Yard Inventory'"
+    [schematicId]="schematicId"></app-file-log-status-dialog>

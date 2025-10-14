@@ -1,0 +1,34 @@
+<div style="width: 100%; height: 100%; margin-top: -10px" class="relativePosition">
+    <p-card class="col-12 p-0 removePCardPadding bg-none">
+      <!-- AG-Grid Component -->
+      <ag-grid-angular 
+        #agGrid
+        style="width: 100%; height: 75vh;" 
+        class="ag-theme-alpine"
+        [columnDefs]="columnDefs"
+        [rowData]="filteredMaterials"
+        [overlayNoRowsTemplate]="'No records found'"
+        [paginationPageSize]="pageSize"
+        (gridReady)="onGridReady($event)"
+        [quickFilterText]="searchTerm"
+        [defaultColDef]="{
+          flex: 1, 
+          minWidth: 150, 
+          sortable: true, 
+          filter: true, 
+          resizable: true
+        }"
+        [animateRows]="true"
+        [rowDragManaged]="true">
+      </ag-grid-angular>
+  
+      <!-- Total Records Display -->
+      <div class="pagination-block">
+        <div>
+                <!-- Total Records Display -->
+            <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+        </div>
+    </div>
+    </p-card>
+  </div>
+  

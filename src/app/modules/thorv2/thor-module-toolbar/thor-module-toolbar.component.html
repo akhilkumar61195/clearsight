@@ -1,0 +1,388 @@
+<div class="sky-background">
+  <div class="left-sky-button-container">
+    <p-button
+      type="text"
+      styleClass="chv-light-blue-btn"
+      label="Well Details"
+      [disabled]="!isWellSelected || !isUpdateEditable"
+      [ngClass]="{'disabled': !isWellSelected || !isUpdateEditable}" 
+      (click)="showWellFeaturesDialog()"
+      class="mr-2"
+    ></p-button>
+    <p-button
+      type="text"
+      styleClass="chv-light-blue-btn"
+      class="mr-2"
+      label="Clone Well"
+      *ngIf="selectedView == 1"
+      [disabled]="!isWellSelected" 
+      [ngClass]="{'disabled': !isWellSelected || !showCloneBtn}" 
+      icon="pi pi-copy"
+      (click)="cloneWell()"
+    ></p-button>
+  </div>
+  <div class="mr-2">
+    <p-button
+      (click)="openSidebar()"
+      class="pull-right ml-2"
+      styleClass="chv-light-blue-btn"
+      icon="pi pi-plus-circle"
+      label="Select Well"
+    ></p-button>
+  </div>
+  <div class="select-button-container">
+    <p-selectButton
+      (onChange)="onViewSelectionChange()"
+      [(ngModel)]="selectedView"
+      [options]="viewOptions"
+      optionLabel="label"
+      optionValue="value"
+      [allowEmpty]="false"
+    />
+  </div>
+</div>
+
+<app-well-details-interactive-dialog
+  [(displayWellDetailsDialog)]="displayWellDetailsDialog"
+  (onClose)="closeWellDetailsDialog()"
+></app-well-details-interactive-dialog>
+<app-view-wellheaders [(displayViewWellHeaders)]="displayViewWellHeaders" [appId]="appId" [functionId]="selectedView" (onClose)="onWellHeadersCancel()"></app-view-wellheaders>
+
+
+<div class="thor-completions-qty">
+  <p-dialog
+    [(visible)]="displayUnsavedMessage"
+    [modal]="true"
+    [style]="{ width: '400px', height: '200px' }"
+    [closable]="false"
+  >
+    <div class="dialog-header">
+      <h3 class="dialog-heading">Message</h3>
+      <button
+        class="dialog-header-close-btn"
+        pButton
+        icon="pi pi-times"
+        (click)="onClose()"
+      ></button>
+    </div>
+    <div><i class="pi pi-info-circle iconSize"></i></div>
+    <div class="pl-2 pt-3 parentDiv">
+      <span class="displaymessage"
+        >You have unsaved changes.If you switch views, your changes will be
+        lost.Do you want to continue?</span
+      >
+    </div>
+    <ng-template pTemplate="footer">
+      <button
+        type="button"
+        pButton
+        class="p-button-outlined mb-1"
+        label="Continue"
+        (click)="switchView()"
+      ></button>
+    </ng-template>
+  </p-dialog>
+</div>
+
+<!-- Custom dialog component for creating a kit -->
+<app-custom-dialog
+  [(visible)]="visible"
+  [dialogTitle]="'Select Clone Type'"
+  [savebuttonName]="'Bypass'"
+  [otherbuttonName]="'Other'"
+  (onCreateEvent)="handleCreate()"
+  [maximizable]="false"
+  (onOtherEvent)="onOtherClick()"
+  (onClose)="closeDialog()"
+>
+  <p>
+    If you are attempting to create a Bypass Well then click Bypass. For all
+    other Wells, including Sidetrack, click Other.
+  </p>
+</app-custom-dialog>
+<app-custom-dialog
+  [(visible)]="byPassvisible"
+  [dialogTitle]="dialogTitle"
+  [savebuttonName]="savebuttonName"
+  (onCreateEvent)="openConfirmationDialog()"
+  [maximizable]="false"
+  [dialogWidth]="'130vh'"
+  (onClose)="closeBypassDialog()"
+>
+  <form [formGroup]="wellDetailsForm" (ngSubmit)="openConfirmationDialog()">
+    <div class="p-fluid text-left" style="padding: 1rem">
+      <!-- Well Name -->
+      <div class="p-field mb-3 form-row">
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="bypassName" class="schematicLabel"
+              >Well Name <span class="starCss">*</span></label
+            >
+            <input
+              id="bypassName"
+              type="text"
+              formControlName="bypassName"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+          <!-- <div *ngIf="bypassForm.get('bypassName')?.invalid && bypassForm.get('bypassName')?.touched" class="errorMessage">
+            Well Name is required.
+          </div> -->
+        </div>
+
+        <!-- Project -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="project" class="schematicLabel"
+              >Project <span class="starCss">*</span></label
+            >
+            <p-dropdown
+              id="project"
+              [options]="projectList"
+              [filter]="true"
+              formControlName="project"
+              appendTo="body"
+              class="mt-2 db"
+            ></p-dropdown>
+          </div>
+          <!-- <div *ngIf="bypassForm.get('project')?.invalid && bypassForm.get('project')?.touched" class="errorMessage">
+            Project is required.
+          </div> -->
+        </div>
+
+        <!-- Plant Code -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="plantCode" class="schematicLabel">Plant Code</label>
+            <p-dropdown
+              id="plantCode"
+              [options]="plantCodeList"
+              [filter]="true"
+              formControlName="plantCode"
+              class="mt-2 db"
+              appendTo="body"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <!-- Well Type -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="wellType" class="schematicLabel"
+              >Well Type <span class="starCss">*</span></label
+            >
+            <p-dropdown
+              id="wellType"
+              [options]="wellTypeOptions"
+              [filter]="true"
+              formControlName="wellType"
+              class="mt-2 db"
+              appendTo="body"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <!-- Wellhead Kit -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="wellheadKit" class="schematicLabel"
+              >Wellhead Kit</label
+            >
+            <p-dropdown
+              id="wellheadKit"
+              [options]="wellheadKitList()"
+              [filter]="true"
+              formControlName="wellheadKit"
+              class="mt-2 db"
+              appendTo="body"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <!-- Well Coordinator -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="wellCoordinator" class="schematicLabel"
+              >Well Coordinator <span class="starCss">*</span></label
+            >
+            <p-dropdown
+              [options]="wellCoordinatorsList"
+              [filter]="true"
+              optionLabel="WellCoordinatorName"
+              optionValue="WellCoordinatorId"
+              class="mt-2 db"
+              appendTo="body"
+              formControlName="wellCoordinatorId"
+              (onChange)="updateCoordinators($event.value)"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <!-- CAI -->
+        <!-- <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="cai" class="schematicLabel">CAI</label>
+            <input
+              id="cai"
+              type="text"
+              formControlName="cai"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div> -->
+
+        <!-- Phone -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="phone" class="schematicLabel">Phone</label>
+            <input
+              id="phone"
+              type="text"
+              formControlName="phone"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div>
+
+        <!-- Planning Engineer -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="planningEngineer" class="schematicLabel"
+              >Planning Engineer <span class="starCss">*</span></label
+            >
+            <p-dropdown
+              id="planningEngineer"
+              [options]="planningEngineerOptions"
+              [filter]="true"
+              formControlName="planningEngineer"
+              class="mt-2 db"
+              appendTo="body"
+            ></p-dropdown>
+          </div>
+        </div>
+
+        <!-- P10 Spud Date -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="p10SpudDate" class="schematicLabel"
+              >P10 Spud Date</label
+            >
+            <p-calendar
+              id="p10SpudDate"
+              formControlName="p10SpudDate"
+              class="mt-2 db"
+            ></p-calendar>
+          </div>
+        </div>
+
+        <!-- P50 Spud Date -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="p50SpudDate" class="schematicLabel"
+              >P50 Spud Date</label
+            >
+            <p-calendar
+              id="p50SpudDate"
+              formControlName="p50SpudDate"
+              class="mt-2 db"
+            ></p-calendar>
+          </div>
+        </div>
+
+        <!-- Field & Block -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="fieldBlock" class="schematicLabel">Field & Block</label>
+            <input
+              id="fieldBlock"
+              type="text"
+              formControlName="fieldBlock"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div>
+
+        <!-- OCSG -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="ocsg" class="schematicLabel">OCSG</label>
+            <input
+              id="ocsg"
+              type="text"
+              formControlName="ocsg"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div>
+
+        <!-- Rig -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="rig" class="schematicLabel">Rig</label>
+            <input
+              id="rig"
+              type="text"
+              formControlName="rig"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div>
+
+        <!-- WBS -->
+        <div class="p-col-12 form-col">
+          <div class="parentInput">
+            <label for="wbs" class="schematicLabel">WBS</label>
+            <input
+              id="wbs"
+              type="text"
+              formControlName="wbs"
+              pInputText
+              style="flex: 1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <p-footer style="display: flex; justify-content: center;">
+        <button pButton label="Cancel" class="cancelBtn" (click)="cancelBypass()"></button>
+        <button pButton label="Save" type="submit" class="saveBtn" [disabled]="bypassForm.invalid"></button>
+      </p-footer> -->
+  </form>
+</app-custom-dialog>
+<!-- display confirmation message -->
+<app-custom-dialog
+  [(visible)]="displayConfirmationComponentDialog"
+  [dialogTitle]="'Create Bypass Confirmation'"
+  [savebuttonName]="'Create Bypass'"
+  (onCreateEvent)="submitBypassForm()"
+  [maximizable]="false"
+  (onClose)="onBypassDialogClose()"
+>
+
+  <ul class="otherwell-confirmation">
+    <div class="mb-2">A new well will be created in ODIN titled <b>{{byPassName}}</b></div>
+    <li>
+      Demand from the existing ODIN well will be transferred to the Bypass
+    </li>
+
+    <li>Demand in the existing THOR well will be transferred to the Bypass
+    </li>
+
+    <li>
+      Demand in the existing ODIN and THOR wells will be set to zero
+    </li>
+    <li>
+      The Bypass will be published to THOR
+    </li>
+    <div class="mt-2">
+      If this is your intent, please click the <b>Create Bypass</b> button. Otherwise, click <b>Cancel</b>.</div>
+    </ul>
+</app-custom-dialog>
+<router-outlet></router-outlet>

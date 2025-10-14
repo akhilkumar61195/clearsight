@@ -1,0 +1,405 @@
+<p-dialog  header="List Editor" [(visible)]="isListEditorVisible" modal="true" class="list-editor-modal " [closable]="true" [maximizable]="true"
+    [style]="{width: '90%'}"> <!-- Sets the width of the dialog to 90% of the parent container -->
+    <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">List Editor</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div> -->
+        
+    <!-- <div class="dialog-header mb-4 listHeading">
+        <h3 class="dialog-heading">List Editor</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+    </div> -->
+    <ng-template pTemplate="body" style="display: flex; flex-wrap: wrap; ">
+        <!-- <div class="p-fluid" style="display: flex; flex-wrap: wrap;">
+            <h3>Select List</h3>
+            <p-dropdown [(ngModel)]="selectedList" [options]="lists" placeholder="Select List" (onChange)="onListSelect()"></p-dropdown>
+        </div> -->
+        <div class="d-flex justify-content-between align-items-center p-2">
+            <!-- <tr>
+                <th>Component Type</th>
+                <th>Connection Config</th>
+                <th>End Connection</th>
+                <th>Material</th>
+                <th>Range</th>
+                <th>Supplier</th>
+            </tr> -->
+            
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="componentTypeText" placeholder="Search / Add"
+                            style="width: 80% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addComponentType()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('componentType')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 86px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+                    <ag-grid-angular style="width: 100%; height: 90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredComponentTypes" [columnDefs]="columnDefsComponentType" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyComponentType($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onComponentTypeCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredComponentTypes"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="componentTypeText" placeholder="Component Type" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addComponentType()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.componentTypeName}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="connectionConfigText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addConnectionConfig()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('connectionConfig')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredConnectionConfigs" [columnDefs]="columnDefsConnectionConfig"
+                        [pagination]="false" [paginationPageSize]="200"
+                        (gridReady)="onGridReadyConnectionConfig($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onConnectionConfigCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredConnectionConfigs"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="connectionConfigText" placeholder="Connection Config" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addConnectionConfig()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.connectionConfigName}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>-->
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="endConnectionsText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->                       
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addEndConnection()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('endConnection')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredEndConnections" [columnDefs]="columnDefsEndConnections" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyEndConnections($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onEndConnectionCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredEndConnections"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="endConnectionsText" placeholder="End Connection" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addEndConnection()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.endConnectionName}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="materialGradeText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->                     
+                         <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addMaterial()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('materialGrade')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredMaterialGrades" [columnDefs]="columnDefsMaterialGrade" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyMaterialGrade($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onMaterialGradeCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredMaterialGrades"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="materialGradeText" placeholder="Material" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addMaterial()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.materialGrade}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="rangeText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                         <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addRange()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('range')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredRanges" [columnDefs]="columnDefsRange" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyRange($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onRangeCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredRanges"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="rangeText" placeholder="Range" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addRange()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.rangeName}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="supplierText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                         <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addSupplier()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('supplier')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px;background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredSuppliers" [columnDefs]="columnDefsSupplier" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadySupplier($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onSupplierCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                    <!-- <p-table [value]="filteredSuppliers"
+                             [paginator]="true"
+                             [rows]="200"
+                             [scrollable]="true"
+                             [scrollHeight]="'75vh'">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <input type="text" pInputText [(ngModel)]="supplierText" placeholder="Supplier" style="width:65%;" />&nbsp;&nbsp;
+                                <button pButton type="button" label="Add" class="p-button-success" (click)="addSupplier()"></button>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-list>
+                            <tr>
+                                <td>{{list.organizationName}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table> -->
+                </div>
+
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="manufacturerText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addManufacturerType()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('manufacturerType')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredManufacturer" [columnDefs]="columnDefsManufacturer" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyManufacture($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onManufacturerCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="connectionTypeText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addConnectionType()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('connectionType')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredConnectionTypes" [columnDefs]="columnDefsConnectionType" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyConnectionType($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onConnectionTypeCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                </div>
+
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="assemblyTypeText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                         <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addAssemblyType()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('assemblyType')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredAssemblyTypes" [columnDefs]="columnDefsAssemblyType" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyAssemblyType($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onAssemblyTypeCellValueChanged($event)" rowSelection="multiple"
+                        [singleClickEdit]="true" [animateRows]="true">
+                    </ag-grid-angular>
+
+                </div>
+                <div class="mr-2">
+                    <div style="display: flex; align-items: center; padding-bottom: 5px;">
+                        <input type="text" [(ngModel)]="rbwText" placeholder="Search / Add"
+                            style="width: 65% ;height: 27px; margin-right: 1px;" />
+                        <!-- "Add" text replaced with "+" icon -->
+                        <button [disabled]="!isEditableField" pButton type="button" label=""
+                            class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent"
+                            data-action="delete" (click)="addRbw()" style="width: 10px !important; display: flex !important; justify-content: center !important;">
+                            <i class="pi pi-plus-circle add-button-icon" data-action="delete"></i>
+                        </button>
+                        <button [disabled]="!isDeleteEditable" pButton pTooltip="Delete" (click)="sendSelectedRows('rbw')"
+                            class="p-button p-button-danger p-button-sm"
+                            style="padding: 2px 8px; font-size: 12px; background:none !important;border:none !important; color: #97002e !important;">
+                            <i class="pi pi-trash" style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+
+                    <ag-grid-angular style="width: 100%; height:90vh;" class="ag-theme-alpine" [rowHeight]="30"
+                        [rowData]="filteredRbws" [columnDefs]="columnDefsRbw" [pagination]="false"
+                        [paginationPageSize]="200" (gridReady)="onGridReadyRbw($event)"
+                        [defaultColDef]="{suppressHeaderMenuButton: true}"
+                        (cellValueChanged)="onRbwCellValueChanged($event)">
+                    </ag-grid-angular>
+
+                </div>
+                
+            
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer" style="display: flex; justify-content: flex-end;">
+            <p-button label="Close" (click)="closeDialog()" [outlined]="true"></p-button>
+            <p-button label="Save" (click)="onSave()" class="ml-2" [disabled]="!editedRows?.length"></p-button>
+        </div>
+    </ng-template>
+</p-dialog>
+<!-- Added  deleteItemDataName in the delete dialog content-->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="'You are attempting to delete <b>' + deleteItemDataName + '</b>. If you wish to continue, click Delete, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Delete'" (onClose)="displayDeleteComponentDialog=false"
+    (onDelete)="deleteConfirm()"></app-delete-confirmation-dialog>

@@ -1,0 +1,193 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '50vw'}" [closable]="false" (onHide)="onHide()">
+    <ng-template pTemplate="header">
+        <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">Add Multiple Records</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div> -->
+        <div class="dialog-header">
+            <h3 class="dialog-heading">Add Multiple Records</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div>
+    </ng-template>
+    <div style="width:100%;text-align:center;padding:15px;">Add your equipment information in the table below.</div>
+
+    <form [formGroup]="addRecordForm" (ngSubmit)="onSubmit()">
+        <div formArrayName="records">
+            <div *ngFor="let record of records.controls; let i = index" [formGroupName]="i" class="record-row">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="componentTypeID">Component Type</label>
+                            <input id="componentTypeID" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="materialNumber">MM# / MMR#</label>
+                            <input id="materialNumber" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="SupplierPartNumber">Supplier Part #</label>
+                            <input id="SupplierPartNumber" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="LegacyRefNumber">Legacy Ref #</label>
+                            <input id="LegacyRefNumber" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label>Nominal/Max OD (IN) </label>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div class="dim-style"><input id="NominalOD1" pInputText /></div>
+                                <div class="dim-style"><input id="NominalOD2" pInputText /></div>
+                                <div class="dim-style"><input id="NominalOD3" pInputText /></div>
+                                <div class="dim-style"></div>
+                            </div>
+                        </td>
+                        <td class="row-style">
+                            <label>Actual OD (IN) </label>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div class="dim-style"><input id="ActualOD1" pInputText /></div>
+                                <div class="dim-style"><input id="ActualOD2" pInputText /></div>
+                                <div class="dim-style"><input id="ActualOD3" pInputText /></div>
+                                <div class="dim-style"></div>
+                            </div>
+                        </td>
+                        <td class="row-style">
+                            <label>Actual ID (IN) </label>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div class="dim-style"><input id="ActualID1" pInputText /></div>
+                                <div class="dim-style"><input id="ActualID2" pInputText /></div>
+                                <div class="dim-style"><input id="ActualID3" pInputText /></div>
+                                <div class="dim-style"></div>
+                            </div>
+                        </td>
+                        <td class="row-style">
+                            <label for="drift">Drift (IN)</label>
+                            <input id="drift" pInputText [(ngModel)]="newmdlRecord.drift" />
+                        </td>
+                        <td class="row-style">
+                            <label>Weight (LB) </label>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div class="dim-style"><input id="Weight1" pInputText /></div>
+                                <div class="dim-style"><input id="Weight2" pInputText /></div>
+                                <div class="dim-style"><input id="Weight3" pInputText /></div>
+                                <div class="dim-style"></div>
+                            </div>
+                        </td>
+                        <td class="row-style">
+                            <label for="WallThickness">Wall Thickness</label>
+                            <input id="WallThickness" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label>Material Grade</label>
+                            <div style="display: flex; flex-wrap: wrap;">
+                                <div class="dim-style"><input id="materialGradeID1" pInputText /></div>
+                                <div class="dim-style"><input id="materialGradeID2" pInputText /></div>
+                                <div class="dim-style"><input id="materialGradeID3" pInputText /></div>
+                                <div class="dim-style"></div>
+                            </div>
+                        </td>
+                        <td class="row-style">
+                            <label for="rangeId">Range</label>
+                            <input id="rangeId" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="YeildStrength">Yield Strength</label>
+                            <input id="YeildStrength" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="MaxPressureRating">Max Pressure Rating</label>
+                            <input id="MaxPressureRating" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="DiffPressureRating">Differential Pressure Rating</label>
+                            <input id="DiffPressureRating" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="BurstPressure">Burst Pressure</label>
+                            <input id="BurstPressure" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="CollapsePressure">Collapse Pressure</label>
+                            <input id="CollapsePressure" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="maxTempRating">Max Temperature Rating (F)</label>
+                            <input id="maxTempRating" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="topendConnectionID">Top Connection</label>
+                            <input id="topendConnectionID" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="middleendConnectionID">Middle Connection</label>
+                            <input id="middleendConnectionID" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="bottomendConnectionID">Bottom Connection</label>
+                            <input id="bottomendConnectionID" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="connectionConfigId">Connection Configuration</label>
+                            <input id="connectionConfigID" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="elastomersMinTempRating"></label>
+                            <input id="elastomersMinTempRating" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="elastomersMaxTempRating">Max Temperature Rating (F) - Elastomers</label>
+                            <input id="elastomersMaxTempRating" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="ElastomerNotes">Elastomer Notes</label>
+                            <input id="ElastomerNotes" pInputText />
+                        </td>
+                        <td class="row-style">
+                            <label for="StandardNotes">Standard Notes</label>
+                            <input id="StandardNotes" pInputText />
+                        </td>
+
+                        <button type="button" pButton icon="pi pi-trash" class="p-button-danger"
+                            (click)="removeRecord(i)">Remove</button>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="p-mt-3">
+            <button type="button" pButton label="Add Another Record" icon="pi pi-plus" (click)="addRecord()"></button>
+        </div>
+
+        <div class="p-mt-3">
+            <button type="submit" pButton label="Save" icon="pi pi-check" [disabled]="addRecordForm.invalid"></button>
+            <button type="button" pButton label="Reset" icon="pi pi-refresh" (click)="resetForm()"></button>
+        </div>
+    </form>
+
+
+    <p-footer>
+        <button pButton type="button" label="Reset" icon="pi pi-refresh" (click)="resetDialog()"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="closeDialog()"></button>
+        <button pButton type="button" label="Save" icon="pi pi-check" (click)="saveRecordAndClose()"></button>
+        <button pButton type="button" label="Save And Add Another Record" icon="pi pi-check"
+            (click)="saveRecord()"></button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="cancelVisible" [modal]="true" [style]="{width: '50vw'}" [closable]="false">
+    <ng-template pTemplate="header">
+        <div
+            style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">Warning</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton
+                icon="pi pi-times" (click)="closeCancelDialog()"></button>
+        </div>
+    </ng-template>
+    <div style="width:100%;text-align:center;padding:15px;">
+        You are attempting to close the Add Record Modal without saving your information. If you wish to continue, click
+        Ok. If you wish to save your data, please click Cancel.
+    </div>
+    <p-footer>
+        <button pButton type="button" label="Ok" icon="pi pi-check" (click)="okClick()"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="cancel()"></button>
+    </p-footer>
+</p-dialog>

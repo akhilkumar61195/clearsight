@@ -1,0 +1,26 @@
+<div class="col-12 p-0" style="padding-left: 20px !important;">
+    <p-multiSelect [options]="wellList" optionLabel="WELLNAME" optionValue="WELLNAME"
+        selectedItemsLabel="{0} columns selected" [(ngModel)]="selectedWells" [showToggleAll]="false"
+        (onChange)="onMultiSelectChange($event)" styleClass="well-classes py-0" filterPlaceHolder="Search Wells"
+        placeholder="Select Well">
+    </p-multiSelect>
+</div>
+            <p-card class="col-12 bg-none" *ngIf="selectedWell">
+                <div class="consumption-grid">
+                    <ag-grid-angular
+      style="width: 100%; height: 550px;"
+      class="ag-theme-alpine"
+      [rowData]="tableData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowHeight]="36"
+      [domLayout]="'normal'"
+      [pinnedBottomRowData]="pinnedBottomRowData"
+      [suppressScrollOnNewData]="true"
+      [overlayNoRowsTemplate]="'No record(s) found.'"
+      (gridReady)="onGridReady($event)"
+    >
+    </ag-grid-angular>
+                  
+                </div>
+            </p-card>

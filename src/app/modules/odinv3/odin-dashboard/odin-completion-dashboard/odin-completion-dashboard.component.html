@@ -1,0 +1,234 @@
+<ngx-spinner bdColor="rgba(0,0,0,0.2)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+  <p style="color: white"> Hang tight, we're loading things for you... </p>
+</ngx-spinner>
+<div>
+  <p-card class="col-12 p-0 removePCardPadding odin-removePCardPadding bg-none">
+
+    <div class="blue-background odin-blue-background">
+      <div class="search-input">
+        <span class="p-input-icon-left inputsearchSpan">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" #searchOdinDashboard [(ngModel)]='searchValue' class="whiteblue"
+            [disabled]="unsavedChanges" (input)="onSearchChange($event)" placeholder="Search" />
+        </span>
+      </div>
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.componentTypeName" optionLabel="text"
+          [showToggleAll]="false" [disabled]="unsavedChanges" optionValue="value"
+          selectedItemsLabel="{0} columns selected" [(ngModel)]="componentTypeSelected"
+          (onChange)="applyComponentTypeFilter($event,'componentTypeName')"
+          styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="componentTypeSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          filterPlaceHolder="Search" placeholder="Component Type">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="componentTypeSelected?.length">
+              <i class="pull-right pi pi-filter-slash"
+                (click)="componentTypeSelected = ''; applyComponentTypeFilter(componentTypeSelected,'componentTypeName')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.groupName" optionLabel="text" [showToggleAll]="false"
+          [disabled]="unsavedChanges" optionValue="value" selectedItemsLabel="{0} columns selected"
+          [(ngModel)]="groupSelected" (onChange)="applyComponentTypeFilter($event,'groupName')"
+          [dropdownIcon]="groupSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          styleClass="lightBlueBG odin-lightBlueBG py-0" filterPlaceHolder="Search" placeholder="Group">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="groupSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="groupSelected = ''; applyComponentTypeFilter(groupSelected,'groupName')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.nominalOD1" optionLabel="text" optionValue="value"
+          [disabled]="unsavedChanges" selectedItemsLabel="{0} columns selected" [showToggleAll]="false"
+          [(ngModel)]="odSelected" (onChange)="applyComponentTypeFilter($event,'nominalOD1')"
+          styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="odSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'" filterPlaceHolder="Search"
+          placeholder="OD">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="odSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="odSelected = ''; applyComponentTypeFilter(odSelected,'nominalOD1')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.organizationName" optionLabel="text"
+          [disabled]="unsavedChanges" optionValue="value" selectedItemsLabel="{0} columns selected"
+          [(ngModel)]="supplierSelected" [showToggleAll]="false"
+          (onChange)="applyComponentTypeFilter($event,'organizationName')"
+          styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="supplierSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          filterPlaceHolder="Search" placeholder="Supplier">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="supplierSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="supplierSelected = ''; applyComponentTypeFilter(supplierSelected,'organizationName')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.weight1" optionLabel="text" [disabled]="unsavedChanges"
+          optionValue="value" selectedItemsLabel="{0} columns selected" [(ngModel)]="weightsSelected"
+          [showToggleAll]="false" (onChange)="applyComponentTypeFilter($event,'weight1')"
+          styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="weightsSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          filterPlaceHolder="Search" placeholder="Weight">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="weightsSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="weightsSelected = ''; applyComponentTypeFilter(weightsSelected,'weight1')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.materialGradePrimary" optionLabel="text"
+          [disabled]="unsavedChanges" optionValue="value" selectedItemsLabel="{0} columns selected"
+          [(ngModel)]="gradeSelected" [showToggleAll]="false"
+          (onChange)="applyComponentTypeFilter($event,'materialGradePrimary')"
+          styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="gradeSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'" filterPlaceHolder="Search"
+          placeholder="Grade">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="gradeSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="gradeSelected = ''; applyComponentTypeFilter(gradeSelected,'materialGradePrimary')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+
+      <div>
+        <p-multiSelect [options]="odinFilteredDropDownValue.topConnection" optionLabel="text"
+          [disabled]="unsavedChanges" optionValue="value" selectedItemsLabel="{0} columns selected"
+          [(ngModel)]="connectionSelected" [showToggleAll]="false"
+          (onChange)="applyComponentTypeFilter($event,'topConnection')" styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="connectionSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          filterPlaceHolder="Search" placeholder="Connection">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="connectionSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="connectionSelected = ''; applyComponentTypeFilter(connectionSelected,'topConnection')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+      <!-- Project Filter -->
+      <div>
+        <p-multiSelect [options]="projects" optionLabel="text" optionValue="value" [(ngModel)]="projectSelected"
+          [disabled]="unsavedChanges" [showToggleAll]="false" selectedItemsLabel="{0} columns selected"
+          (onChange)="applyProjectFilter($event, 'project')" styleClass="lightBlueBG odin-lightBlueBG py-0"
+          [dropdownIcon]="projectSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+          filterPlaceHolder="Search" placeholder="Project">
+          <ng-template pTemplate="header">
+            <div class="clear-selection mr-2" *ngIf="projectSelected?.length">
+              <i class="pi pi-filter-slash"
+                (click)="projectSelected = ''; applyProjectFilter(projectSelected, 'project')"></i>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <div>
+        <div class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler pt-1 pl-2 pr-2"
+          *ngIf="selectedRadioSummaryColumns">
+
+          <p-checkbox name="All" class="select-all-checkbox" [disabled]="!selectedWells?.length"
+            (onChange)="toggleSelectAll($event)" [label]="'All'" [(ngModel)]="selectAll" [value]="true">
+          </p-checkbox>
+          <!-- {{selectedCategory}} -->
+          <div *ngFor="let category of selectedRadioSummaryColumns" class="project-group mt-1 card">
+            <div class="card-header project-header flex align-items-center">
+              <p-checkbox [disabled]="!selectedWells?.length" name="category" class="project-checkbox"
+                (click)="onSelectCategory()" [(ngModel)]="selectedCategory" [label]="category.LOOKUPDISPLAYTEXT"
+                [value]="category.LOOKUPTEXT" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="pull-right pl-8">
+        <p-button title="Clear Filter" class="filterBTN ml-1 text-gray-600"
+          (click)="clearAllFilters(searchOdinDashboard)" icon="pi pi-filter-slash" severity="secondary"></p-button>
+        <p-button class="p-button-outlined p-button-secondary saveUI ml-2 save-user-btn"
+          icon="pi"  
+          pTooltip="Save Personalization"
+          tooltipPosition="top"
+          (onClick)="onSaveState()">
+        </p-button>
+        <p-button icon="pi" pTooltip="Reset Personalization" tooltipPosition="top"
+          class="p-button-outlined p-button-secondary reset-ui-button ml-2" (onClick)="onResetState()">
+        </p-button>
+
+      </div>
+    </div>
+    <!--<div class="blue-background justify-left ">
+      <div class="mr-2 inputGroup">
+        <p-inputGroup>
+          <p-inputGroupAddon class="whiteblue whiteblueWidth">New Orders</p-inputGroupAddon>
+          <input type="number" pInputText [(ngModel)]="newOrderDays" min="0" (ngModelChange)="createWellColumns()" />
+          <p-inputGroupAddon class="whiteblue whiteblueWidth">Days</p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+
+      <div  class="inputGroup">
+        <p-inputGroup>
+          <p-inputGroupAddon class="whiteblue whiteblueWidth">Pull from B/U Inventory</p-inputGroupAddon>
+          <input type="number" pInputText [(ngModel)]="backUpDays" min="0" (ngModelChange)="createWellColumns()" />
+          <p-inputGroupAddon class="whiteblue whiteblueWidth">Days</p-inputGroupAddon>
+        </p-inputGroup>
+      </div>
+    </div>-->
+
+
+    <div #calendarWrapper></div>
+    <ag-grid-angular [rowData]="filterData" [loading]="loading" [rowHeight]="30" [columnDefs]="columnDefs"
+      [gridOptions]="gridOptions" [quickFilterText]="quickFilterText"
+      [overlayLoadingTemplate]="loading ? 'Loading...' : null" (gridReady)="onGridReady($event)"
+      [grandTotalRow]="'bottom'" (firstDataRendered)="onFirstDataRendered($event)"
+      (rowDataUpdated)="onRowDataUpdated($event)" [ngStyle]="{ height: height$ | async }" class="ag-theme-alpine"
+      [paginationPageSizeSelector]="false" (cellValueChanged)="onCellValueChanged($event)" [sideBar]="sideBar"
+      [singleClickEdit]="true" [infiniteInitialRowCount]="500" rowSelection="multiple"
+      (onFilterChanged)="onFilterChanged($event)" (selectionChanged)="onSelectionChanged($event)"
+      [isExternalFilterPresent]="isExternalFilterPresent" [doesExternalFilterPass]="doesExternalFilterPass"
+      [suppressAggFuncInHeader]="true"
+      [defaultColDef]="{ flex: 1, minWidth: 120, sortable: true, filter: true,resizable: true,suppressHeaderMenuButton: true, aggFunc: 'sum'  }"
+      [animateRows]="true" (filterChanged)="onFilterChanged($event)">
+    </ag-grid-angular>
+    <div class="pagination-block" style="padding-top:5px;">
+      <div>
+        <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+      </div>
+      <div>
+        <p-button label="Rig Schedule Analysis" (onClick)="onRigAnalysisPage()" [disabled]="isButtonDisabled"
+          class="mr-2 green"></p-button>
+        <p-button label="Cancel" (onClick)="resetOdinGrid()" [outlined]="true" [disabled]="!isEdit"></p-button>
+        <p-button label="Save" (onClick)="onSave()" class="ml-2" [disabled]="!isEdit"></p-button>
+        <!--<p-button label="Preview" (click) ="onClickSave(true)"  class="ml-2 green"  [disabled]="!isEdit"></p-button>-->
+      </div>
+    </div>
+  </p-card>
+</div>
+<whatif-analysis-completions *ngIf="showWhatIfDialog" (onClose)="showWhatIfDialog = false"
+  [isRunAnalysisEnabled]="isRunAnalysisEnabled"
+  (setRunAnalysisButtonFlag)="enableRunAnalysisButtonFlag($event)"></whatif-analysis-completions>
+
+<app-well-headers [(displayEditWellHeaders)]="displayEditWellHeaders" [appId]="appId" [functionId]="functionId"
+  (onClose)="onWellHeadersCancel()" (onSave)="onWellHeadersSave()"></app-well-headers>
+<app-confirmation-dialog [(visible)]="displayConfirmationComponentDialog" [dialogContent]="pageContent"
+  [dialogTitle]="pageTitle" [countinueButtonName]="buttonName" (onCancel)="onWellHeadersCancel()" (onContinue)="onClickSave()"
+  [cancelButtonVisibile]="'true'">
+</app-confirmation-dialog>

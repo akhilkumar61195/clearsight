@@ -1,0 +1,24 @@
+
+<p-dialog [(visible)]="displayControlLineAndClampDialog" [modal]="true" [style]="{ width: '40vw' }" [closable]="false">
+    <div class="dialog-header">
+        <h3  class="dialog-heading">Control Line and Clamp</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeControlClamp()"></button>
+    </div>
+    <ng-template pTemplate="body">
+        <div class="upload-dialog-body">
+            <p>
+                To add your control line and clamp calculations, either drag your file into the space below or click choose file:
+                <br><a href="assets/templates/ClampTemplate.xlsx" download="ClampTemplate.xlsx" style="cursor:pointer;" class="template-link">Download template</a>.
+            </p>
+            <input class="file-upload" #fileInput pInputText
+                   type="file" accept=".xlsx, .xls"
+                   pTooltip="Drag and Drop your file here, or click to browse"
+                   (change)="onFileSelected($event)" />
+          
+            <button pButton (click)="onUpload()" class="upload-button" [disabled]="!isFileValid">Upload</button>
+        </div>
+    </ng-template>
+    <p-footer>
+        <button pButton type="button" label="Close" icon="pi pi-times" (click)="onClose.emit()"></button>
+    </p-footer>
+</p-dialog>

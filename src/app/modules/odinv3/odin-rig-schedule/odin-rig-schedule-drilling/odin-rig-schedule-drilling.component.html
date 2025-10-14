@@ -1,0 +1,77 @@
+<div class="mt-1">
+    <p-card class="col-12 p-0 removePCardPadding bg-none">
+        <div class="grid bg-theme-blue filtercontrols filtersection">
+            <div class="col-1 sm:col-2 md:col-2 lg:col-1">
+
+                <div class="flex flex-wrap justify-content lightBlueBG displaytoggler"
+                    [ngClass]="{'btn-disabled': unsavedChanges}">
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pDate" value="P10" [(ngModel)]="selectedPType" inputId="P10"
+                            (onClick)="bindWellsData();"></p-radioButton>
+                        <label for="P10" class="ml-2">P10</label>
+                    </div>
+                    <div class="flex align-items-center">
+                        <p-radioButton name="pDate" value="P50" [(ngModel)]="selectedPType" inputId="P50"
+                            (onClick)="bindWellsData();"></p-radioButton>
+                        <label for="P50" class="ml-2">P50</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-0 sm:col-0 md:col-0 lg:col-2">
+                <div class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler"
+                    [ngClass]="{'btn-disabled': unsavedChanges}">
+                    <div class="flex align-items-center">
+                        <p-checkbox label="Include Contingency Demand" name="include_contingency_demand" [value]="true"
+                            [(ngModel)]="include_contingency_demand" (onChange)="bindWellsData()"></p-checkbox>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class=" col-9 pull-right">
+                <div class="select-button-container col-offset-1 pull-right">
+                    <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedView"
+                        [options]="viewOptionsButtons" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+                </div>
+                <p-button [title]="((runWhatIfURL ? 'Running' : 'Run') + ' What If Analysis')"
+                    [label]="((runWhatIfURL ? 'Running' : 'Run') + ' What If Analysis')" (click)="runWhatIfAnalysis()"
+                    [class]='{"run-btn": !runWhatIfURL,"running-btn": runWhatIfURL}'
+                    class="pull-right filterBTN ml-1 runfilter" icon="whatif-icon" severity="secondary"></p-button>
+                <p-button title="Edit What if Analysis" label="Edit What if Analysis" (click)="showWhatIfDialog = true"
+                    class="pull-right filterBTN ml-1" icon="edit-icon" severity="secondary"></p-button>
+                <p-button [title]="isCollapse ? 'Expand All' : 'Collapse All'"
+                    [label]="isCollapse ? 'Expand All' : 'Collapse All'" (click)="expandOrCollapseGrid()"
+                    class="pull-left filterBTN ml-1" [icon]="isCollapse ? 'pi pi-plus-circle' : 'pi pi-minus-circle'"
+                    severity="secondary">
+                </p-button>
+            </div>
+        </div>
+        <div class="ag-theme-alpine">
+            <ag-grid-angular [rowData]="rigScheduleAnalysis" [loading]="loading" [rowHeight]="30"
+                [columnDefs]="columnDefs" [quickFilterText]="globalFilter"
+                [overlayLoadingTemplate]="loading ? 'Loading...' : null" (gridReady)="onGridReady($event)"
+                [ngStyle]="{ height: height$ | async }"[gridOptions]="gridOptions" [paginationPageSizeSelector]="false"
+                [domLayout]="'normal'" [rowDragManaged]="true" [groupTotalRow]="groupTotalRow"
+                [pinnedBottomRowData]="pinnedBottomRowData"
+                [defaultColDef]="{ flex: 1, minWidth: 120, autoHeaderHeight: true,aggFunc:'last',suppressHeaderMenuButton: true}"
+                [animateRows]="true">
+            </ag-grid-angular>
+
+        </div>
+        <div class="pagination-block" style="padding-top:5px;">
+            <div>
+            </div>
+            <div>
+
+                <p-button label="Cancel" (onClick)="resetOdinGrid()" [outlined]="true"
+                    [disabled]="!editedRows?.length"></p-button>
+                <p-button label="Save" (onClick)="onSave()" class="ml-2" [disabled]="!editedRows?.length"></p-button>
+            </div>
+        </div>
+    </p-card>
+
+<!-- Adding edit what if analysis for rig schedule -->  
+<app-odin-what-if [appId]="appId" [functionId]="1" (onClose)="showWhatIfDialog = false"
+  [(displayWhatIFAnalysis)]="showWhatIfDialog" [isRunAnalysisEnabled]="isRunAnalysisEnabled"
+  (setRunAnalysisButtonFlag)="enableRunAnalysisButtonFlag($event)"></app-odin-what-if>

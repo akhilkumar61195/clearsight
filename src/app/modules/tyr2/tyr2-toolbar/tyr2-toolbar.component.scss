@@ -1,0 +1,35 @@
+
+.zoneCountLevel {
+    padding-left: 5.3rem;
+    color: #ededee;
+  }
+  
+  .select-button-container {
+    display: flex;
+    background: #F0F9FA;
+    font-weight: bold !important;
+    border-radius: 4px;
+  }
+  
+  ::ng-deep .p-selectbutton {
+    padding: 1px;
+    display: flex;
+    width: 30 px;
+    gap: 2px;
+  }
+  
+  ::ng-deep .p-selectbutton .p-button {
+    color: black;
+    font-weight: 600;
+    background: #F0F9FA;
+    border: 0px;
+    border-radius: 4px;
+  }
+  
+  ::ng-deep .p-selectbutton .p-button.p-highlight {
+    background-color: #05b4bc;
+    color: #fff;
+    transform: scale(0.98);
+  }
+
+

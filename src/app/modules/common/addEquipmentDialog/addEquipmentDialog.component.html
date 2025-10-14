@@ -1,0 +1,284 @@
+<!-- Dialog Container -->
+<!-- <p-dialog [(visible)]="!isPageView" [modal]="true" [draggable]="true" [resizable]="true" styleClass="crn-dialog"
+          [closable]="false" [style]=" { width: '80vw', height: '130vh' }"> -->
+<p-dialog [(visible)]="dialogVisible" [modal]="true" [draggable]="true" [resizable]="true" styleClass="crn-dialog"
+    [closable]="false" [style]="{ width: '100vw', height: '130vh' }">
+
+    <div *ngIf="!isPageView" class="dialog-header">
+        <h3 class="dialog-heading">Add Equipment</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+    </div>
+
+    <ng-template pTemplate="content">
+        <div class="dialog-content-container">
+            <div class="flex bg-theme-blue mt-0">
+                <div class="p-6px flex-1" style="width: 25%;">
+                    <span class="p-input-icon-left inputsearchSpan">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchComponents" class="whiteblue"
+                            [disabled]="unsavedChanges" (input)="onSearch($event)" placeholder="Search" />
+                    </span>
+                </div>
+                <div class="p-6px" style="width: 45%;">
+                    <p-button type="text" label="Reset" class="filterBTN runfilter"
+                        (click)="reset(searchComponent)"></p-button>
+                    <p-button type="text" styleClass="chv-light-blue-btn" label="New Record" icon="pi pi-plus-circle"
+                        (click)="addNewRecord()" class="ml-2"></p-button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ag-grid-container">
+            <ag-grid-angular style="width: 100%; height: 70vh;" class="ag-theme-alpine"
+                [columnDefs]="materialColumnDefs" [rowData]="materialRecords" [rowHeight]="rowHeight"
+                [defaultColDef]="{ flex: 1,autoHeight:true, resizable: true, sortable: true, filter: true, minWidth: 90, suppressHeaderMenuButton: true }"
+                [animateRows]="true" [loading]="loading" (gridReady)="onGridReady($event)"
+                (rowClicked)="OpenEditDialog($event.data,$event);" [rowSelection]="rowSelection"
+                [rowDragManaged]="'false'" [gridOptions]="gridOptions" [quickFilterText]="quickFilterText"
+                (selectionChanged)="onSelectionChanged($event)">
+            </ag-grid-angular>
+            <div *ngIf="!isPageView" class="footer-buttons-container">
+            <button type="button" (click)="addRecord()"
+                class="p-ripple p-element chv-blue-btn p-button p-component mr-2"
+                [disabled]="!isUpdateEditable ||isAddRecordDisabled">
+                Add Record
+            </button>
+            <button type="button" (click)="onClose.emit()"
+                class="p-ripple p-element chv-blue-btn p-button p-component mr-2">
+                Close
+            </button>
+        </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<!-- Full Page Layout (Conditionally render if isPageView is true) -->
+<div *ngIf="isPageView" style="width: 100%;height:100%;" class="relativePosition">
+
+    <div class="filtercontrols filtersection blue-background pr-3">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+            <span class="p-input-icon-left inputsearchSpan">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [(ngModel)]="searchComponents" class="whiteblue"
+                    [disabled]="unsavedChanges" (input)="onSearch($event)" placeholder="Search" />
+            </span>
+        </div>
+        <div class="col-8 p-6px">
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Reset" (click)="reset(searchComponent)"
+                class="ml-2"></p-button>
+            <p-button [disabled]="!isUpdateEditable" type="text" styleClass="chv-light-blue-btn" label="Add Record"
+                (onClick)="addNewRecord()" class=" ml-2" icon="pi pi-plus-circle"></p-button>
+            <p-button [disabled]="!isEditableField" type="text" styleClass="chv-light-blue-btn" label="Bulk Upload"
+                class="ml-2" (onClick)="showUploadDialog()" icon="pi pi-cloud-upload"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Upload Status" class="ml-2"
+                (click)="displayViewStatusDialog = true" icon="pi"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="List Editor"
+                (onClick)="drillingListEditor.isListEditorVisible = true" class=" ml-2" icon="pi pi-pencil"></p-button>
+        </div>
+        <div class="personlisation-buttons">
+            <p-button icon="pi" class="p-button-outlined p-button-secondary reset-ui-button ml-2"
+                pTooltip="Reset Personalization" tooltipPosition="top" (onClick)="onResetState()">
+            </p-button>
+            <p-button class="p-button-outlined p-button-secondary saveUI ml-2 save-user-btn" icon="pi"
+                pTooltip="Save Personalization" tooltipPosition="top" (onClick)="onSaveState()">
+            </p-button>
+        </div>
+    </div>
+    <div class="ag-grid-container">
+        <ag-grid-angular [ngStyle]="{ height: height$ | async }" class="ag-theme-alpine"
+            [columnDefs]="materialColumnDefs" [rowData]="materialRecords" [rowHeight]="rowHeight"
+            [defaultColDef]="{ flex: 1,autoHeight:true, resizable: true, sortable: true, filter: true, minWidth: 90, suppressHeaderMenuButton: true }"
+            [animateRows]="true" [loading]="loading" (gridReady)="onGridReady($event)"
+            (rowClicked)="OpenEditDialog($event.data,$event);" [rowSelection]="'false'" [rowDragManaged]="'true'"
+            [gridOptions]="gridOptions" [quickFilterText]="quickFilterText"
+            (selectionChanged)="onSelectionChanged($event)" (cellValueChanged)="onCellValueChanged($event)"
+            (rowDragEnd)="onRowDragEnd($event)" [sideBar]="sideBar">
+        </ag-grid-angular>
+        <div class="pagination-block">
+            <div>
+                <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+            </div>
+            <div>
+                <p-button label="Cancel" (click)="resetGrid()" [outlined]="true"
+                    [disabled]="!unsavedChanges"></p-button>
+                <p-button label="Save" (click)="onSave()" class="ml-2" [disabled]="!unsavedChanges"></p-button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<p-dialog [(visible)]="displayEquipmentDialog" [modal]="true" [closable]="false" [style]="{width: '50%'}">
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="z-index: 9999;">
+            <h3 class="dialog-heading">{{addEditHeaderText}}</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <form [formGroup]="addEquipmentForm" (ngSubmit)="addNewMaterial()">
+            <div class="p-fluid grid pl-2 pr-2 well-details pt-0 pb-0">
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="holeSection">
+                        Hole Section
+                        <!-- <span class="required">*</span>  -->
+                    </label>
+
+                    <p-dropdown [options]="holeSelectionList" [filter]="true" class="mt-2 db"
+                        formControlName="holeSection">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="hsType">
+                        Hole Section Type
+                        <!-- <span class="required">*</span> -->
+                    </label>
+                    <p-dropdown [options]="hsTypeList" [filter]="true" class="mt-2 db" formControlName="hsType">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="group">
+                        Material Group<span class="">&nbsp;</span>
+                    </label>
+                    <p-dropdown [options]="groupList" [filter]="true" class="mt-2 db" formControlName="mGroup">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="materialType">
+                        Component Type<span class="required">*</span>
+                    </label>
+                    <p-dropdown [options]="materialTypeList" [filter]="true" class="mt-2 db"
+                        formControlName="materialType">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="UnitOfMeasurement">UoM (FT or EA)</label>
+                    <p-dropdown [options]="uomList" class="mt-2 db" formControlName="uoMid" optionLabel="value"
+                        optionValue="id" placeholder="Select UoM">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="VendorSapnumber">Manufacturer SAP #</label>
+                    <input type="text" id="VendorSapnumber" pInputText formControlName="vendorSapnumber"
+                        class="mt-2 db" />
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="materialShortDesc">
+                        Material Description
+                        <span class="required">*</span></label>
+                    <input pInputText type="text" formControlName="materialShortDesc" class="mt-2 db" />
+
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="marketUnitPrice">Market Unit Price<span
+                            class="">&nbsp;</span></label>
+                    <input pInputText type="number" formControlName="marketUnitPrice" class="mt-2 db" />
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="materialId">
+                        Material ID
+                        <span class="required">*</span></label>
+                    <input pInputText type="text" formControlName="materialId" class="mt-2 db" />
+                </div>
+
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="wall">Wall Thickness (IN)<span class="">&nbsp;</span></label>
+                    <input pInputText type="number" formControlName="wall" class="mt-2 db" />
+                </div>
+
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="od">Nominal/Max OD(IN)<span class="">&nbsp;</span></label>
+
+                    <input pInputText type="number" formControlName="od" class="mt-2 db" />
+
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="weight">Weight (L3)<span class="">&nbsp;</span></label>
+                    <input pInputText type="number" formControlName="weight" class="mt-2 db" />
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="grade">Material Grade<span class="">&nbsp;</span> </label>
+                    <input pInputText type="text" formControlName="grade" class="mt-2 db" />
+
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="connection">Connection<span class="">&nbsp;</span> </label>
+                    <input pInputText type="text" formControlName="connection" class="mt-2 db" />
+
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label w-93" for="vendor">Manufacturer<span class="">&nbsp;</span></label>
+                    <p-dropdown [options]="vendorList" [filter]="true" class="mt-2 db" formControlName="vendor">
+                    </p-dropdown>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="manfacturer">Supplier Part #
+                        <!-- <span class="required">*</span> -->
+                    </label>
+                    <input pInputText type="text" formControlName="manufacturerNum" class="mt-2 db" />
+                </div>
+
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="tier">Tier<span class="">&nbsp;</span></label>
+                    <input pInputText type="text" formControlName="tier" class="mt-2 db" />
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="sourservice" style="width: 48%;">Sour Service<span
+                            class="">&nbsp;</span></label>
+                    <div class="mt-2">
+                        <p-checkbox formControlName="sourservice" binary="true" [label]="''" [trueValue]="'Yes'"
+                            [falseValue]="'No'">
+                        </p-checkbox>
+                    </div>
+                </div>
+                <div class="form-group well-group col-6">
+                    <label class="well-label" for="isOdinMaterial" style="width: 48%;">Inc in ODIN<span
+                            class="">&nbsp;</span></label>
+                    <div class="mt-2">
+                        <p-checkbox formControlName="isOdinMaterial" binary="true" [label]="''" [trueValue]="'Yes'"
+                            [falseValue]="'No'">
+                        </p-checkbox>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group footer-buttons-container">
+                <button pButton style="align-self:center" label="Save" [disabled]="!addEquipmentForm.valid"
+                    class="p-button-primary"></button>
+            </div>
+        </form>
+
+        <!-- sample of combo box -->
+        <!-- <div style="padding: 20px;">
+            <p-dropdown
+            [options]="vendorList"
+            [filter]="true"
+            placeholder="Select or Add Vendor"
+            [(ngModel)]="selectedVendor"
+            (ngModelChange)="onVendorChange($event)"
+            formControlName="vendor"
+          >
+            <ng-template pTemplate="footer">
+              <input
+                type="text"
+                pInputText
+                [(ngModel)]="newItem"
+                (click)="$event.stopPropagation()"
+                (keydown.enter)="addNewVendor()"
+                placeholder="Add new vendor..."
+              />
+            </ng-template>
+          </p-dropdown>
+        </div> -->
+
+
+    </ng-template>
+</p-dialog>
+
+<app-mdl-file-upload [(visible)]="displayUploadDialog" (onClose)="closeUploadDialog()"
+    [isUploadAllowed]="isEditableField" [functionId]="1"></app-mdl-file-upload>
+
+<app-file-log-status-dialog [(displayBatchStatusDialog)]="displayViewStatusDialog"
+    (onClose)="displayViewStatusDialog=false" [taskType]="'MDL Drilling'"
+    [schematicId]="'0'"></app-file-log-status-dialog>
+<app-list-editor #drillingListEditor></app-list-editor>

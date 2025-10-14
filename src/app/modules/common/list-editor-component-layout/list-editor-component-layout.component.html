@@ -1,0 +1,47 @@
+<div class="dialog-body-wrapper">
+        <div class="d-flex justify-content-between align-items-center p-2 list-editor-wrapper">
+
+            @for (section of listEditorData; track section?.id) {
+            <div class="mr-1">
+                <div class="search-button-wrapper">
+                    <input type="text" [(ngModel)]="section['searchText']" placeholder="Search / Add"
+                        class="search-input" />
+
+                    <!-- Add button -->
+                    <button pButton type="button" label="" [disabled]="!isEditAllowed"
+                        class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent add-button"
+                        data-action="delete" (click)="openAddSelectionPopUp(section)">
+                        <i class="pi pi-plus-circle add-button-icon-white"></i>
+                    </button>
+
+                    <!-- Delete button -->
+                    <button pButton pTooltip="Delete" (click)="sendSelectedRows(section)" [disabled]="!isDeleteAllowed"
+                        class="p-button p-button-danger p-button-sm completions-delete-button ">
+                        <i class="pi pi-trash font-20"></i>
+                    </button>
+                </div>
+
+                <ag-grid-angular class="ag-theme-alpine ag-grid-table" [rowHeight]="30"
+                    [quickFilterText]="section['searchText']" [rowData]="section.data" [columnDefs]="section.columnDefs"
+                    [pagination]="false" [paginationPageSize]="200"
+                    (gridReady)="onGridReadyComponentType($event,section)"
+                    [defaultColDef]="{suppressHeaderMenuButton: true}"
+                    (cellValueChanged)="onComponentTypeCellValueChanged($event)" rowSelection="multiple"
+                    [singleClickEdit]="true" [animateRows]="true">
+                </ag-grid-angular>
+            </div>
+            }
+        </div>
+</div>
+
+<!-- Delete confirmation popup -->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="'You are attempting to delete <b>' + selectedDataName + '</b>. If you wish to continue, click Delete, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Delete'" (onClose)="displayDeleteComponentDialog=false"
+    (onDelete)="deleteAssemblyDialog()"></app-delete-confirmation-dialog>
+
+<!-- Add confirmation popup -->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayAddComponentDialog" [buttonName]="'Save'"
+    [dialogContent]="'You are attempting to save <b>' + selectedDataName + '</b>. If this is correct click Save, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Add'" (onClose)="displayAddComponentDialog=false"
+    (onDelete)="addNewRecord()"></app-delete-confirmation-dialog>

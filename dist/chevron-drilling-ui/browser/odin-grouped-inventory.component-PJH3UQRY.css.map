@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/odinv3/odin-raw-data/odin-grouped-inventory/odin-grouped-inventory.component.scss"],
+  "sourcesContent": ["// .text-decoration-black {\n//     color: #000000;\n//   }\n  \n//   .center {\n//     text-align: center;\n//   }\n  \n  .relativePosition {\n    position: relative;\n    z-index: 1;\n  }\n  "],
+  "mappings": ";AAQE,CAAA;AACE,YAAA;AACA,WAAA;;",
+  "names": []
+}

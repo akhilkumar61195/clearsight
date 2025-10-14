@@ -1,0 +1,105 @@
+<!-- <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '40vw' }" [closable]="false"> -->
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+
+<p-dialog [(visible)]="displayfileUploadInteractiveDialog" class="fileUpload-custom" (onShow)="getDocuments()" [modal]="true" [style]="{ width: '130vh' }" [maximizable]="true">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">{{dialogTitle}}</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onCloseDialog()"></button>
+    </div>
+    <ng-template pTemplate="body">
+        <div class="upload-select-button-container mt-3 ml-3">
+            <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedView"
+                [options]="wellDocumentTypes" optionLabel="name" optionValue="id" [allowEmpty]="false" />
+        </div>
+        <div class="custom-file-upload"  (click)="isClampAndControlEditable && onFileClick()" (dragover)="isClampAndControlEditable &&onDragOver($event)" (drop)="isClampAndControlEditable &&onDrop($event)"
+            (dragleave)="isClampAndControlEditable &&onDragLeave($event)">
+            <input #fileInput class="file-upload" style="max-width:100%; display: none;" pInputText type="file"
+                accept=".pdf,.doc,.docx,image/*" pTooltip="Drag and Drop your file here, or click to browse"
+                    [disabled]="!isClampAndControlEditable"
+                (change)="onFileSelected($event)" />
+            <span *ngIf="uploadedfileName==''">Drag and Drop your file here, or click to browse</span> <span
+                *ngIf="uploadedfileName!=''">{{uploadedfileName}}</span>
+        </div>
+
+
+        <div class="parentHoleSection mb-4">
+            <div *ngIf="holeSectionDropDown" class="holeSectionClass">
+                <label for="documentType" class="form-label labeltxt mr-3">Hole Section</label>
+                <p-dropdown [options]="holeSections" optionValue="LOOKUPTEXT" optionLabel="LOOKUPDISPLAYTEXT"
+                    [(ngModel)]="holeSection" placeholder="Select Hole Section" appendTo="body"></p-dropdown>
+            </div>
+            <div class="parentCom">
+                <div class="uploadButton">
+
+                    <button  [disabled]="!isUpdateEditable || uploadFileData.length === 0" (click)="uploadDocuments($event)" pButton
+                        class="upload-button">Upload</button>
+                </div>
+            </div>
+        </div>
+        <!-- this upload will show only for clamp summary and control line summary of schemattics -->
+
+        <app-excel-upload-dialog *ngIf="isClampandControlLineShowing" [validateData]="customValidate" [acceptedFileTypes]="'.xlsx, .xls'" 
+        [expectedHeaders]="['Manufacturer Part #', 'Halliburton Part #', 'Min Quantity (Primary)', 'Total Quantity Provided', 'Type','Unit Cost','As-Built Quantity','Consumption Value']"
+        [additionalFields]="{ schematicsID: entityId, uid: userDetail.uid }"
+        [isBulkUploadEditable]="isClampAndControlEditable"
+        [schematicId]="entityId"
+        [columnMapping]="keyMap"
+         [showDescription]="isShowDescription" [bulkUploadScreen]="bulkUploadScreen" (onUploadFile)="handleUpload($event)"></app-excel-upload-dialog>
+
+        <!-- AG Grid Component for thor odin and schematic except control line and clamp summary-->
+         <div *ngIf="isClampAndControlEditable">
+        <ag-grid-angular style="width: 100%; height: 54vh;" *ngIf="!isClampandControlLineShowing"  class="ag-theme-alpine"
+            [columnDefs]="uploadThorDocumentColumnDefs" [rowData]="documents" [gridOptions]="gridOptions"
+            [domLayout]="'normal'" [animateRows]="true"
+            [defaultColDef]="{ flex: 1, minWidth: 100, sortable: true, filter: true ,suppressHeaderMenuButton: true}"
+            [pagination]="false">
+        </ag-grid-angular>
+  <!-- AG Grid Component for control line and clamp summary-->
+        <ag-grid-angular style="width: 100%; height: 300px;" *ngIf="isClampandControlLineShowing"  class="ag-theme-alpine"
+        [columnDefs]="clampDocumentColumnDefs" [rowData]="controlLineAndClap" [gridOptions]="gridOptions" (selectionChanged)="onSelectionChanged()"
+        [domLayout]="'normal'" [animateRows]="true"  rowSelection="multiple"  [rowMultiSelectWithClick]="true" (gridReady)="onGridReady($event)"
+        [defaultColDef]="{ flex: 1, minWidth: 100, sortable: true, filter: true ,suppressHeaderMenuButton: true}"
+        [pagination]="false">
+    </ag-grid-angular>
+    </div>
+    </ng-template>
+
+    <p-footer>
+        <!-- added delete button -->
+        <button pButton type="button" class="mt-2 delete-action-btn wd-auto mb-0 pull-left" *ngIf="isClampandControlLineShowing && selectedRowForDelete.length >0" label="Delete" icon="pi pi-trash" (click)="onDelete()"></button> 
+        <button pButton type="button" class="mt-2" label="Close" icon="pi pi-times" (click)="onCloseDialog()"></button>
+    </p-footer>
+</p-dialog>
+
+
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="deletePopupContent" [dialogTitle]="'Delete Document'"
+    (onClose)="displayDeleteComponentDialog=false" (onDelete)="deleteDocument()"></app-delete-confirmation-dialog>
+
+<!-- PDF Preview Modal using p-dialog -->
+<p-dialog [(visible)]="displayPdfPreviewDialog" [modal]="true" styleClass="pdf-modal" [closable]="false" [maximizable]="true" [style]="{ width: '80vw', height: '90vh' }">
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h3 class="dialog-heading">PDF Preview</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closePdfPreview()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+    <div class="pdf-preview-body pdf-preview-custom-size">
+            <!-- Show iframe for PDF preview -->
+            <iframe *ngIf="safePdfUrl && !pdfLoadError" [src]="safePdfUrl" class="pdf-preview-iframe pdf-preview-custom-size" (load)="onPdfLoad()" (error)="onPdfError()">
+            </iframe>
+
+            <!-- Fallback that appears after iframe fails or no URL -->
+            <div *ngIf="!safePdfUrl || pdfLoadError" class="pdf-fallback pdf-preview-custom-size">
+                <div class="fallback-content">
+                    <i class="pi pi-exclamation-triangle pdf-error-icon"></i>
+                    <h4>Unable to Load PDF</h4>
+                    <p>The PDF could not be loaded in the preview window.</p>
+                    <button pButton type="button" label="Close" icon="pi pi-times"
+                        class="p-button-raised" (click)="closePdfPreview()"></button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

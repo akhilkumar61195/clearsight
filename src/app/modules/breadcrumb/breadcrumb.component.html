@@ -1,0 +1,10 @@
+<nav aria-label="breadcrumb" class="breadcrumbNav" *ngIf="currentPage!='app-selector' && breadcrumbs.length">
+  <ol class="breadcrumb">
+    <li *ngFor="let breadcrumb of breadcrumbs; let last = last" [class.active]="last">
+    <a *ngIf="!last" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+    <span class="separator" *ngIf="!last">></span>
+      <!-- <a *ngIf="!last && currentMenuPage==='thordashboard'" [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a> -->
+      <span *ngIf="last">{{ breadcrumb.label }}</span>
+    </li>
+  </ol>
+</nav>

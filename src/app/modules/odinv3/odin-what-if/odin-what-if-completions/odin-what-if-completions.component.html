@@ -1,0 +1,146 @@
+
+    <p-dialog [(visible)]="visible" [modal]="true" [modal]="true" [draggable]="true" [resizable]="true" [closable]="false"
+    (onHide)="onClose.emit()"
+    [style]="{ width: '65vw', height : '87vh' }" >
+ 
+    <div class="dialog-header">
+        <h3  class="dialog-heading">Edit What If Analysis</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+      </div>
+
+    <!-- Body -->
+    <ng-template pTemplate="content">
+        <div class="grid bg-theme-blue filtercontrols pl-2 mt-0">
+            <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+                <span class="p-input-icon-left inputsearchSpan">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]='searchValue' class="whiteblue"
+                        [disabled]="unsavedChanges" (input)="onSearchChange(searchValue)"
+                        placeholder="Search by Well Name" />
+                </span>
+            </div>
+            <div class="reset-button">
+                <p-button type="text" label="Reset" styleClass="chv-light-blue-btn"  (click)="reset();"></p-button>
+            </div>
+            
+            <div class="ml-2">
+                <div class="whiteblue select-switch-button">
+                     <p-selectButton (onChange)="onViewSelectionChange()"
+                     [(ngModel)]="selectedView"
+                     [options]="whatIfConfigurationSetting"
+                     optionLabel="label"
+                     optionValue="value"
+                     [allowEmpty]="false" />
+                 </div>
+                 </div>
+        </div>
+        <p-table [value]="whatIfList" styleClass="p-datatable-gridlines p-datatable-sm no-pagination block"
+            [resizableColumns]="true" [responsive]="true" [paginator]="true" [rows]="totalRecords"
+            [totalRecords]="totalRecords" [showCurrentPageReport]="true" [customSort]="true" [tableStyle]="{  }"
+            [lazy]="true" [scrollable]="true" [loading]="loading" [scrollHeight]="'flex'" [virtualScroll]="true"
+            [virtualScrollItemSize]="46" [overlayOptions]="{'autoZIndex': true}"
+            [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- Default Columns Headers -->
+                    <ng-container *ngFor="let col of whatIfCols">
+                        <th pReorderableColumn pResizableColumn [pSortableColumn]="col.field"
+                            [pSortableColumnDisabled]="!col.sortable ? true : false"
+                            alignFrozen="left" valign="top" pFrozenColumn [frozen]="col?.isFrozenColumn" 
+                            [style]="{
+                                'display': col.display, 
+                                'min-width': col.width + '!important', 
+                                'word-wrap': 'break-word', 
+                                'max-width': col.width + '!important', 
+                                'white-space': 'break-spaces', 
+                                'left': col.left,
+                                'font-weight': 'bold'
+                                }">
+                            <p-header [ngStyle]="{'color': col.textColor}">
+                                {{col.header}}
+                                <i class="pi pi-pencil cell-edit" [pTooltip]=" col.header + ' Is Editable'"
+                                    tooltipPosition="top" *ngIf="col.isEditable">
+                                </i>
+                            </p-header>
+                        </th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-claim let-columns="columns" let-editing="editing" let-rowIndex="rowIndex">
+                <tr>
+                    <ng-container *ngFor="let col of whatIfCols">
+                        <td pEditableColumn pFrozenColumn [frozen]="col?.isFrozenColumn"
+                            [style]="{'width': col.width,'display': col.display}">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar
+                                        *ngIf="col.isEditable && (col.field =='p10StartDate' || col.field == 'p50StartDate')"
+                                        (ngModelChange)="updateRowData(rowIndex)" [(ngModel)]="claim[col.field]"
+                                        appendTo="body" dateFormat="mm/dd/yy" [iconDisplay]="'input'" [showIcon]="true">
+                                    </p-calendar>
+                                    <p-dropdown *ngIf="col.isEditable && (col.field =='includeOrExclude')"
+                                        appendTo="body" (ngModelChange)="updateRowData(rowIndex)"
+                                        [options]="includeOrExcludeList" optionLabel="" [(ngModel)]="claim[col.field]"
+                                        [showClear]="true" placeholder="Select a Include/Exclude">
+                                    </p-dropdown>
+                                    <p-dropdown *ngIf="col.isEditable && (col.field =='duplicated')" appendTo="body"
+                                        (ngModelChange)="updateRowData(rowIndex)" [options]="duplicatedList"
+                                        optionLabel="" [(ngModel)]="claim[col.field]" [showClear]="true"
+                                        placeholder="Select a Include/Exclude">
+                                    </p-dropdown>
+                                    <div *ngIf="!col.isEditable">
+                                        <div *ngIf="col.field == 'id'">
+                                            {{(rowIndex + 1)}}
+                                        </div>
+                                        <div *ngIf="!['id'].includes(col.field)">
+                                            {{claim[col.field]}}</div>
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <div *ngIf="col.field == 'id'">
+                                        {{(rowIndex + 1)}}
+                                    </div>
+                                    <div *ngIf="col.field == 'p10StartDate'">
+                                        {{claim[col.field] | date: 'MM/dd/yyyy'}}</div>
+                                    <div *ngIf="col.field == 'p50StartDate'">
+                                        {{claim[col.field] | date: 'MM/dd/yyyy'}}</div>
+                                    <div *ngIf="!['id','p10StartDate','p50StartDate'].includes(col.field)">
+                                        {{claim[col.field]}}</div>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8" class="text-center">No what if analysis found.</td>
+                </tr>
+            </ng-template>
+            <!-- footer -->
+            <ng-template pTemplate="paginatorleft">
+                <div class="pagination-block">
+                    <div>
+                        <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+                    </div>
+                    <div>
+                        <p-button label="Cancel" [disabled]="(!tableDataEdited || !tableDataEdited.length)"
+                            (click)="resetWhatIfGrid()" [outlined]="true"></p-button>
+                        <p-button label="Submit" (click)="confirmSubmit()"
+                            [disabled]="!tableDataEdited || !tableDataEdited.length" class="ml-2"></p-button>
+                        <p-button label="Run What If Analysis" class="ml-2 green"
+                            (click)="runWhatIfAnalysis()"></p-button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-table>
+    </ng-template>
+
+</p-dialog>
+
+<app-confirmation-dialog  [(visible)]="displayConfirmationComponentDialog" 
+ [cancelButtonVisibile]="'true'"
+  [dialogContent]="'Are you sure you want to save the changes ?'" 
+[dialogTitle]="'Confirm Edit'"
+(onCancel)="displayConfirmationComponentDialog=false" 
+(onContinue)="onClickSave()"></app-confirmation-dialog>

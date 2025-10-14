@@ -1,0 +1,433 @@
+<div class="card headersection">
+    <p-menubar class="border-transparent">
+        <ng-template pTemplate="start">
+            <div class="menuwithdd">
+                <i (click)="sidebarVisible = true" class="pi pi-bars bg-theme p-2 cursor-pointer text-white menuicon"
+                   *ngIf="isOdin || isOdin2 ||isOdin3 || isTyr"></i>
+                <img src="/assets/images/sample_logo.png" height="60" class="pl-2 mr-2 cursor-pointer"
+                     title="Chevron Drilling" [routerLink]="['/app-selector']" />
+                <p-divider layout="vertical" *ngIf="currentPage != 'app-selector'"></p-divider>
+                <!-- <p-menubar [autoDisplay]="false" [autoHide]="false" [model]="appItems"
+                           class="pmenu border-transparent selectormenu" *ngIf="currentPage != 'app-selector'"></p-menubar> -->
+                 <app-dropdown-navigator *ngIf="currentPage != 'app-selector'"></app-dropdown-navigator>
+                <app-breadcrumb></app-breadcrumb>
+            </div>
+            <div *ngIf="currentMenuPage==='schematicdetail'" class="tableContainer menubar-center mb-2" >
+                <div  class="tableContainer" >
+                    <div>
+                        <span class="menubar-title">{{ schematic?.schematicsName }}</span>
+                    </div>
+                    <div class ="menubar-details">
+                    <div class="menubar-details-container">
+                        <span class="menubar-detail-label">Project</span>
+                        <span class="menubar-detail-value">{{ schematic?.project }}</span>
+                      </div>
+                      <div class="menubar-details-container">
+                        <span class="menubar-detail-label">Lease</span>
+                        <span class="menubar-detail-value">{{ schematic?.lease }}</span>
+                      </div>
+                      <div class="menubar-details-container">
+                        <span class="menubar-detail-label">WellName</span>
+                        <span class="menubar-detail-value">{{ schematic?.wellName }}</span>
+                      </div>
+                      <div class="menubar-details-container">
+                        <span class="menubar-detail-label">Location</span>
+                        <span class="menubar-detail-value">{{ schematic?.wellLocation }}</span>
+                      </div>
+                      <div class="menubar-details-container">
+                        <span class="menubar-detail-label">Engineer</span>
+                        <span class="menubar-detail-value">{{ schematic?.chevronEngineer }}</span>
+                      </div>
+                      <div class="menubar-details-container">
+                        <span class="menubar-detail-label">WBS</span>
+                        <span class="menubar-detail-value">{{ schematic?.chevronWBS }}</span>
+                      </div>
+                    </div>
+       
+               </div>
+		 </div>	
+            <div *ngIf="(currentPage === 'thor' || currentPage === 'tyr') && selectedWell" class="tableContainer menubar-center mb-2">
+                <div class="tableContainer">
+                    <div *ngIf="!isTyrListEditorActive()"> <!-- Hiding the well name for invoices and list editor -->
+                        <span class="menubar-title">{{wellDetails.wellName}}</span>
+                    </div>
+                    <table class="menubar-details">
+                        <tbody class="menubar-items thor-items" *ngIf="functionId">
+                            <tr>
+                                <td class="menubar-detail-label">Material Coordinator</td>
+                                <td class="menubar-detail-value">{{wellDetails.wellCoordinatorName}}</td>
+                            </tr>
+                            <!-- <tr>
+                                <td class="menubar-detail-label">CAI</td>
+                                <td class="menubar-detail-value">{{wellDetails.cai}}</td>
+                            </tr> -->
+                            <tr>
+                                <td class="menubar-detail-label">Real Spud Date</td>
+                                <td class="menubar-detail-value">{{wellDetails.p10StartDate| date: 'M/d/y'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">90 Day Due Date</td>
+                                <td class="menubar-detail-value">{{wellDetails.p50StartDate| date: 'M/d/y'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">Rig</td>
+                                <td class="menubar-detail-value">{{wellDetails.rig}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">Project WBS</td>
+                                <td class="menubar-detail-value">{{wellDetails.wbs}}</td>
+                            </tr>
+                            <tr *ngIf="currentPage === 'tyr'">
+                                <td class="menubar-detail-label">Long Lead WBS</td>
+                                <td class="menubar-detail-value">{{wellDetails?.llWbs}}</td>
+                            </tr>
+                            <tr *ngIf="currentPage === 'tyr'">
+                                <td class="menubar-detail-label">Auxilory WBS</td>
+                                <td class="menubar-detail-value">{{wellDetails?.auxWbs}}</td>
+                            </tr>
+                        </tbody>
+                        <!-- <tbody class="menubar-items thor-items" *ngIf="functionId == 2">
+                            <tr>
+                                <td class="menubar-detail-label">Well Coordinator</td>
+                                <td class="menubar-detail-value">{{wellDetails.wellType}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">CAI</td>
+                                <td class="menubar-detail-value">{{wellDetails.cai}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">P10 Spud Date</td>
+                                <td class="menubar-detail-value">{{wellDetails.p10StartDate| date: 'M/d/y'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">P50 Spud Date</td>
+                                <td class="menubar-detail-value">{{wellDetails.p50StartDate| date: 'M/d/y'}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">Rig</td>
+                                <td class="menubar-detail-value">{{wellDetails.rig}}</td>
+                            </tr>
+                            <tr>
+                                <td class="menubar-detail-label">WBS</td>
+                                <td class="menubar-detail-value">{{wellDetails.wbs}}</td>
+                            </tr>
+                        </tbody> -->
+                    </table>
+                </div>
+
+            </div>
+            <div class="centerContent tab-menu" *ngIf="tabMenuList.length">
+                <p-tabMenu [scrollable]="true" [model]="tabMenuList"></p-tabMenu>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="end">
+            <table>
+                <tr>
+                    <td>
+                        <i class="pi pi-bell mr-2 p-text-secondary icon-bell" (click)="bellIcon.toggle($event)" pBadge
+                           style="font-size: 1.2rem" [value]="listNotification?.length"></i>
+                    </td>
+                    <td>
+                        <p-menubar [autoDisplay]="false" [autoHide]="false" [model]="items"  
+                                   class="pmenu border-transparent usermenu rightMenu"></p-menubar>
+                    </td>
+                </tr>
+            </table>
+            <div>
+            </div>
+        </ng-template>
+    </p-menubar>
+    <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
+        <ng-template pTemplate="headless">
+            <div class="flex flex-column h-full">
+                <div class="flex align-items-center justify-content-between px-4 menu-header flex-shrink-0">
+                    <span class="inline-flex align-items-center gap-2">
+
+                        <span class="font-semibold fnt-18" style="background-color: 009DD9;">Menu</span>
+                    </span>
+                    <span>
+                        <p-button type="button" (click)="sidebarVisible = false" icon="pi pi-times" [rounded]="true"
+                                  [outlined]="true" styleClass="h-2rem w-2rem fnt-18"></p-button>
+                    </span>
+                </div>
+                <div class="overflow-y-auto">
+                  <ul class="list-none m-0 menuul" *ngIf="currentPage=='odin2' && currentMenuPage!=='completionlanding' && currentMenuPage!=='completiontimelineview'">
+                    <span class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">Odin Drilling</span>
+                    <li>
+                      <ul class="list-none p-0 m-0 overflow-hidden">
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin2dashboard')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='landing' , 'menuActiveColorDefault' :currentMenuPage!='landing'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Dashboard</span>
+                          </a>
+                        </li>
+                        <!-- <li>
+                          <a pRipple (click)="MenuSelection('odin2timelineview')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='timelineview' , 'menuActiveColorDefault' :currentMenuPage!='timelineview'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Timeline View</span>
+                          </a>
+                        </li> -->
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin2demandconsumption')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='demandconsumption' , 'menuActiveColorDefault' :currentMenuPage!='demandconsumption'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Demand Consumption/Valuation</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin2rawdata')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='rawdata' , 'menuActiveColorDefault' :currentMenuPage!='rawdata'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Raw Data</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+
+                  <ul class="list-none m-0 menuul" *ngIf="currentPage=='odin2' && currentMenuPage!=='landing' && currentMenuPage!=='timelineview' && currentMenuPage!=='rawdata'">
+                    <span class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">Odin Completion</span>
+                    <li>
+                      <ul class="list-none p-0 m-0 overflow-hidden">
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin2completionlanding')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='completionlanding' , 'menuActiveColorDefault' :currentMenuPage!='completionlanding'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Dashboard</span>
+                          </a>
+                        </li>
+                        <!-- <li>
+                          <a pRipple (click)="MenuSelection('odin2completiontimelineview')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='completiontimelineview' , 'menuActiveColorDefault' :currentMenuPage!='completiontimelineview'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Timeline View</span>
+                          </a>
+                        </li> -->
+                      </ul>
+                    </li>
+                  </ul>
+
+
+                  <ul class="list-none m-0 menuul" *ngIf="currentPage=='odin' && currentMenuPage!=='dashboard/dashboardcompletion'">
+                    <span class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">Odin Drilling</span>
+                    <li>
+                      <ul class="list-none p-0 m-0 overflow-hidden">
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin3dashboard')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='dashboard' , 'menuActiveColorDefault' :currentMenuPage!='dashboard'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Dashboard</span>
+                          </a>
+                        </li>
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin3demandconsumption')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='demandconsumptionvaluation' , 'menuActiveColorDefault' :currentMenuPage!='demandconsumptionvaluation'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Demand Consumption/Valuation</span>
+                          </a>
+                        </li>
+                  
+                        <li>
+                          <a pRipple (click)="MenuSelection('odinRawdata3')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='rawdata' , 'menuActiveColorDefault' :currentMenuPage!='rawdata'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Raw Data</span>
+                          </a>
+                        </li>
+
+                        <li>
+                          <a pRipple (click)="MenuSelection('wellhead')"
+                          [ngClass]="{'menuActiveColorGrey':currentMenuPage=='wellhead' , 'menuActiveColorDefault' :currentMenuPage!='wellhead'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Wellhead Kit Editor</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+
+                  <ul class="list-none m-0 menuul" *ngIf="currentPage=='odin' && currentMenuPage!=='dashboard/dashboarddrilling'">
+                    <span class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">Odin Completion</span>
+                    <li>
+                      <ul class="list-none p-0 m-0 overflow-hidden">
+                        <li>
+                          <a pRipple (click)="MenuSelection('odin3CompletionDashboard')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='dashboard/odinCompletionDashboard3' , 'menuActiveColorDefault' :currentMenuPage!='dashboard/odinCompletionDashboard3'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-home mr-2 ml-4"></i>
+                            <span class="font-medium">Dashboard</span>
+                          </a>
+                        </li>
+
+                        <li>
+                            <a pRipple (click)="MenuSelection('odin3Assembly')"
+                               [ngClass]="{'menuActiveColorGrey':currentMenuPage=='assembly' , 'menuActiveColorDefault' :currentMenuPage!='assembly'}"
+                               class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                              <i class="pi pi-home mr-2 ml-4"></i>
+                              <span class="font-medium">Assembly</span>
+                            </a>
+                          </li>
+                          <!-- completion raw data -->
+                        <li>
+                          <a pRipple (click)="MenuSelection('odinCompletionRawdata3')"
+                             [ngClass]="{'menuActiveColorGrey':currentMenuPage=='completionrawdata' , 'menuActiveColorDefault' :currentMenuPage!='completionrawdata'}"
+                             class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                            <i class="pi pi-chart-bar mr-2 ml-4"></i>
+                            <span class="font-medium">Raw Data</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <!-- TYR Hamburger Menu -->
+                <ul class="list-none m-0 menuul" *ngIf="currentPage =='tyr'">
+                  <span class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                    TYR
+                  </span>
+                  <li>
+                    <ul class="list-none p-0 m-0 overflow-hidden">
+                  <!-- Dashboard -->
+                      <li>
+                        <a pRipple (click)="MenuSelection('tyr2Dashboard')"
+                          [ngClass]="{'menuActiveColorGrey': currentMenuPage=='tyr2Dashboard', 
+                                      'menuActiveColorDefault': currentMenuPage!='tyr2Dashboard'}"
+                          class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                          <i class="pi pi-check-square mr-2 ml-2"></i>
+                          <span class="font-medium">Task Management</span>
+                        </a>
+                      </li>
+
+                      <!-- Invoices -->
+                      <li>
+                        <a pRipple (click)="MenuSelection('invoice')"
+                          [ngClass]="{'menuActiveColorGrey': currentMenuPage=='invoice', 
+                                      'menuActiveColorDefault': currentMenuPage!='invoice'}"
+                          class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                          <i class="pi pi-file mr-2 ml-2"></i>
+                          <span class="font-medium">Invoices</span>
+                        </a>
+                      </li>
+
+                      <!-- Inbox -->
+                      <li>
+                        <a pRipple (click)="MenuSelection('inbox')"
+                          [ngClass]="{'menuActiveColorGrey': currentMenuPage=='inbox', 
+                                      'menuActiveColorDefault': currentMenuPage!='inbox'}"
+                          class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                          <i class="pi pi-file mr-2 ml-2"></i>
+                          <span class="font-medium">Inbox</span>
+                        </a>
+                      </li>
+
+
+                      <!-- List Editor -->
+                      <li>
+                        <a pRipple (click)="MenuSelection('tyrlisteditor')"
+                          [ngClass]="{'menuActiveColorGrey': currentMenuPage==='listeditor', 'menuActiveColorDefault': currentMenuPage!=='listeditor'}"
+                          class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                          <i class="pi pi-list mr-2 ml-2"></i>
+                          <span class="font-medium">List Editor</span>
+                        </a>
+                      </li>
+
+                      <!-- Modules Section -->
+                      <li>
+                        <span class="flex align-items-center p-3 ml-2 font-bold text-sm text-gray-600">Modules</span>
+                        <ul class="list-none p-0 m-0 overflow-hidden">
+                          <li>
+                            <a pRipple (click)="MenuSelection('odin')"
+                              [ngClass]="{'menuActiveColorGrey': currentMenuPage==='odin', 'menuActiveColorDefault': currentMenuPage!=='odin'}"
+                              class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                              <img src="/assets/icons/odin-avatar.png" class="app-icon" /> 
+                              <span class="font-medium mt-1">ODIN</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a pRipple (click)="MenuSelection('thor')"
+                              [ngClass]="{'menuActiveColorGrey': currentMenuPage==='thor', 'menuActiveColorDefault': currentMenuPage!=='thor'}"
+                              class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                              <img src="/assets/icons/thor-avatar.png" class="app-icon" /> 
+                              <span class="font-medium mt-1">THOR</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a pRipple (click)="MenuSelection('mdl')"
+                              [ngClass]="{'menuActiveColorGrey': currentMenuPage==='mdl', 'menuActiveColorDefault': currentMenuPage!=='mdl'}"
+                              class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                              <img src="/assets/icons/mdl-avatar.png" class="app-icon" /> 
+                              <span class="font-medium mt-1">MDL</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a pRipple (click)="MenuSelection('schematic')"
+                              [ngClass]="{'menuActiveColorGrey': currentMenuPage==='schematic', 'menuActiveColorDefault': currentMenuPage!=='schematic'}"
+                              class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                              <img src="/assets/icons/Completion.png" class="app-icon" /> 
+                              <span class="font-medium mt-1">Completion Schematic</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </li>
+
+                      <!-- Admin -->
+                      <li>
+                        <a pRipple (click)="MenuSelection('admin')"
+                          [ngClass]="{'menuActiveColorGrey': currentMenuPage==='admin', 'menuActiveColorDefault': currentMenuPage!=='admin'}"
+                          class="flex align-items-center cursor-pointer p-3 border-round text-black hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                          <img src="/assets/icons/Completion.png" class="app-icon" /> 
+                          <span class="font-medium mt-1">Admin</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                </div>
+            </div>
+        </ng-template>
+    </p-sidebar>
+</div>
+
+<p-overlayPanel appendTo="body" styleClass="notification-block" #bellIcon [style]="{ width: '400px' }">
+    <ng-template pTemplate="content">
+      <!-- Removed the repeated code and added the conditions to show only if the notifications are available for that particular group -->
+        <div class="row" *ngFor="let group of notificationGroups">
+            <div class="col-12 text-center text-header" *ngIf="listNotification?.length !== 0 && getGroupByNotification(group.key).length > 0">
+                <span> {{group.title}} </span>
+            </div>
+            <div class="wrapper-group" *ngIf="listNotification?.length !== 0 && getGroupByNotification(group.key).length > 0">
+                <div class="col-12 flex align-items-center"
+                     *ngFor="let item of getGroupByNotification(group.key); let i = index" [@inOutAnimation]="'in'">
+                    <div class="col-8 message-block">
+                        {{ item?.notificationMessage }}
+                        <div class="time-block">
+                            {{ item?.dateCreated | timeDifference }}
+                        </div>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p-button icon="pi pi-eye" (click)="getNotificationAuditData(item);bellIcon.toggle({})"
+                                  [rounded]="true" [text]="true"></p-button>
+                        <p-button icon="pi pi-times" (click)="removeItem(i, item)" [rounded]="true" [text]="true"
+                                  severity="danger "></p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="not-found" *ngIf="listNotification?.length === 0">
+          No Notification Found.
+        </div>
+    </ng-template>
+</p-overlayPanel>
+

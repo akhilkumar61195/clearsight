@@ -1,0 +1,20 @@
+export interface IChangeLog {
+  auditId:number;
+  tableUniqueId:number;
+  userId:string;
+  userName:string;
+  changeDate:Date;
+  diffData:string;
+  tableName:string;
+  actionName:string;
+  columnName:string;
+  oldValue:string;
+  newValue:string;
+  supplierPartNumber:string;
+  legacyRefNumber:string;
+  schematicName:string;
+  wellName:string;
+  dataSource:string;
+  materialNumber:string;
+  taskId:string;
+};

@@ -1,0 +1,367 @@
+<section class="chat-container">
+  <p-toast></p-toast>
+  <!-- Launcher Button -->
+  <div class="chat-launcher" [ngClass]="{ 'active': showMenu }" (click)="toggleMenu()">
+    <i class="pi" [ngClass]="showMenu && !isChatOpen ? 'pi-chevron-down' : 'pi-comment'"></i>
+  </div>
+  <div class="full-chat-wrapper" *ngIf="showMenu" [ngClass]="{ 'compact': compactMode }">
+    <div class="chat-top-header" [ngClass]="{ 'compact': compactMode }">
+      <!-- <button class="hamburger-btn" (click)="toggleSidebar()" [class.open]="sidebarOpen">
+        <i class="pi" [ngClass]="sidebarOpen ? 'pi-times' : 'pi-bars'"></i>
+      </button> -->
+      <!-- Chat Icon -->
+      <img src="../../../../assets/icons/chat-logo.png" alt="Chat Logo" class="chat-logo" (click)="toggleSidebar()"
+        [ngClass]="{ 'sidebar-open': sidebarOpen }" />
+      <div class="search-wrapper">
+        <!-- Search Input Box -->
+        <input type="text" placeholder="Search chats or users..." [(ngModel)]="searchQuery" (input)="onSearchChange()"
+          class="chat-search-input" />
+
+        <!-- Search results dropdown -->
+        <div class="search-results" *ngIf="showSearchResults">
+          <div class="search-result-item" *ngFor="let group of filteredGroups"
+            (click)="selectSearchResult(group, 'group')">
+            📂 {{ group }}
+          </div>
+          <div class="search-result-item" *ngFor="let user of filteredUsers" (click)="selectUserSearchResult(user, 'user')">
+            👤 {{ user.name }}
+          </div>
+          <div class="search-result-item" *ngFor="let result of searchResults()"
+            (click)="selectSearchResult(result, 'message')">
+
+            <!-- Top row: Receiver name + Date -->
+            <div class="top-row">
+              <div class="receiver-name">
+                {{ getReceiverName(result.roomName) }}
+              </div>
+              <div class="date">
+                {{ result.createdAt | date:'short' }}
+              </div>
+            </div>
+
+            <!-- Second row: Message or attachment -->
+            <div class="message-row">
+              <span *ngIf="result.itemType === 'attachment'">📎</span>
+              <span *ngIf="result.itemType === 'message'">💬</span>
+              <span>
+                {{ result.content || getDocumentName(result.shortDescription) }}
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Profile Status Container -->
+      <div class="profile-status">
+        <span class="status-indicator-sign" [ngClass]="{
+      'connected': connectionState() === 'Connected',
+      'disconnected': connectionState() === 'Disconnected',
+      'connecting': connectionState() === 'Connecting'
+    }"></span>
+        <div class="profile-initials">
+          {{ getInitials(userName) }}
+        </div>
+      </div>
+
+      <!-- Close Button -->
+      <button class="chat-close-btn" (click)="closeChat()" title="">×</button>
+    </div>
+    <div class="chat-content">
+      <!-- Sidebar -->
+      <aside class="chat-sidebar" *ngIf="sidebarOpen">
+        <div class="chats">
+          <h2 class="chart-title">Chats</h2>
+        </div>
+
+        <!-- AI Chat Section -->
+        <div class="ai-chat">
+          <h1 class="ai-title toggle-header" (click)="joinAIChat()">AI Chat</h1>
+        </div>
+        <hr />
+        <!-- GROUPS SECTION -->
+        <div class="groups" *ngIf="isInternalUser">
+          <h3 class="sidebar-title toggle-header" (click)="toggleGroups()">
+            Groups
+            <i class="pi" [ngClass]="showGroups ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+          </h3>
+          <div class="group-list" *ngIf="showGroups">
+            <div *ngFor="let group of groupList()" class="group-name" (click)="joinGroupChat(group)">{{ group.name }}
+            </div>
+          </div>
+          <div class="create-group-container" *ngIf="!showGroupInput">
+            <button class="create-group-btn" (click)="showGroupInput = true">+ Create Group</button>
+          </div>
+
+          <div class="create-group-inline" *ngIf="showGroupInput">
+            <input #groupInput type="text" [(ngModel)]="newGroupName" placeholder="Enter group name"
+              (keyup.enter)="createGroup()" />
+            <button class="add-group-btn" (click)="createGroup()">
+              <i class="pi pi-check"></i>
+            </button>
+            <button class="cancel-group-btn" (click)="cancelGroupInput()">
+              <i class="pi pi-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- DIRECT MESSAGES SECTION -->
+        <div class="user-chats">
+          <h3 class="users-title toggle-header" (click)="toggleUsers()">
+            Chats
+            <i class="pi" [ngClass]="showUsers ? 'pi-chevron-down' : 'pi-chevron-right'"></i>
+          </h3>
+          <div class="user-chat-list" *ngIf="showUsers">
+            <div *ngFor="let user of contactedUsers" class="chat-user"
+              [ngClass]="{ 'active': activeRoom?.id === user.roomId }" (click)="joinOneToOneChat(user)">
+              {{ user.name }}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Chat Window -->
+      <main class="chat-main" *ngIf="activeRoom" [ngClass]="{ 'full-width': !sidebarOpen }">
+        <div class="chat-header">
+          <div class="chat-title-wrapper">
+            <span class="status-indicator-dot mr-2" [ngClass]="{
+        'connected': connectionState() === 'Connected',
+        'disconnected': connectionState() === 'Disconnected',
+        'connecting': connectionState() === 'Connecting'
+      }">
+            </span>
+            <h4>{{ chatTitle }}</h4>
+          </div>
+          <div class="chat-actions">
+            <button *ngIf="activeRoom?.groupType === 'Private Group'" (click)="openViewMembers()"
+              class="view-members-btn">
+              View Members
+            </button>
+            <!-- Delete Group button -->
+            <button *ngIf="isAddMemberEnabled()" class="add-members-btn" (click)="openDeleteGroupModal()">
+              Delete Group
+            </button>
+            <button
+              *ngIf="this.activeRoom.groupType === 'Private Group' && this.activeRoom.userIdCreatedBy !== this.userId"
+              class="add-members-btn" (click)="openExitGroupModal()">
+              Exit Group
+            </button>
+            <button *ngIf="isAddMemberEnabled()" class="add-members-btn" (click)="openAddMembers()">Add Members</button>
+          </div>
+
+        </div>
+        <!-- Delete Group Confirmation Modal -->
+        <div *ngIf="showDeleteGroupModal" class="modal-backdrop">
+          <div class="delete-group-modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Delete Group</h3>
+              <div class="modal-actions">
+                <button class="btn cancel-btn" (click)="closeDeleteGroupModal()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="modal-body">
+              <p>Are you sure you want to delete the group?</p>
+            </div>
+
+            <div class="modal-actions-delete">
+              <button class="btn cancel-btn" (click)="closeDeleteGroupModal()">Close</button>
+              <button class="btn delete-btn" (click)="deleteGroup()">Delete</button>
+            </div>
+          </div>
+        </div>
+        <!-- Exit Group Confirmation Modal -->
+        <div *ngIf="showExitGroupModal" class="modal-backdrop">
+          <div class="delete-group-modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Exit Group</h3>
+              <div class="modal-actions">
+                <button class="btn cancel-btn" (click)="closeExitGroupModal()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="modal-body">
+              <p>Are you sure you want to exit the group?</p>
+            </div>
+
+            <div class="modal-actions-delete">
+              <button class="btn cancel-btn" (click)="closeExitGroupModal()">Close</button>
+              <button class="btn delete-btn" (click)="exitGroup()">Exit</button>
+            </div>
+          </div>
+        </div>
+        <!-- View Members Modal -->
+        <div *ngIf="showViewMembersModal" class="modal-backdrop">
+          <div class="add-members-modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Group Members</h3>
+              <div class="modal-actions">
+                <button class="btn cancel-btn" (click)="closeViewMembers()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="user-list">
+              <div *ngFor="let member of groupMemberDetails" class="user-item">
+                <div class="user-info">
+                  <img src="https://ui-avatars.com/api/?name={{member.name}}&background=random" class="avatar" />
+                  <span class="username">{{ member.name }}</span>
+                </div>
+                <span *ngIf="member.id === activeRoom.userIdCreatedBy" class="admin-label">Admin</span>
+
+                <!-- Show Delete icon only if currentUser is Admin AND member is not Admin -->
+                <button *ngIf="userId === activeRoom.userIdCreatedBy && member.id !== activeRoom.userIdCreatedBy"
+                  class="delete-member-btn" (click)="openRemoveMemberDialog(member)">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Remove Member Confirmation Modal -->
+        <div *ngIf="showRemoveMemberModal" class="modal-backdrop">
+          <div class="delete-group-modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Remove User</h3>
+              <div class="modal-actions">
+                <button class="btn cancel-btn" (click)="closeRemoveMemberDialog()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="modal-body">
+              <p>Are you sure you want to remove <strong>{{ selectedMember?.name }}</strong> from the group?</p>
+            </div>
+
+            <div class="modal-actions-delete">
+              <button class="btn cancel-btn" (click)="closeRemoveMemberDialog()">Cancel</button>
+              <button class="btn delete-btn" (click)="confirmRemoveMember()">Remove</button>
+            </div>
+          </div>
+        </div>
+        <!-- Add Members Modal -->
+        <div *ngIf="showAddMembersModal" class="modal-backdrop">
+          <div class="add-members-modal">
+            <div class="modal-header">
+              <h3 class="modal-title">Add Participants</h3>
+              <div class="modal-actions">
+                <button class="btn add-btn" (click)="addSelectedUsers()" [disabled]="selectedUsers.size === 0">
+                  <i class="pi pi-plus"></i>
+                </button>
+                <button class="btn cancel-btn" (click)="closeAddMembers()">
+                  <i class="pi pi-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="search-box">
+              <input type="text" placeholder="Search users..." [(ngModel)]="addMembersSearchQuery" />
+              <button *ngIf="addMembersSearchQuery" class="clear-btn" (click)="clearAddMembersSearch()">
+                <i class="pi pi-times"></i>
+              </button>
+            </div>
+            <div class="user-list">
+              <div *ngFor="let user of filteredEligibleUsers" class="user-item">
+                <div class="user-info">
+                  <input type="checkbox" [checked]="selectedUsers.has(user.userId)"
+                    (change)="toggleUserSelection(user.userId)" />
+                  <img src="https://ui-avatars.com/api/?name={{user.name}}&background=random" class="avatar" />
+                  <span class="username">{{ user.name }}</span>
+                </div>
+              </div>
+              <div *ngIf="filteredEligibleUsers.length === 0" class="no-results">
+                No users found
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-body" #scrollMe>
+
+          <div *ngFor="let msg of messages()" class="message-bubble" [ngClass]="{
+            'own-message': msg.user?.trim() === userName?.trim() && !msg.isSystem,
+            'other-message': msg.user?.trim() !== userName?.trim() && !msg.isSystem,
+            'system-message': msg.isSystem
+          }">
+            <div class="meta">
+              <strong>{{ msg.user }}</strong>
+              <span class="time">{{ msg.messageTime }}</span>
+            </div>
+
+            <!-- Typing placeholder -->
+            <div class="text" *ngIf="msg.message === 'typing-placeholder'">
+              <span class="typing-indicator">
+                <span></span><span></span><span></span>
+              </span>
+            </div>
+
+            <!-- Normal message -->
+            <div class="text" *ngIf="msg.message?.trim() && msg.message && msg.message !== 'typing-placeholder'">
+              <markdown [data]="msg.message"></markdown>
+            </div>
+
+            <!-- Show attachments if present -->
+            <!-- Attachments Preview Section -->
+            <div class="attachments-preview clean" *ngIf="msg?.attachments?.length && hasValidAttachments(msg)">
+              <div *ngFor="let attachment of msg.attachments">
+                <ng-container *ngIf="attachment?.url && attachment?.shortDescription">
+                  <a (click)="downloadAttachment(attachment)" class="attachment-download-link">
+                    {{ getDocumentName(attachment.shortDescription) }}
+                  </a>
+                </ng-container>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="chat-footer">
+          <div class="attachments-preview" *ngIf="attachments()?.length">
+            <div *ngFor="let attachment of attachments()">
+              {{ attachment.fileName }}
+              <button (click)="removeAttachment(attachment.id!)" class="remove-attachment">×</button>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <input type="text" placeholder="Type a message…" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" />
+
+            <input #fileInput type="file" multiple hidden (change)="onFileSelected($event)" />
+
+            <button (click)="triggerFileInput()" title="Attach files" class="attach-btn">
+              <i class="pi pi-paperclip"></i>
+            </button>
+
+            <button (click)="sendMessage()" [disabled]="!inputMessage.trim() && attachments().length === 0"
+              class="send-btn">
+              <i class="pi pi-send"></i>
+            </button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+
+  </div>
+  <!-- Add Members Modal -->
+  <!-- Add Members Inline Modal -->
+
+
+  <!-- <div class="create-group-dialog" *ngIf="showCreateGroupDialog">
+    <div class="dialog-content">
+      <h3>Create New Group</h3>
+      <input type="text" [(ngModel)]="newGroupName" placeholder="Enter group name" />
+
+      <div class="dialog-actions">
+        <button (click)="createGroup()">Create</button>
+        <button (click)="closeCreateGroupDialog()">Cancel</button>
+      </div>
+    </div>
+  </div> -->
+
+</section>

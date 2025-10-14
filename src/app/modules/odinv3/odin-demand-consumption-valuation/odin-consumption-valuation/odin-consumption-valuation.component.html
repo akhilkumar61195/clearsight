@@ -1,0 +1,36 @@
+<div class="bg-white ml-2 flex-container">
+  <!-- First Grid: Consumption Valuation -->
+   <!-- made the changes in two ggrids to look horizontally -->
+  <div class="inventory-grid">
+    <h3 class="p-0 m-2">Consumption Demand</h3>
+    <ag-grid-angular 
+      style="width: 100%" 
+      class="ag-theme-alpine" 
+      [rowData]="consumptionValuations" 
+      [columnDefs]="columnDefs" 
+      [defaultColDef]="defaultColDef"
+      [domLayout]="'autoHeight'" 
+      [overlayNoRowsTemplate]="'No record(s) found.'" 
+      (gridReady)="onGridReady($event)" 
+      (rowClicked)="onRowClicked($event)" 
+      [loading]="gridConfig.loading">
+    </ag-grid-angular>
+  </div>
+
+  <!-- Second Grid: Demand Valuation -->
+  <div class="consumption-grid">
+    <h3 class="p-0 m-2"><span *ngIf="selectedWell">({{selectedWell}})</span> Demand Details</h3>
+    <ag-grid-angular 
+      style="width: 100%;" 
+      class="ag-theme-alpine" 
+      [rowData]="tableData" 
+      [columnDefs]="columnDemandDefs" 
+      [defaultColDef]="defaultColDef" 
+      [domLayout]="'autoHeight'"
+      [pinnedBottomRowData]="pinnedBottomRowData" 
+      [suppressScrollOnNewData]="true" 
+      [overlayNoRowsTemplate]="'No record(s) found.'" 
+      (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+  </div>
+</div>

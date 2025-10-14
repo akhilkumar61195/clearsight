@@ -1,0 +1,27 @@
+<p-dialog [(visible)]="displayBatchStatusDialog" [modal]="true" [style]="{ width: '65vw', height: '60vh' }" [closable]="false">
+    <ng-template pTemplate="header" class="upload-dialog-header">
+        <div class="dialog-header">
+            <h3 class="dialog-heading">View Status</h3>
+           <!--  <div class="select-button-container batch-view-right">                
+              <p-selectButton (onChange)="onViewSelectionChange($event)" [(ngModel)]="selectedView" [options]="viewOptions"
+                              optionLabel="label" optionValue="value" [allowEmpty]="false" />
+            </div> -->
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times"
+                (click)="closeBatch()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+    <ag-grid-angular
+      class="ag-theme-alpine"
+      style="width: 100%; height: 100%;"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [masterDetail]="true"
+      [detailCellRendererParams]="detailCellRendererParams"
+      [rowData]="rowData"
+      [autoSizeStrategy]="autoSizeStrategy"
+      (firstDataRendered)="onFirstDataRendered($event)"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+    </ng-template>
+  </p-dialog>

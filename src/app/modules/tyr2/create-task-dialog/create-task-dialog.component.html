@@ -1,0 +1,148 @@
+<form [formGroup]="createTaskForm" novalidate>
+    <p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '60vw'}" [closable]="false" (onHide)="onHide()">
+        <ng-template pTemplate="header">
+            <div class="dialog-header headerClass">
+                <h3 class="dialog-heading">Create Task</h3>
+                <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="body">
+            <div class="task-dialog-content">
+                <div class="p-fluid component-type-header">
+
+                    <!-- Well -->
+                    <div class="row-style">
+                        <label for="well">Well <span class="requiredField">*</span></label>
+                        <p-dropdown [options]="wellOptions" formControlName="well" optionLabel="wellName"
+                            optionValue="id" placeholder="Select Well">
+                        </p-dropdown>
+                        <div *ngIf="createTaskForm.get('well')?.touched && createTaskForm.get('well')?.invalid"
+                            class="error-msg">
+                            Well is required.
+                        </div>
+                    </div>
+
+                    <!-- User -->
+                    <div class="row-style">
+                        <label for="user">User<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="materialCoordinatorsList" formControlName="user" optionLabel="fullName"
+                            optionValue="userId" placeholder="Select User">
+                        </p-dropdown>
+                        <div *ngIf="createTaskForm.get('user')?.touched && createTaskForm.get('user')?.invalid"
+                            class="error-msg">
+                            User is required.
+                        </div>
+                    </div>
+
+                    <!-- Sub Date -->
+                    <div class="row-style">
+                        <label for="subDate">Sub Date</label>
+                        <p-calendar id="subDate" formControlName="subDate" [showIcon]="true" dateFormat="mm/dd/yy"
+                            placeholder="Select Date">
+                        </p-calendar>
+                    </div>
+
+                    <!-- Supplier -->
+                    <div class="row-style">
+                        <label for="supplier">Supplier<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="supplierList" formControlName="supplier" optionLabel="value"
+                            optionValue="id" placeholder="Select Supplier">
+                        </p-dropdown>
+                        <div *ngIf="createTaskForm.get('supplier')?.touched && createTaskForm.get('supplier')?.invalid"
+                            class="error-msg">
+                            Supplier is required.
+                        </div>
+                    </div>
+
+                    <!-- Rep No & Type -->
+                    <div class="row-style">
+                        <label for="repNoType">Rep No & Type</label>
+                        <input id="repNoType" pInputText formControlName="repNoType" />
+                    </div>
+
+                    <!-- Batch From -->
+                    <div class="row-style">
+                        <label for="batchFrom">Batch From</label>
+                        <input id="batchFrom" pInputText formControlName="batchFrom" />
+                    </div>
+
+                    <!-- Batch To -->
+                    <div class="row-style">
+                        <label for="batchTo">Batch To</label>
+                        <input id="batchTo" pInputText formControlName="batchTo" />
+                    </div>
+
+                    <!-- WBS From -->
+                    <div class="row-style">
+                        <label for="wbsFrom">WBS From</label>
+                        <input id="wbsFrom" pInputText formControlName="wbsFrom" />
+                    </div>
+
+                    <!-- WBS To -->
+                    <div class="row-style">
+                        <label for="wbsTo">WBS To</label>
+                        <input id="wbsTo" pInputText formControlName="wbsTo" />
+                    </div>
+
+                    <!-- SLOC From -->
+                    <div class="row-style">
+                        <label for="slocFrom">SLOC From</label>
+                        <input id="slocFrom" pInputText formControlName="slocFrom" />
+                    </div>
+
+                    <!-- SLOC To -->
+                    <div class="row-style">
+                        <label for="slocTo">SLOC To</label>
+                        <input id="slocTo" pInputText formControlName="slocTo" />
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="row-style">
+                        <label for="quantity">Quantity</label>
+                        <input id="quantity" pInputText formControlName="quantity" type="number" />
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="row-style">
+                        <label for="comments">Comments</label>
+                        <textarea id="comments" pInputTextarea formControlName="comments" rows="4" [autoResize]="true"
+                            placeholder="Enter comments..." class="p-inputtext p-component">
+                        </textarea>
+                    </div>
+
+                    <!-- Attach Document -->
+                    <div class="row-style">
+                        <label for="attachDocument">Attach Document<span class="requiredField">*</span></label>
+                        <br/>
+                        <button pButton type="button" label="Upload"
+                            icon="pi pi-cloud-upload" (click)="openUploadDialog()" class="upload-btn-small"></button>
+                        <div *ngIf="createTaskForm.get('attachDocument')?.touched && createTaskForm.get('attachDocument')?.invalid"
+                            class="error-msg">
+                            Document attachment is required.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <p-footer>
+            <button pButton type="button" label="Reset" icon="pi pi-refresh" [disabled]="isLoading"
+                (click)="resetForm()"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" [disabled]="isLoading"
+                (click)="closeDialog()"></button>
+            <button pButton type="button" [label]="'Save'" (click)="saveTaskHandler(false)"></button>
+            <button pButton type="button" [label]="'Save and Create Another'" (click)="saveTaskHandler(true)"></button>
+        </p-footer>
+    </p-dialog>
+
+    <!-- File Upload Component -->
+    <app-file-upload-with-grid [selectedView]="selectedView" [appId]="appId" [functionId]="functionId"
+        [dialogTitle]="selectedDocument" [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"
+        [entityType]="entityType" [isUpdateEditable]="isUpdateEditable"
+        [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog"
+        (uploadedFileType)="uploadedFileType($event)" (documentIdsEmitter)="documentIdsEmitter($event)"
+        (onClose)="onFileUploadClose()">
+    </app-file-upload-with-grid>
+</form>

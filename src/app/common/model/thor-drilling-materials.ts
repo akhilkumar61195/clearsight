@@ -1,0 +1,48 @@
+export class ThorDrillingMaterials {
+  eid:number;
+  wellId: number;
+  wellNumber: number | null;
+  id: number;
+  hstype: string;
+  dateCreated: string;
+  item: string;
+  itemLetter: string;
+  itemNumber: number | null;
+  holeSection: string;
+  materialType: string;
+  materialShortDesc: string;
+  materialId: string;
+  designComment: string;
+  manufacturerPart: string;
+  serialNumber: string;
+  uoM: string;
+  primaryQuantity: number | null;
+  primarySource: string;
+  backupQuantity: number;
+  quantityShipped: number;
+  quantityReturned: number;
+  wellViewConsumption: number;
+  rigReadyDate: string | null;
+  vendor: string;
+  release: string;
+  status: string;
+  additionalComments: string;
+  sapDocNumber: string;
+  reconciledInSap: string;
+  specSheetDocumentCount: number;
+  cvxPoDocumentCount: number;
+  matDocumentCount: number;
+  buildPriorityNumber: number | null;
+  searchTerms: string;
+  primaryBackupFt: number | null;
+  mcComments: string | null;
+  userId: number | null;
+  uoMid: number | null;
+  uom: string | null;
+  vendorSapnumber: string | null;
+  erpQtyOut?: number | 0;
+  erpQtyIn?: number | 0;
+  lineItemReconciled?: number | 0;
+  dateReconciled?: Date | null;
+}
+

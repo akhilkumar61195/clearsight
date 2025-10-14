@@ -1,0 +1,73 @@
+<div class="blue-background filtercontrols filtersection">
+  <div *ngIf="showSearchBar" class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+    <span class="p-input-icon-left inputsearchSpan">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" class="whiteblue" placeholder="Search" (input)="onSearch($event)" />
+    </span>
+  </div>
+  <div class="col-0 sm:col-0 md:col-10 lg:col-9 p-6px">
+    <div class="toolbar-flex-row">
+      <ng-container>
+        <p-button type="text" *ngIf="showSave" styleClass="chv-light-blue-btn" label="Save" class=" ml-2"
+          (click)="onSave()" icon="pi pi-save"></p-button>
+        <p-button type="text" *ngIf="showCancel" styleClass="chv-light-blue-btn" label="Cancel" class=" ml-2"
+          (click)="onCancel()" icon="pi pi-times"></p-button>
+      </ng-container>
+      <!-- Supplier Filter Dropdown -->
+      <p-multiSelect
+        *ngIf="showSupplierFilter"
+        [options]="supplierList"
+        optionLabel="value"
+        optionValue="id"
+        [(ngModel)]="supplierSelectedValues"
+        (onChange)="onSupplierChange($event)"
+        [showToggleAll]="false"
+        [disabled]="supplierDisabled"
+        selectedItemsLabel="{0} columns selected"
+        [dropdownIcon]="supplierSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+        styleClass="lightBlueBG odin-lightBlueBG py-0"
+        filterPlaceHolder="Search"
+        placeholder="Supplier">
+        <ng-template pTemplate="header">
+          <div class="clear-selection mr-2" *ngIf="supplierSelected?.length">
+            <i class="pi pi-filter-slash"
+              (click)="clearSupplierSelection()"></i>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+      <!-- Status Filter Dropdown -->
+      <p-multiSelect
+        *ngIf="showStatusFilter"
+        [options]="statusList"
+        optionLabel="value"
+        optionValue="id"
+        [(ngModel)]="statusSelectedValues"
+        (onChange)="onStatusChange($event)"
+        [showToggleAll]="false"
+        [disabled]="statusDisabled"
+        selectedItemsLabel="{0} columns selected"
+        [dropdownIcon]="statusSelectedValues?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+        styleClass="lightBlueBG odin-lightBlueBG py-0 ml-2"
+        filterPlaceHolder="Search"
+        placeholder="Status">
+        <ng-template pTemplate="header">
+          <div class="clear-selection mr-2" *ngIf="statusSelectedValues?.length">
+            <i class="pi pi-filter-slash"
+              (click)="clearStatusSelection()"></i>
+          </div>
+        </ng-template>
+      </p-multiSelect>
+      <div *ngIf="showCompletedCheckBox" class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler p-1 p-component ml-3">
+      <div class="flex align-items-center">
+        <p-checkbox label="Completed" name="includeCompleted" binary="true"
+          [(ngModel)]="includeCompleted"
+          (onChange)="onCompletedCheckboxChange($event)"></p-checkbox>
+      </div>
+
+    </div>
+      <!-- <p-button type="text" styleClass="chv-light-blue-btn" label="Create Persona"  class=" ml-2" (click)="onCreatePersona()" icon="pi pi-plus-circle" ></p-button> -->
+      <span style="flex:1"></span>
+      <!-- <p-button type="text" styleClass="chv-light-blue-btn" label="User" class="ml-2" (click)="onCreateUser()" icon="pi pi-plus-circle" pTooltip="Add User"></p-button> -->      
+    </div>
+  </div>
+</div>

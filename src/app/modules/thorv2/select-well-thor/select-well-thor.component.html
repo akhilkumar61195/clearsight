@@ -1,0 +1,55 @@
+<p-sidebar [(visible)]="display" [closeOnEscape]="false" [dismissible]="false" position="right" styleClass="w-4"
+    [ngClass]="{'disableClose': isFilterBTNDisabled}" [showCloseIcon]="false">
+    <ng-template pTemplate="header">
+        <div class="font-bold">Select Well</div>
+        <button class="custom-close-btn p-ripple p-element p-sidebar-close p-sidebar-icon p-link" (click)="closeSidebar()">
+          <i class="pi pi-times"></i>
+        </button>    
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div class="grid mt-3 select-popup">
+      <div class="select-button-container">
+        <p-selectButton (onChange)="handleViewSelectionChange($event)" [(ngModel)]="functionId" [options]="viewOptions"
+                        optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+    <div class="col-7 right-0 pt-0 pb-0">
+      <span class="p-input-icon-left w-100 filterWell">
+        <i class="pi pi-search"></i>
+        <input type="text"  class="w-100" pInputText [(ngModel)]="searchTerm" (input)="onSearchTermChange()"
+               placeholder="Search Wells" />
+      </span>
+    </div>
+  </div>
+  <p-card class="col-12 set-ptb-10" *ngIf="functionId" [ngClass]="{'nopadding custom-bg': isFilter}">
+                <div class="grid">
+                  <div class="col-12 flex align-items-start flex-wrap well-container" [ngClass]="{'filteredwellgrid': isFilter, 'wellgrid': !isFilter}">
+                    <ng-container *ngFor="let project of projects">
+                      <div class="project-group card">
+                        <div class="card-header project-header flex align-items-center">
+                          <h3 class="project-checkbox">{{ project.project }}</h3>
+                        </div>
+                        <div class="card-body project-wells flex flex-wrap">
+                          <ng-container *ngFor="let well of project.wells">
+                            <div class="well-radio flex align-items-center">
+                              <p-radioButton 
+                                [label]="well.wellName" 
+                                name="well" 
+                                [value]="well.wellNumber" 
+                                [(ngModel)]="selectedWellNumber" 
+                                (ngModelChange)="toggleProjectWells.emit({ wellId: well.id, projectId: project.projectId, wellNumber: well.wellNumber , wellName: well.wellName })">
+                              </p-radioButton>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                 
+                </div>
+  </p-card>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <p-button type="text" (click)="onContinue()" class="col-12" [disabled]="!selectedWellId || !projects?.length"
+            label="Continue"></p-button>
+    </ng-template>
+</p-sidebar>

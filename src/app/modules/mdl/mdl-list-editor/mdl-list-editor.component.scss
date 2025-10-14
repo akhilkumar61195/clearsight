@@ -1,0 +1,36 @@
+.modal-content {
+  text-align: center;
+}
+
+.scrollable-list {
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 1rem;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+button.p-button-secondary {
+  background-color: #D9D9D9;
+  border-radius: 3px;
+}
+
+button.p-button-success {
+  background-color: #3AB23A;
+  color: white;
+  border-radius: 3px;
+}
+
+.listHeading {
+  height: 50px;
+}
+
+.btn-adjustment {
+  width: 10px !important;
+  display: flex !important;
+  justify-content: center !important;
+}

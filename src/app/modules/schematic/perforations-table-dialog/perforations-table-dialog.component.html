@@ -1,0 +1,34 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<p-dialog [(visible)]="displayPerforationTableDialog" [modal]="true" [closable]="false" [style]="{width: '75vw'}">
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h3 class="dialog-heading">Perforation Table</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <ag-grid-angular class="ag-theme-alpine perforationTable"
+                         style="height: 74vh;"
+                         [columnDefs]="perforationTableColumnDefs"
+                         [rowData]="schematicPerforations"
+                         [rowHeight]="rowHeight"
+                         [defaultColDef]="{ flex: 1, minWidth: 100 ,suppressHeaderMenuButton: true}"
+                         [singleClickEdit]="true"
+                         [rowDragManaged]="true"
+                         [animateRows]="true"
+                         (gridReady)="onGridReady($event)"
+                         (cellValueChanged)="onCellValueChanged($event)">
+        </ag-grid-angular>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container mt-4">
+            <button pButton style="align-content:center" label="Cancel" class="p-button-secondary" (click)="closeDialog()"></button>
+
+            <button pButton style="align-self:center"
+                    label="Save"
+                    class="p-button-primary"
+                    (click)="saveOrUpdate()"></button>
+            
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,100 @@
+<div class="sky-background">
+  <div class="left-sky-button-container">
+    <!-- Adding Search bar -->
+  <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px" *ngIf="!isInvoiceListEditorActive()">
+    <span class="p-input-icon-left inputsearchSpan">
+      <i class="pi pi-search"></i>
+      <input pInputText type="text" #searchSchematic class="whiteblue" placeholder="Search"
+        (input)="onSearch($event)" />
+    </span>
+  </div>
+
+  <p-button
+        *ngIf="!isTaskActive() && !isInvoiceListEditorActive() && !isInboxActive()"
+        type="text"
+        styleClass="chv-light-blue-btn"
+        label="Create Invoice"
+        class="mr-2"
+        icon="pi pi-plus-circle"
+        (click)="showCreateInvoiceDialog()"
+      ></p-button>
+
+<app-create-invoice-dialog
+  [(visible)]="displayCreateInvoiceDialog"
+  (onClose)="closeCreateInvoiceDialog()"
+  (invoiceCreated)="onInvoiceCreated()"
+></app-create-invoice-dialog>
+
+    <!--Well Details Button -->
+      <p-button
+        *ngIf="!isInvoiceManagementActive() && !isInvoiceListEditorActive() && !isInboxActive()"
+        type="text"
+        styleClass="chv-light-blue-btn"
+        label="Well Details"
+        (click)="showWellFeaturesDialog()"
+        class="mr-2"
+      ></p-button>
+
+    <!-- Adding change log button -->
+    <p-button
+      *ngIf="!isInvoiceManagementActive() && !isInvoiceListEditorActive() && !isInboxActive()"
+      type="text"
+      styleClass="chv-light-blue-btn"
+      label="Change log"
+      (click)="openChangeLog = true"
+      class="mr-2"
+    ></p-button>
+  </div>
+  <div class="mr-2">
+       <!-- Show Well Comparator Button -->
+    <p-button 
+      *ngIf="!isInvoiceManagementActive() && !isInvoiceListEditorActive() && !isInboxActive()"
+      type="text"
+      styleClass="chv-light-blue-btn" 
+      label="Well Comparison View" 
+      class="comparator-btn"
+      (onClick)="toggleComparatorView()" 
+      [icon]="!comparatorMode() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+      [title]="!comparatorMode() ? 'Enable Well Comparator' : 'Disable Well Comparator'">
+    </p-button>
+    <!-- WTR Button -->
+    <p-button 
+    *ngIf="!isInvoiceManagementActive() && !isInvoiceListEditorActive() && !isInboxActive()"
+    [disabled]="comparatorMode()"
+      type="text" 
+      styleClass="chv-light-blue-btn" 
+      label="WTR" 
+      class="ml-2" 
+      (onClick)="toggleRightGridExpansion()" 
+      [icon]="isRightGridExpanded() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+      [title]="isRightGridExpanded() ? 'Hide Drilling Grid' : 'Show Drilling Grid'">
+    </p-button>
+    
+    <p-button *ngIf="!isInvoiceManagementActive() && !isInvoiceListEditorActive() && !isInboxActive()" (click)="openSidebar()"
+      class="pull-right ml-2" styleClass="chv-light-blue-btn" icon="pi pi-plus-circle" label="Select Well"></p-button>
+    <!-- Options dropdown -->
+    <div class="select-button-container" *ngIf="isInvoiceListEditorActive()">
+      <p-dropdown [(ngModel)]="selectedView" [options]="viewOptionsButtons" (onChange)="onViewChange($event.value)"
+        optionLabel="label" optionValue="value" [autoDisplayFirst]="false" [showClear]="false">
+      </p-dropdown>
+    </div>
+    </div>
+  <!-- <div class="select-button-container">
+    <p-selectButton
+      (onChange)="onViewSelectionChange()"
+      [(ngModel)]="selectedView"
+      [options]="viewOptions"
+      optionLabel="label"
+      optionValue="value"
+      [allowEmpty]="false"
+    />
+  </div> -->
+</div>
+<app-well-details-interactive-dialog
+  [(displayWellDetailsDialog)]="displayWellDetailsDialog"
+  (onClose)="closeWellDetailsDialog()"
+></app-well-details-interactive-dialog>
+<router-outlet></router-outlet>
+
+<change-log *ngIf="openChangeLog" [entityName]="'Tyr'" [selectedFunction]="selectedView"
+  (onClose)="openChangeLog = false"></change-log>

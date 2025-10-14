@@ -1,0 +1,88 @@
+<app-interactive-toolbar [showCancel]="false" [showSave]="false" [showSupplierFilter]="true" [showStatusFilter]="true" (supplierSelected)="onSupplierSelected($event)" (statusSelected)="onStatusSelected($event)" (completedChanged)="onCompletedCheckboxChange($event)" [showCompletedCheckBox]="true"></app-interactive-toolbar>
+<ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" style="height: 70vh;" [columnDefs]="columnDefs"
+    [rowData]="rowData" [defaultColDef]="{ flex: 1, minWidth: 120, sortable: true, filter: true, resizable: true }"
+    (gridReady)="onGridReady($event)" [animateRows]="true" [sideBar]="invoiceSideBar"
+    (cellValueChanged)="onCellValueChanged($event)" [gridOptions]="gridOptions"
+    [quickFilterText]="quickFilterText" [singleClickEdit]="true">
+</ag-grid-angular>
+<div class="pagination-block">
+    <div>
+        <!-- <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}} -->
+    </div>
+    <div>
+        <p-button label="Cancel" [outlined]="true" (click)="resetTaskGrid()"></p-button>
+        <p-button label="Save" (click)="onClickSave()" class="ml-2"></p-button>
+    </div>
+</div>
+
+<app-delete-confirmation-dialog
+  [(displayDeleteComponentDialog)]="showDeleteUserDialog"
+  [buttonName]="'Delete'"
+  [dialogContent]="'You are attempting to delete invoice ' + (deleteUserRow?.invoiceNumber) + ', if this is correct click Delete, otherwise click Cancel'"
+  [dialogTitle]="'Confirm Invoice ' + (deleteUserRow?.invoiceNumber) + ' Deletion'"
+  (onClose)="closeDeleteUserDialog()"
+  (onDelete)="onDeleteUserConfirm()">
+</app-delete-confirmation-dialog>
+
+<p-dialog [(visible)]="showRejectInvoiceModal" [modal]="true" [style]="{width: '400px', height: '300px'}" [closable]="false"
+    (onHide)="onRejectInvoiceModalClose()">
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h3 class="dialog-heading">Reject Invoice</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times"
+                (click)="onRejectInvoiceModalClose()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <div class="create-persona-body">
+            <form [formGroup]="rejectForm">
+                <div class="form-row">
+                    <div class="form-label">
+                        <label for="reason">Reason:<span class="requiredField">*</span></label>
+                    </div>
+                    <div class="form-input">
+                        <p-dropdown
+                          id="reason"
+                          [options]="reasonCodeList"
+                          formControlName="reason"
+                          placeholder="Select Reason"
+                          optionLabel="value"
+                          optionValue="id">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-label">
+                        <label for="rejectionComment">Rejection Comment: </label>
+                    </div>
+                    <div class="form-input">
+                        <textarea id="comments" pInputTextarea formControlName="rejectionComment" rows="4" [autoResize]="true"
+                            placeholder="Enter comments..." class="p-inputtext p-component"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <p-footer>
+        <button pButton type="button" label="Cancel" class="p-button-outlined mr-2"
+            (click)="onRejectInvoiceModalClose()"></button>
+    <button pButton type="button" label="Reject" (click)="onRejectInvoice()" [disabled]="!rejectForm.get('reason')?.value"></button>
+    </p-footer>
+</p-dialog>
+
+<app-file-upload-with-grid 
+        [selectedView]="selectedView" 
+        [appId]="appId" 
+        [functionId]="functionId" 
+        [dialogTitle]="selectedDocument" 
+        [entityId]="entityId" 
+        [wellDocumentTypes]="wellDocumentTypes"  
+        [entityType]="entityType" 
+        [isUpdateEditable]="isUpdateEditable"  
+        [existingDocuments]="currentInvoiceData?.documents || []"
+        [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" 
+        (uploadedFileType)="uploadedFileType($event)" 
+        (onClose)="onFileUploadClose()">
+    </app-file-upload-with-grid>
+
+<app-chat [roomName]="roomName"></app-chat>

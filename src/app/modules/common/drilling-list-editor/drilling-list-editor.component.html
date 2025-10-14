@@ -1,0 +1,55 @@
+<p-dialog [(visible)]="isListEditorVisible" modal="true" [closable]="false" [maximizable]="true"
+    [style]="{width: '90%'}"> <!-- Sets the width of the dialog to 90% of the parent container -->
+    <div class="dialog-header mb-4 listHeading">
+        <h3 class="dialog-heading">List Editor</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+    </div>
+    <ng-template pTemplate="body" class="dialog-body-wrapper">
+
+        <div class="d-flex justify-content-between align-items-center p-2">
+
+            @for (section of listEditorData(); track section.id) {
+            <div class="mr-2">
+                <div class="search-button-wrapper">
+                    <input type="text" [(ngModel)]="section['searchText']" placeholder="Search / Add"
+                        class="search-input" />
+
+                    <!-- Add button -->
+                    <button pButton type="button" label=""
+                        class="p-ripple p-element chv-light-blue-btnsm p-button p-component custom-button-class delete-bg-transparent add-button"
+                        data-action="delete" (click)="addNewRecord(section)">
+                        <i class="pi pi-plus-circle add-button-icon"></i>
+                    </button>
+
+                    <!-- Delete button -->
+                    <button pButton pTooltip="Delete" (click)="sendSelectedRows(section)"
+                        class="p-button p-button-danger p-button-sm"
+                        style="padding: 2px 8px; font-size: 86px; background: none !important; border: none !important; color: #97002e !important;">
+                        <i class="pi pi-trash" style="font-size: 20px;"></i>
+                    </button>
+                </div>
+
+                <ag-grid-angular class="ag-theme-alpine ag-grid-table" [rowHeight]="30"
+                    [quickFilterText]="section['searchText']" [rowData]="section.data" [columnDefs]="section.columnDefs"
+                    [pagination]="false" [paginationPageSize]="200"
+                    (gridReady)="onGridReadyComponentType($event,section)"
+                    [defaultColDef]="{suppressHeaderMenuButton: true}"
+                    (cellValueChanged)="onComponentTypeCellValueChanged($event)" rowSelection="multiple"
+                    [singleClickEdit]="true" [animateRows]="true">
+                </ag-grid-angular>
+            </div>
+            }
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="dialog-footer" class="dialog-footer">
+            <p-button label="Close" (click)="closeDialog()" [outlined]="true"></p-button>
+            <!-- <p-button label="Save"  class="ml-2" (click)="saveTable()"></p-button> -->
+        </div>
+    </ng-template>
+</p-dialog>
+
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="'You are attempting to delete <b>' + deleteItemDataName + '</b>. If you wish to continue, click Delete, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Delete'" (onClose)="displayDeleteComponentDialog=false"
+    (onDelete)="deleteAssemblyDialog()"></app-delete-confirmation-dialog>

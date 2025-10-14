@@ -1,0 +1,140 @@
+<p-dialog [(visible)]="displayCloneSchematicDialog" [modal]="true" [style]="{ width: '550px' }"  (onShow)="fetchSchematicData()" [closable]="false">
+  <div class="dialog-header">
+    <h3  class="dialog-heading">Clone Schematic</h3>
+    <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="cancelCloneSchematic()"></button>
+  </div>
+
+  <form [formGroup]="cloneSchematicForm" (ngSubmit)="submitCloneSchematicForm()">
+    <div class="p-fluid" style="padding: 1rem;">
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="schematicsName"  class="schematicLabel">Schematic Name <span class="starCss">*</span></label>
+          <input id="schematicsName" type="text" formControlName="schematicsName" pInputText style="flex: 1;">
+        </div>
+        <div
+          *ngIf="cloneSchematicForm.get('schematicsName')?.invalid && cloneSchematicForm.get('schematicsName')?.touched"
+          class="errorMessage">
+          Schematic Name is required.
+        </div>
+      </div>
+
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="project"  class="schematicLabel">Project<span class="starCss">*</span></label>
+          <p-dropdown
+          [options]="projects"
+          [filter]="true"
+          class="mt-2 db"
+          formControlName="project"
+          >
+        </p-dropdown>
+        </div>
+        <div
+          *ngIf="cloneSchematicForm.get('project')?.invalid && cloneSchematicForm.get('project')?.touched"
+          class="errorMessage">
+          Project Name is required.
+        </div>
+      </div>
+
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="lease" class="schematicLabel">Lease</label>
+          <input id="lease" type="text" formControlName="lease" pInputText style="flex: 1;">
+        </div>
+      </div>
+
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="wellName"  class="schematicLabel">Well Name<span class="starCss">*</span></label>
+          <input id="wellName" type="text" formControlName="wellName" pInputText style="flex: 1;">
+        </div>
+        <div *ngIf="cloneSchematicForm.get('wellName')?.invalid && cloneSchematicForm.get('wellName')?.touched"
+          class="errorMessage">
+          Well Name is required.
+        </div>
+      </div>
+       <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="completionDesignId" class="schematicLabel">Well Type</label>
+            <p-dropdown
+            [options]="completionDesigns"
+            [filter]="true"
+            class="mt-2 db"
+            appendTo="body"
+            formControlName="completionDesignId"
+            (onChange)="onWellTypeChange($event)"
+            >
+          </p-dropdown>
+          </div>
+
+        </div>
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="noOfZones" class="schematicLabel">No of Zones</label>
+            <input id="wellLocation" type="number" formControlName="noOfZones" pInputText style="flex: 1;">
+         </div>
+       
+        </div>
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="wellLocation"  class="schematicLabel">Well Location<span class="starCss">*</span></label>
+          <input id="wellLocation" type="text" formControlName="wellLocation" pInputText style="flex: 1;">
+        </div>
+        <div *ngIf="cloneSchematicForm.get('wellLocation')?.invalid && cloneSchematicForm.get('wellLocation')?.touched"
+          class="errorMessage">
+          Well Location is required.
+        </div>
+      </div>
+
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="chevronEngineer" class="schematicLabel">Primary Engineer<span class="starCss">*</span></label>
+          <!-- <input id="chevronEngineer" type="text" formControlName="chevronEngineer" pInputText style="flex: 1;"> -->
+          <p-dropdown
+          [options]="planningEnginnersList"
+          [filter]="true"
+          class="mt-2 db"
+          appendTo="body"
+          formControlName="chevronEngineer"
+          >
+        </p-dropdown>
+        </div>
+        <div
+          *ngIf="cloneSchematicForm.get('chevronEngineer')?.invalid && cloneSchematicForm.get('chevronEngineer')?.touched"
+          class="errorMessage">
+          Primary Engineer is required.
+        </div>
+      </div>
+      <div class="p-field mb-3" >
+        <div class="parentInput">
+          <label for="chevronWBS" class="schematicLabel">Backup Engineer</label>
+          <!-- <input id="chevronWBS" type="text" formControlName="backupEngineer" pInputText style="flex: 1;"> -->
+          <p-dropdown
+          [options]="planningEnginnersList"
+          [filter]="true"
+          class="mt-2 db"
+          appendTo="body"
+          formControlName="backupEngineer"
+          >
+        </p-dropdown>
+        </div>
+        <div *ngIf="cloneSchematicForm.errors?.engineerMismatch" class="errorMessage">
+          Primary Engineer and Backup Engineer should not be the same.
+        </div>
+      </div>
+      <div class="p-field mb-3">
+        <div class="parentInput">
+          <label for="chevronWBS" class="schematicLabel">Chevron WBS</label>
+          <input id="chevronWBS" type="text" formControlName="chevronWBS" pInputText style="flex: 1;">
+        </div>
+      </div>
+      
+    </div>
+
+    <p-footer style="display: flex; justify-content: center;" class="pb-3">
+      <button pButton label="Cancel" type="button" class="cancelBtn" (click)="cancelCloneSchematic()"></button>
+      <button pButton label="Clone" type="submit" class="saveBtn" [disabled]="cloneSchematicForm.invalid || !isEditAllowed"></button>
+    </p-footer>
+
+  </form>
+</p-dialog>

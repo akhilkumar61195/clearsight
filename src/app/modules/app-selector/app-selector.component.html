@@ -1,0 +1,84 @@
+<div class="flex-container noselect app-selector">
+    <div class="h-full mx-auto container-auto bg-white border-round-2xl">
+        <div class="card w-full p-3 md:p-5">
+            <div class="grid mt-2" *ngIf="hasOdinAccess">
+                <a [routerLink]="['/odin/dashboard']" title="ODIN">
+                    <div class="flex align-items-center justify-content-center py-2 px-3 app-content">
+                        <img src="/assets/icons/odin-avatar.png" class="app-icon" /> 
+                        <div class="pl-2 md:pl-4 app-label">Demand Planning</div>
+                    </div>
+                </a>
+            </div>
+            <!-- <p-divider *ngIf="hasOdinAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasOdinAccess">
+              <a [routerLink]="['/odin']" title="ODIN Phase1"><div class="grid align-items-center justify-content-center pb-3 pl-3 pr-8 app-content"><img src="/assets/icons/odin-avatar.png" /> <div class="pl-4">ODIN P1</div></div></a>
+            </div> -->
+            <!-- <div class="grid mt-2" *ngIf="hasOdinAccess">
+              <a [routerLink]="['/odin2/landing']" title="ODIN 2.0" (click)="resetOdinState()"><div class="grid align-items-center justify-content-center pb-3 pl-3 pr-8 app-content"><img src="/assets/icons/odin-avatar.png" /> <div class="pl-4">ODIN 2.0</div></div></a>
+            </div>-->
+            <!-- <p-divider *ngIf="hasOdinAccess && (hasThorAccess || hasTYRAccess)"></p-divider>
+            <div class="grid mt-2" *ngIf="hasThorAccess">
+              <a [routerLink]="['/thor']" title="THOR"><div class="grid align-items-center justify-content-center p-3 pr-8 app-content"><img src="/assets/icons/thor-avatar.png" /> <div class="pl-4">THOR P1</div></div></a>
+            </div> -->
+            <p-divider *ngIf="hasOdinAccess && (hasThorAccess || hasTYRAccess)"></p-divider>
+            <div class="grid mt-2" *ngIf="hasThorAccess">
+                <a [routerLink]="['/thor']" title="THOR" (click)="resetThor2State()">
+                    <div class="flex align-items-center justify-content-center py-2 px-3 app-content">
+                        <img src="/assets/icons/thor-avatar.png" class="app-icon" /> 
+                        <div class="pl-2 md:pl-4 app-label">Operations Portal </div>
+                    </div>
+                </a>
+            </div>
+            <!-- <p-divider *ngIf="(hasOdinAccess || hasThorAccess) && hasTYRAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasTYRAccess">
+              <a [routerLink]="['/tyr1']" title="Old TYR">
+                  <div class="flex align-items-center justify-content-center py-2 px-3">
+                      <img src="/assets/icons/tyr-avatar.png" class="app-icon" /> 
+                      <div class="pl-2 md:pl-4 app-label">Old TYR</div>
+                  </div>
+              </a>
+            </div> -->
+            <!-- <p-divider *ngIf="(hasOdinAccess || hasThorAccess) && hasTYRAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasTYRAccess">
+              <a [routerLink]="['/tyr']" title="TYR">
+                  <div class="flex align-items-center justify-content-center py-2 px-3">
+                      <img src="/assets/icons/tyr-avatar.png" class="app-icon" /> 
+                      <div class="pl-2 md:pl-4 app-label">ERP Transaction Module (TYR)</div>
+                  </div>
+              </a>
+            </div> -->
+            <p-divider *ngIf="(hasOdinAccess || hasThorAccess) && hasMdlAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasMdlAccess">
+                <a [routerLink]="['/mdl']" title="MDL">
+                    <div class="flex align-items-center justify-content-center py-2 px-3">
+                        <img src="/assets/icons/mdl-avatar.png" class="app-icon" /> 
+                        <div class="pl-2 md:pl-4 app-label">Master Data Management</div>
+                    </div>
+                </a>
+            </div>
+            <p-divider *ngIf="(hasOdinAccess || hasThorAccess || hasMdlAccess) && hasSchematicAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasSchematicAccess">
+                <a [routerLink]="['/schematic']" title="Schematic">
+                    <div class="flex align-items-center justify-content-center py-2 px-3">
+                        <img src="/assets/icons/Completion.png" class="app-icon" /> 
+                        <div class="pl-2 md:pl-4 app-label">Schematic Designer</div>
+                    </div>
+                </a>
+            </div>
+            <p-divider *ngIf="(hasOdinAccess || hasThorAccess || hasMdlAccess) && hasAdminAccess"></p-divider>
+            <div class="grid mt-2" *ngIf="hasAdminAccess">
+                <a [routerLink]="['/admin']" title="Admin">
+                    <div class="flex align-items-center justify-content-center py-2 px-3">
+                        <img src="/assets/icons/Completion.png" class="app-icon" /> 
+                        <div class="pl-2 md:pl-4 app-label">Admin</div>
+                    </div>
+                </a>
+            </div>
+            <div class="grid mt-2" *ngIf="!hasOdinAccess && !hasThorAccess && !hasTYRAccess && !hasMdlAccess">
+                <div class="text-center p-4">
+                    You don't have access to any applications
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

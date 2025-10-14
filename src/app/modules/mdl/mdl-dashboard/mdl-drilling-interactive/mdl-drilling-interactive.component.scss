@@ -1,0 +1,21 @@
+.p-dialog .p-dialog-footer {
+  padding: 0.5rem 0.5rem .5rem 1.5rem;
+}
+
+.p-dialog .p-dialog-content {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.dialog-content-container {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+

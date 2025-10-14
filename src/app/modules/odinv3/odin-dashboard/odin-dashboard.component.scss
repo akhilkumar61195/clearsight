@@ -1,0 +1,99 @@
+
+  .pagination-block {
+      display: grid;
+      grid-template-columns: 48% auto;
+      width: 100%;
+  }
+  
+  p-celleditor .p-inputtext {
+      height: 30px !important;
+  }
+  
+  .odin-filter-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end; /* Aligns content to the right */
+      gap: 1rem;
+  }
+  
+  .filter-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: flex-end; /* Aligns buttons inside each section to the right */
+  }
+  
+  .flex {
+      display: flex;
+      align-items: center;
+  }
+  
+  .ml-2 {
+      margin-left: 0.5rem;
+  }
+  
+
+  .btn-disabled {
+      opacity: 0.5;
+      pointer-events: none;
+  }
+  
+   
+    .monthSelection {
+      display: block;
+      color: black;
+      font-weight: 600;
+    }
+   
+    .p-multiselect-label-container{
+      width: 130px;
+    }
+    .select-button-container{
+      display: flex;
+      background: #F0F9FA;
+      font-weight: bold !important;
+      border-radius: 4px;
+    }
+  
+    .p-selectbutton {
+      padding: 1px;
+      display: flex;
+      gap: 2px;
+    }
+    
+     .p-selectbutton .p-button {
+      color: black;
+      font-weight: bold !important;
+      background: #F0F9FA;
+      border: 0px;
+      border-radius: 4px;
+    }
+    
+     .p-selectbutton .p-button.p-highlight {
+      background-color: #05b4bc;
+      color: #fff;
+      transform: scale(0.98);
+    }
+ 
+  
+  .run-btn .p-button {
+    background-color: #F0F9FA !important;
+    color: var(--bg-dark-gray) !important;
+    padding: 5px 7px;
+  }
+  
+  .running-btn .p-button {
+    background-color: rgba(186, 48, 147, 0.75) !important;
+    padding: 5px 7px;
+    color: var(--txt-white) !important;
+  }
+  
+  .run-btn.p-disabled,
+  .run-btn .p-component:disabled {
+    opacity: 1 !important;
+  }
+  .justify-left {
+    justify-content: flex-start;
+  }
+  
+ 

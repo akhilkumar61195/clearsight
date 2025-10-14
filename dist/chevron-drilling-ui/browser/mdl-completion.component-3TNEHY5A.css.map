@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/mdl/mdl-dashboard/mdl-completion-interactive/mdl-completion.component.scss"],
+  "sourcesContent": [".text-decoration-black {\n  color: #000000;\n}\n.center {\n  text-align: center;\n}\n.relativePosition {\n  position: relative;\n  z-index: 1;\n}\n"],
+  "mappings": ";AAAA,CAAA;AACE,SAAA;;AAEF,CAAA;AACE,cAAA;;AAEF,CAAA;AACE,YAAA;AACA,WAAA;;",
+  "names": []
+}

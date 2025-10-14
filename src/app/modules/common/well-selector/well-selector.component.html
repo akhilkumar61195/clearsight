@@ -1,0 +1,107 @@
+<div *ngIf="allLookUpData && allLookUpData.length > 0">
+  <p-card class="col-12 set-ptb-10"
+          [ngClass]="{'nopadding custom-bg': isFilter}">
+    <div class="grid">
+      <div class="pb-0" [ngClass]="{'col-4 com-sm-12': !isFilter, 'col-12 pt-0': isFilter}">
+        <label for="email" class="form-label labeltxt fnt-15"
+               [ngClass]="{'font-semibold': !isFilter}">Project</label>
+        <div class="w-full mt-2">
+          <p-multiSelect [options]="projects" [maxSelectedLabels]="5" [(ngModel)]="selectedProject"
+                         [selectionLimit]="maxProjectSelection" [showToggleAll]="false" [filter]="true"
+                         optionLabel="PROJECTDESC" optionValue="PROJECTID"
+                         (onChange)="dropDownChanged(lookUpType.Project, $event)" filterPlaceHolder="Search Project"
+                         placeholder="Select Project"></p-multiSelect>
+        </div>
+      </div>
+      <div class="pb-0" [ngClass]="{'col-4 com-sm-12': !isFilter, 'col-12': isFilter}">
+        <label for="email" class="form-label labeltxt fnt-15"
+               [ngClass]="{'font-semibold': !isFilter}">Functions</label>
+        <div class="w-full mt-2">
+          <p-dropdown [options]="functions" [(ngModel)]="selectedFunction" optionLabel="FUNCTIONDESCRIPTION"
+                      (onChange)="sendFiltersToLandingPage()" optionValue="FUNCTIONID"
+                      placeholder="Select Functions"></p-dropdown>
+        </div>
+      </div>
+      <div class="pb-0 d-none" [ngClass]="{'col-4 com-sm-12': !isFilter, 'col-12': isFilter}" *ngIf="isOdin">
+        <label for="email" class="form-label labeltxt fnt-15"
+               [ngClass]="{'font-semibold': !isFilter}">Timeline</label>
+        <div class="w-full mt-2">
+          <p-dropdown [options]="timeline" [(ngModel)]="selectedTimeLine" optionLabel="name"
+                      (onChange)="sendFiltersToLandingPage()" [showClear]="true"
+                      placeholder="Select Timeline"></p-dropdown>
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card class="col-12 welllist" [ngClass]="{'nopadding pt-2': isFilter}">
+    <div class="grid">
+      <div class="font-semibold align-items-center justify-content-center fnt-15"
+           [ngClass]="{'col-8': !isFilter, 'col-12 pt-0': isFilter}">
+        Select Well<span *ngIf="isOdin && isFilter">s</span>
+      </div>
+      <p-divider class="col-12 pt-0 removeMargin" *ngIf="isFilter"></p-divider>
+      <div [ngClass]="{'col-12 sm:col-12 md:col-4 lg:col-4': !isFilter, 'col-12': isFilter}">
+        <div class="grid">
+          <div class="pt-0 pb-0" *ngIf="!isFilter" [ngClass]="{'d-none':  !isOdin}">
+            <p-button [pKeyFilter]="noSpecial"
+                      [label]="((!selectedWell || (selectedWell && selectedWell.length != wells.length)) ? 'Select' : 'Deselect') + ' All Wells'"
+                      (onClick)="selectAllWell()" [disabled]="wells.length == 0"></p-button>
+          </div>
+
+          <div class="col right-0 pt-0 pb-0">
+            <span class="p-input-icon-left filterWell">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText [(ngModel)]="searchWell" (input)="searchWellFIlter()"
+                     placeholder="Search Wells" />
+            </span>
+          </div>
+          <div class="pt-0 pb-0" *ngIf="isFilter" [ngClass]="{'d-none':  !isOdin}">
+            <p-button [pKeyFilter]="noSpecial"
+                      [label]="((!selectedWell || (selectedWell && selectedWell.length != wells.length)) ? 'Select' : 'Deselect') + ' All'"
+                      (onClick)="selectAllWell()" [disabled]="wells.length == 0"></p-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-divider *ngIf="!isFilter"></p-divider>
+    <div class="grid">
+      <div class="col-12 flex align-items-start flex-wrap"
+           [ngClass]="{'filteredwellgrid' : isFilter, 'wellgrid' : !isFilter}" *ngIf="isOdin">
+        <div class="d-inlineblock"
+             [ngClass]="{'col-12 sm:col-6 md:col-4 lg:col-2': !isFilter, 'col-6': isFilter, 'd-none': well.ISHIDDEN}"
+             *ngFor="let well of wells; index as i;">
+          <p-checkbox [label]="well.WELLNAME" name="well" [value]="well.WELLID" [(ngModel)]="selectedWell"
+                      (onChange)="sendFiltersToLandingPage()" *ngIf="!well.ISHIDDEN"></p-checkbox>
+        </div>
+      </div>
+      <div class="col-12 flex align-items-start flex-wrap wellgrid" *ngIf="!isOdin">
+        <div class="d-inlineblock"
+             [ngClass]="{'col-12 sm:col-6 md:col-4 lg:col-2': !isFilter, 'col-6': isFilter, 'd-none': well.ISHIDDEN}"
+             *ngFor="let well of wells; index as i;">
+          <!-- <p-checkbox [label]="well.WELLNAME" name="well" [value]="well.WELLID" [(ngModel)]="selectedWell"
+              *ngIf="!well.ISHIDDEN"></p-checkbox> -->
+
+          <p-radioButton [inputId]="well.WELLID" name="well" [value]="well.WELLID" [(ngModel)]="selectedWell"
+                         (onClick)="sendFiltersToLandingPage($event)" [ngModelOptions]="{standalone: true}"
+                         *ngIf="!well.ISHIDDEN"></p-radioButton>
+          <label [for]="well.WELLID" class="ml-2" *ngIf="!well.ISHIDDEN">{{ well.WELLNAME }}</label>
+        </div>
+      </div>
+    </div>
+  </p-card>
+  <div class="mt-1" *ngIf="!isFilter">
+    <!-- <div class="grid pull-right">
+      <div class="mr-1 font-semibold align-items-center justify-content-center">
+        <p-button label="Continue" [disabled]="!selectedWell || (selectedWell && selectedWell.length == 0)"
+                  (onClick)="goToLandingPage()"></p-button>
+      </div>
+    </div> -->
+    <div class="flex pull-right">
+      <div class="mr-1 font-semibold align-items-center justify-content-center">
+        <p-button label="Continue" [disabled]="!selectedWell || (selectedWell && selectedWell.length == 0)"
+                  (onClick)="goToLandingPage()"></p-button>
+      </div>
+    </div>
+  </div>
+</div>

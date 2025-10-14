@@ -1,0 +1,135 @@
+<form [formGroup]="createInvoiceForm" novalidate>
+    <p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '35vw'}" [closable]="false" (onHide)="onHide()">
+        <ng-template pTemplate="header">
+            <div class="dialog-header headerClass">
+                <h3 class="dialog-heading">Create Invoice</h3>
+                <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="body">
+            <div class="invoice-dialog-content mt-4">
+                <div class="p-fluid component-type-header">
+                    <!-- Sender -->
+                    <div class="row-style">
+                        <label for="sender">Sender<span class="requiredField">*</span></label>
+                        <input pInputText id="sender" formControlName="sender" placeholder="Enter Sender" />
+                        <div *ngIf="createInvoiceForm.get('sender')?.touched && createInvoiceForm.get('sender')?.invalid" class="error-msg">Sender is required.</div>
+                    </div>
+                    <!-- PO/Invoice Number -->
+                    <div class="row-style">
+                        <label for="invoiceNumber">PO/Invoice Number<span class="requiredField">*</span></label>
+                        <input pInputText id="invoiceNumber" formControlName="invoiceNumber" placeholder="Enter PO/Invoice Number" />
+                        <div *ngIf="createInvoiceForm.get('invoiceNumber')?.touched && createInvoiceForm.get('invoiceNumber')?.invalid" class="error-msg">PO/Invoice Number is required.</div>
+                    </div>
+                    <!-- Well Name -->
+                    <div class="row-style">
+                        <label for="wellName">Well Name<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="wellOptions" formControlName="wellName" optionLabel="wellName"
+                            optionValue="id" placeholder="Select Well"></p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('wellName')?.touched && createInvoiceForm.get('wellName')?.invalid"
+                            class="error-msg">Well Name is required.</div>
+                    </div>
+
+                    <!-- User -->
+                    <div class="row-style">
+                        <label for="user">User<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="materialCoordinatorsList" formControlName="user" optionLabel="fullName"
+                            optionValue="userId" placeholder="Select User">
+                        </p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('user')?.touched && createInvoiceForm.get('user')?.invalid"
+                            class="error-msg">
+                            User is required.
+                        </div>
+                    </div>
+
+                    <!-- Status -->
+                    <div class="row-style">
+                        <label for="status">Status<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="statusOptions" formControlName="status" optionLabel="value"
+                            optionValue="id" placeholder="Select Status"></p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('status')?.touched && createInvoiceForm.get('status')?.invalid"
+                            class="error-msg">Status is required.</div>
+                    </div>
+
+                    <!-- Supplier -->
+                    <div class="row-style">
+                        <label for="supplier">Supplier<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="supplierOptions" formControlName="supplier" appendTo="body" optionLabel="value"
+                            optionValue="id" placeholder="Select Supplier"></p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('supplier')?.touched && createInvoiceForm.get('supplier')?.invalid"
+                            class="error-msg">Supplier is required.</div>
+                    </div>
+
+                    <!-- Project -->
+                    <div class="row-style">
+                        <label for="project">Project<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="projectOptions" formControlName="project" appendTo="body" optionLabel="value"
+                            optionValue="id" placeholder="Select Project"></p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('project')?.touched && createInvoiceForm.get('project')?.invalid"
+                            class="error-msg">Project is required.</div>
+                    </div>
+
+                    <!-- Rig -->
+                    <div class="row-style">
+                        <label for="rig">Rig<span class="requiredField">*</span></label>
+                        <p-dropdown [options]="rigOptions" formControlName="rig" optionLabel="value" optionValue="id"
+                            placeholder="Select Rig" appendTo="body"></p-dropdown>
+                        <div *ngIf="createInvoiceForm.get('rig')?.touched && createInvoiceForm.get('rig')?.invalid"
+                            class="error-msg">Rig is required.</div>
+                    </div>
+
+                    <!-- Attachments -->
+                    <div class="row-style">
+                        <label for="attachments">Attachments<span class="requiredField">*</span></label>
+                        <br />
+                        <button pButton type="button" label="Upload" icon="pi pi-cloud-upload"
+                            (click)="openUploadDialog()" class="upload-btn-small"></button>
+                        <div *ngIf="createInvoiceForm.get('attachments')?.touched && createInvoiceForm.get('attachments')?.invalid"
+                            class="error-msg">Attachment is required.</div>
+                    </div>
+
+                    <!-- Comments -->
+                    <div class="row-style">
+                        <label for="comments">Comments</label>
+                        <textarea id="comments" pInputTextarea formControlName="comments" rows="4" [autoResize]="true"
+                            placeholder="Enter comments..." class="p-inputtext p-component"></textarea>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <p-footer>
+            <button pButton type="button" label="Reset" icon="pi pi-refresh" [disabled]="isLoading"
+                (click)="resetForm()"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" [disabled]="isLoading"
+                (click)="closeDialog()"></button>
+            <button pButton type="button" [label]="isLoading ? 'Saving...' : 'Save'"
+                [disabled]="isLoading || !createInvoiceForm.valid"
+                (click)="showCreateInvoiceConfirmDialog = true"></button>
+        </p-footer>
+    </p-dialog>
+    <!-- File Upload Component -->
+    <app-file-upload-with-grid [selectedView]="selectedView" [appId]="appId" [functionId]="functionId"
+        [dialogTitle]="selectedDocument" [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"
+        [entityType]="entityType" [isUpdateEditable]="isUpdateEditable"
+        [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog"
+        (uploadedFileType)="uploadedFileType($event)" (documentIdsEmitter)="documentIdsEmitter($event)"
+        (onClose)="onFileUploadClose()">
+    </app-file-upload-with-grid>
+</form>
+
+<app-custom-dialog [(visible)]="showCreateInvoiceConfirmDialog" [dialogTitle]="'Confirm Invoice Creation'"
+    [savebuttonName]="'Save'" (onCreateEvent)="onConfirmSaveInvoice()" [dialogWidth]="'400px'" [maximizable]="false"
+    (onClose)="onCancelSaveInvoice()">
+    <div class="unsaved-changes-body">
+        <i class="pi pi-info-circle iconSize"></i>
+        <div class="pl-2 pt-3 parentDiv">
+            <span class="displaymessage">
+                <p>
+                    You are attempting to create an invoice. If you wish to proceed click Save, otherwise click Cancel.
+                </p>
+            </span>
+        </div>
+    </div>
+</app-custom-dialog>

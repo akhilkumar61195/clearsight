@@ -1,0 +1,6 @@
+<div class="mainContainer" [@fadeAnimation]="o.isActivated ? o.activatedRoute : ''">
+    <!-- <app-breadcrumb></app-breadcrumb> -->
+    <router-outlet #o="outlet"></router-outlet>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

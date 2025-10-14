@@ -1,0 +1,16 @@
+.attachment-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  cursor: pointer;
+
+  .attachment-icon {
+    font-size: 1.2rem;
+  }
+
+  .attachment-count {
+    margin-left: 4px;
+    font-size: 0.75rem;
+  }
+}

@@ -1,0 +1,35 @@
+<!-- <p-dialog class="change-log-dialog mdlChange-log-dialog" [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="true"
+  [breakpoints]="{ '900px': '75vw' }" styleClass="crn-dialog" [style]="{ width: '80vw', height: '90vh' }"
+  (onHide)="onClose.emit()"> -->
+
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '80vw', height: '90vh' }" [closable]="false">
+  <div class="dialog-header">
+    <h3 class="dialog-heading">Change Logs</h3>
+    <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+  </div>
+  <!-- added global search for change log -->
+  <div class="dialog-content-container">
+    <div class="flex bg-theme-blue  mt-0">
+      <div class="p-6px flex-1" style="width: 25%;">
+        <span class="p-input-icon-left inputsearchSpan ">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="onSearch()" [(ngModel)]="searchText" class="whiteblue"
+            placeholder="Search" />
+        </span>
+      </div>
+
+
+    </div>
+  </div>
+  <!-- <ng-template pTemplate="header">
+    <div class="align-items-center col-11 flex justify-content-between">
+      <span>Change Logs</span>
+    </div>
+  </ng-template> -->
+  <ag-grid-angular style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="changeLogColumnDefs"
+    [rowData]="changeLogData" (gridReady)="onGridReady($event)" [quickFilterText]="globalFilter"
+    [defaultColDef]="{ flex: 1, minWidth: 100, sortable: true, filter: true ,suppressHeaderMenuButton: true}"
+    [animateRows]="true" [pagination]="false" [domLayout]="'normal'" [gridOptions]="gridOptions">
+  </ag-grid-angular>
+
+</p-dialog>

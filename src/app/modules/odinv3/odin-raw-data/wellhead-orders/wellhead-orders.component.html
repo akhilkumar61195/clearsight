@@ -1,0 +1,56 @@
+<div class="full-size-negative-margin relativePosition">
+    <p-card class="col-12 p-0 removePCardPadding bg-none">
+      <!-- Display Text and Dropdown Value -->
+      
+      <!-- AG-Grid Component -->
+      <ag-grid-angular 
+        #agGrid
+       
+        class="ag-theme-alpine grid-width"
+        [columnDefs]="columnDefs"
+        [rowData]="filterData"
+        [overlayNoRowsTemplate]="'No records found'"
+        [paginationPageSize]="wellheadOrdersService.pageSize"
+        [stopEditingWhenCellsLoseFocus]="true"
+        (gridReady)="wellheadOrdersService.onGridReady($event)"
+        (cellValueChanged)="wellheadOrdersService.onCellValueChanged($event)"
+        [quickFilterText]="searchTerm"
+        [defaultColDef]="{
+          flex: 1, 
+          minWidth: 150, 
+          sortable: true, 
+          filter: true, 
+          resizable: true
+        }"
+        [animateRows]="true"
+        [rowDragManaged]="true">
+      </ag-grid-angular>
+  
+      <!-- Total Records Display -->
+      <div class="pagination-block">
+        <div>
+                <!-- Total Records Display -->
+            <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+        </div>
+        <div>
+          <p-button label="Cancel" (click)="this.wellheadOrdersService.resetChanges()"
+         [outlined]="true"></p-button>
+          <p-button label="Save" (click)="saveChanges()" [disabled]="this.wellheadOrdersService.isSaveDisabled()"
+            class="ml-2"></p-button>
+      </div>
+    </div>
+    </p-card>
+  </div>
+  <app-custom-dialog 
+  [(visible)]="showEditConfirmationDialog" 
+  [dialogTitle]="'Confirm Raw Data Edits'" 
+  [savebuttonName]="'Save'" 
+  (onCreateEvent)="onUpdateDetails()"
+  [dialogWidth]="'400px'"
+  [maximizable]="false"
+  (onClose)="closeDialog()">
+
+<p>You are attempting to save changes to the Raw Data. 
+If this correct, click Save, otherwise click Cancel</p>
+</app-custom-dialog>
+  

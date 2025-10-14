@@ -1,0 +1,12 @@
+:root {
+    
+    .has-document {
+        display: flex;
+        gap: 5px;
+        cursor: pointer;
+        align-items: center;
+        i.pi-folder {
+            color: orange;
+        }
+    }
+}

@@ -1,0 +1,144 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+
+<!-- Main container for the blue background -->
+<div class="sky-background">
+    <!-- Button container for action buttons -->
+    <div class="left-sky-button-container">
+        <!-- Button to create a new WellHead Kit -->
+        <span class="mr-2">
+            <p-button type="text"
+                      styleClass="chv-light-blue-btn"
+                      label="KIT"
+                      icon="pi pi-plus-circle"
+                      [disabled]="!editable"
+                      (onClick)="createWellHead()"></p-button>
+        </span>
+        <!-- Button to save the current WellHead Kit -->
+        <span class="mr-2">
+            <p-button type="text"
+                      styleClass="chv-light-blue-btn"
+                      label="KIT"
+                      icon="pi pi-save"
+                      [disabled]="!editable"
+                      (onClick)="opensaveDialog()"></p-button>
+        </span>
+        <!-- Button to delete the selected WellHead Kit -->
+        <span>
+            <p-button type="text"
+                      styleClass="chv-light-blue-btn"
+                      label="KIT"
+                      icon="pi pi-trash"
+                      [disabled]="!editable"
+                      (onClick)="openDeleteDialog('KITS')"></p-button>
+        </span>
+    </div>
+    <div class="button-container" style="justify-content: flex-end">
+
+        <span class="pull-right">
+            <p-button type="text"
+                      styleClass="chv-light-blue-btn"
+                      label="Components"
+                      icon="pi pi-trash"
+                      [disabled]="!(selectedRow && selectedComponentRow?.length) || !editable"
+                      (onClick)="openDeleteDialog('COMP')"></p-button>
+        </span>
+    </div>
+</div>
+
+<!-- Container for the two ag-grid-angular tables -->
+<div style="display: flex; gap: 1rem">
+    <!-- First grid for displaying kit data -->
+    <div class="mt-2 kits-class" style="flex: 0.2">
+        <ag-grid-angular style="width: 100%"
+                         class="ag-theme-alpine kits-custom-theme"
+                         [columnDefs]="kitColumnDefs"
+                         [rowData]="kits()"
+                         [rowHeight]="rowHeight"
+                         [singleClickEdit]="false"
+                         (rowClicked)="onRowClicked($event)"
+                         [rowDragManaged]="true"
+                         [defaultColDef]="{
+        suppressHeaderMenuButton: true,
+        flex: 1,
+        minWidth: 100
+      }"
+                         [animateRows]="true"
+                         (gridReady)="onGridReady1($event)"
+                         [domLayout]="'autoHeight'"
+                        [getRowId]="getKitRowId" >
+        </ag-grid-angular>
+    </div>
+    <!-- Second grid for displaying component kit data -->
+    <div class="mt-2" style="flex: 1">
+        <ag-grid-angular style="width: 100%; height: 600px;"
+                         class="ag-theme-alpine"
+                         [columnDefs]="componentKitColumnDefs"
+                         [rowData]="components()"
+                         [rowHeight]="rowHeight"
+                         [domLayout]="'autoHeight'"
+                         [singleClickEdit]="true"
+                         [rowDragManaged]="true"
+                         [rowSelection]="'multiple'"
+                         [defaultColDef]="{
+        suppressHeaderMenuButton: true,
+        flex: 1,
+        minWidth: 100
+      }"
+                         [animateRows]="true"
+                         (selectionChanged)="onRowClickedComponents()"
+                         (gridReady)="onGridReady2($event)">
+        </ag-grid-angular>
+    </div>
+</div>
+
+<!-- Modal dialog for adding components -->
+<app-addEquipmentDialog *ngIf="showEquipmentAddDialog"
+                        [isPageView]="isPageView"
+                        (addSelected)="onMaterialsSelectedFromPopup($event)"
+                        (onClose)="showEquipmentAddDialog = false">
+</app-addEquipmentDialog>
+
+
+<!-- Modal dialog for creating a new kit -->
+<app-create-kit [(visible)]="displayCreateKitDialog"
+                (onClose)="displayCreateKitDialog = false">
+</app-create-kit>
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteKitDialog" [buttonName]="'Delete'"
+                                [dialogContent]="deletePopupContent" [dialogTitle]="deleteTitle"
+                                (onClose)="displayDeleteKitDialog=false" (onDelete)="onDelete()"></app-delete-confirmation-dialog>
+<!-- made maximazble false  -->
+<app-custom-dialog 
+    [(visible)]="visible" 
+    [dialogTitle]="'Unsaved Changes'" 
+    [savebuttonName]="'Continue'" 
+    (onCreateEvent)="onContinue()"
+    [dialogWidth]="'400px'"
+    [maximizable]="false"
+    (onClose)="closeDialog()">
+    <div class="unsaved-changes-body">
+        <i class="pi pi-info-circle iconSize"></i>
+    <div class="pl-2 pt-3 parentDiv">
+        <span class="displaymessage"><p>You have <b>{{ editedData.length }}</b> unsaved changes. If you switch views, your changes will be lost. Do you want to continue?</p>
+        </span>
+    </div>
+</div>
+
+</app-custom-dialog>
+
+<app-custom-dialog 
+    [(visible)]="showSaveDialog" 
+    [dialogTitle]="'Save Wellhead Kit Confirmation'" 
+    [savebuttonName]="'Save'" 
+    (onCreateEvent)="saveWellHeadKit()"
+    [dialogWidth]="'400px'"
+    [maximizable]="false"
+    (onClose)="closeSaveDialog()">
+    <div class="unsaved-changes-body">
+        <i class="pi pi-info-circle iconSize"></i>
+    <div class="pl-2 pt-3 parentDiv">
+        <span class="displaymessage"><p>You are attempting to save updates made to one or more Wellhead Kits. If this is your intention click Save, otherwise click Cancel.</p>
+        </span>
+    </div>
+</div>
+
+</app-custom-dialog>

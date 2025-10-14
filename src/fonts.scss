@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'Open-Sans-up';
+    src: url('/assets/fonts/open-sans/OpenSans-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'Open-Sans-up';
+    src: url('/assets/fonts/open-sans/OpenSans-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'Open-Sans-up';
+    src: url('/assets/fonts/open-sans/OpenSans-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'Open-Sans-up';
+    src: url('/assets/fonts/open-sans/OpenSans-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'gotham-normal';
+    // src: url('/assets/fonts/gotham/Gotham-Black.woff') format('woff');
+    src: url('/assets/fonts/gotham/GothamNarrow-Book.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'gotham-semi-bold';
+    // src: url('/assets/fonts/gotham/Gotham-Black.woff') format('woff');
+    src: url('/assets/fonts/gotham/GothamNarrow-BookItalic.woff') format('woff');
+    // font-weight: 200;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}
+
+@font-face {
+    font-family: 'gotham-bold';
+    // src: url('/assets/fonts/gotham/Gotham-Bold.woff') format('woff');
+    src: url('/assets/fonts/gotham/GothamNarrow-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap; font-optical-sizing:auto;
+    font-stretch: 100%;
+}

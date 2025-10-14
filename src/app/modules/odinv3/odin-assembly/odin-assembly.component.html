@@ -1,0 +1,48 @@
+<div class="mt-1">
+  <p-card class="col-12 p-0 removePCardPadding bg-none">
+    <div class="grid bg-theme-blue filtercontrols filtersection">
+      <div class="col-12 pull-right">
+        <div class="select-button-container pull-right">
+          <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedView" [options]="viewOptionsButtons" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+        </div>
+      </div>
+    </div>
+
+    <div class="blue-background">
+      <div class="search-input" style="width:300px;">
+        <span class="p-input-icon-left inputsearchSpan">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" #searchOdinDashboard [(ngModel)]='searchValue' class="whiteblue" (input)="onSearchChange()" placeholder="Search" />
+        </span>
+      </div>
+      <div>
+        <p-button [title]="isCollapse ? 'Expand All' : 'Collapse All'"
+                  [label]="isCollapse ? 'Expand All' : 'Collapse All'"
+                  (click)="expandOrCollapseGrid()"
+                  class="filterBTN ml-1"
+                  [icon]="isCollapse ? 'pi pi-plus-circle' : 'pi pi-minus-circle'"
+                  severity="secondary">
+        </p-button>
+      </div>
+    </div>
+
+    <div class="ag-theme-alpine">
+      <ag-grid-angular [rowData]="filteredAssemblyData" [loading]="loading" [rowHeight]="30"
+                       [gridOptions]="gridOptions"
+                       [columnDefs]="columnDefs"
+                       [autoGroupColumnDef]="autoGroupColumnDef"
+                       [quickFilterText]="quickFilterText"
+                       [overlayLoadingTemplate]="loading ? 'Loading...' : null"
+                       (gridReady)="onGridReady($event)"
+                       style="width: 100%; height: 78vh;"
+                       class="ag-theme-alpine"
+                       [paginationPageSizeSelector]="false"
+                       [suppressAggFuncInHeader]="true"
+                       [defaultColDef]="{ flex: 1, minWidth: 150, sortable: true, filter: true,resizable: true ,suppressHeaderMenuButton:true}"
+                       [animateRows]="true">
+      </ag-grid-angular>
+    </div>
+
+    <div class="centerContent tab-menu" [style]="currentBreakpoint == Breakpoints.Large ? '': 'left: 325px;'">
+      <app-odin-tab [selectedFunction]="selectedView"></app-odin-tab>
+    </div>

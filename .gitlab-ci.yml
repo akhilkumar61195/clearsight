@@ -1,0 +1,81 @@
+image:  node:20-alpine  #gitlab.logxplus.com:5050/crowley-solutions/devops-team/angularsdklatest:addesom-master-patch-88514
+
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+.before_script_template:
+  before_script:
+    #  - npm install -g npm@7 --force
+   - npm cache clean --force
+   #- apt-get install nodejs -yq
+   #- npm i --legacy-peer-deps
+   # If you need to install Node.js in Alpine
+   - apk add --no-cache nodejs npm
+   - npm ci  # Faster and more reliable than npm install
+
+stages:
+  - build
+  - package
+  - deploy
+
+build:
+  extends: .before_script_template
+  stage: build
+  script: ng --verbose build
+  except:
+    - development
+    - qa
+    - production
+    - uat
+
+build-envs:
+  extends: .before_script_template
+  stage: build
+  script: node --max_old_space_size=64384 node_modules/@angular/cli/bin/ng build --configuration=$CI_COMMIT_BRANCH --aot=true 
+  only:
+    - development
+    - qa
+    - uat
+    - production
+
+package_dist:
+  extends: .before_script_template
+  stage: package
+  script: node --max_old_space_size=64384 node_modules/@angular/cli/bin/ng build --configuration=$CI_COMMIT_BRANCH --aot=true 
+  # script: ng build --configuration=$CI_COMMIT_BRANCH --aot=true --outputHashing=all #for caching
+  environment:
+    name: development
+  artifacts:
+    name: "project-$CI_COMMIT_REF_NAME"
+    paths:
+      - dist/
+  only:
+    - development
+    - qa
+    - uat
+    - production
+    - feature/sprint-7
+
+deploy_dist_s3:
+  extends: .before_script_template
+  image: python:latest
+  stage: deploy
+  dependencies:
+    - package_dist
+  before_script:
+    - pip install awscli
+  script:
+    - aws s3 sync dist/chevron-drilling-ui/browser s3://${S3_BUCKET}/ --delete
+    - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DIST} --paths "/*"
+  environment:
+    name: $CI_COMMIT_BRANCH
+    url: $URL
+  only:
+    - development
+    - qa
+    - uat
+    - production
+    - feature/sprint-7

@@ -1,0 +1,20 @@
+<p-dialog [(visible)]="showTasksDialog" [modal]="true" appendTo="body" [styleClass]="'confirmation-popup-wrapper'"
+    [closable]="false">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">{{dialogTitle}}</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onCancel.emit()"></button>
+    </div>
+    <div class="pl-4 pt-6 parentDiv">
+        <i class="pi pi-info-circle iconSize"></i>
+        <span class="ml-2" [innerHTML]="dialogContent"></span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" pButton class="p-default-btn mb-1" label="New Task" (click)="displayTaskModal()"></button>
+        <button type="button" pButton class="p-default-btn mb-1" label="Existing Task/s"
+            (click)="displayTaskModal()"></button>
+        <button type="button" pButton class="p-default-btn mb-1" label="Both" (click)="displayTaskModal()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- <app-create-task-dialog [(visible)]="showExistingTasksDialog" (onClose)="closeCreateTaskDialog()"></app-create-task-dialog> -->

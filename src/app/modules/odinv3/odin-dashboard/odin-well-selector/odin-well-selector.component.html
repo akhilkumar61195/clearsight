@@ -1,0 +1,87 @@
+
+<p-card class="col-12 welllist" >    
+      <div >
+        <div class="grid">
+          <div class="select-button-container">
+            <p-selectButton (onChange)="onSelectedViewChange($event)" [(ngModel)]="selectedFunction" [options]="functions" optionLabel="FUNCTIONDESCRIPTION" optionValue="FUNCTIONID" [allowEmpty]="false" />
+          </div>
+          <div class="col right-0 pt-0 pb-0">
+            <span class="p-input-icon-left filterWell">
+              <i class="pi pi-search"></i>
+              <input type="text" pInputText [(ngModel)]="searchWell" (input)="searchWellFIlter()" placeholder="Search Wells" />
+            </span>
+          </div>
+          <div class="pt-0 pb-0">
+            <!-- <p-button [pKeyFilter]="noSpecial" [label]="selectAllLabel" (onClick)="selectAllWell()" [disabled]="wells.length == 0"></p-button> -->
+             <p-button [label]="selectAllLabel" (onClick)="selectAllWell()" [disabled]="wells.length == 0"></p-button>
+
+          </div>
+          <div class="filter-section p-1 mt-2 d-flex">
+            <div class="flex flex-wrap gap-1 justify-content lightBlueBG border-light displaytoggler mr-2">
+              <div class="flex align-items-center pl-2">
+                <p-radioButton name="pMonth" value="All" [(ngModel)]="selectedMonthSummary" inputId="All"
+                               (onClick)="onMonthChange($event)"></p-radioButton>
+                <label for="All" class="ml-2">All</label>
+              </div>
+
+              <div class="flex align-items-center pl-2">
+                <p-radioButton name="pMonth" value="6" [(ngModel)]="selectedMonthSummary" inputId="6"
+                               (onClick)="onMonthChange($event)"></p-radioButton>
+                <label for="6" class="ml-2">6</label>
+              </div>
+      
+              <div class="flex align-items-center pl-2 pr-2">
+                <p-radioButton name="pMonth" value="12" [(ngModel)]="selectedMonthSummary" inputId="12"
+                               (onClick)="onMonthChange($event)"></p-radioButton>
+                <label for="12" class="ml-2">12</label>
+              </div>
+              <div class="flex align-items-center pl-2 pr-2">
+                <p-radioButton name="pMonth" value="18" [(ngModel)]="selectedMonthSummary" inputId="18"
+                               (onClick)="onMonthChange($event)"></p-radioButton>
+                <label for="18" class="ml-2">18</label>
+              </div>
+      
+              <div class="flex align-items-center pr-2">
+                <p-radioButton name="pMonth" value="24" [(ngModel)]="selectedMonthSummary" inputId="24"
+                               (onClick)="onMonthChange($event)"></p-radioButton>
+                <label for="24" class="ml-2">24 Months <span *ngIf="futureDate"><b>({{futureDate}})</b></span></label>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-1 justify-content lightBlueBG border-light displaytoggler">
+              <div class="flex align-items-center pl-2 ">
+                <p-radioButton name="pDate" value="P10" [(ngModel)]="selectedPType" inputId="P10"
+                               (onClick)="onPChange($event);"></p-radioButton>
+                <label for="P10" class="ml-2">P10</label>
+              </div>
+      
+              <div class="flex align-items-center pr-2">
+                <p-radioButton name="pDate" value="P50" [(ngModel)]="selectedPType" inputId="P50"
+                               (onClick)="onPChange($event);"></p-radioButton>
+                <label for="P50" class="ml-2">P50</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="grid">
+      <div class="col-12 flex align-items-start flex-wrap well-container">
+        <ng-container *ngFor="let project of projects">
+          <div class="project-group card" *ngIf="hasVisibleWells(project.PROJECTID)">
+            <div class="card-header project-header flex align-items-center">
+              <p-checkbox name ="project" class="project-checkbox" (onChange)="toggleProjectWells('project', project.PROJECTID)" [label]="project.PROJECTDESC" [value]="project.PROJECTID" [(ngModel)]="selectedProject"/>
+            </div>
+            <div class="card-body project-wells flex flex-wrap">
+              <ng-container *ngFor="let well of filteredWells; index as i;">
+                <div class="well-checkbox flex align-items-center" *ngIf="well.FUNCTIONID==project.FUNCTIONID && well.PROJECTID == project.PROJECTID">
+                  <p-checkbox [label]="well.WELLNAME" name="well" [value]="well.WELLID" [(ngModel)]="selectedWell" (onChange)="toggleProjectWells('well', well.PROJECTID,well.WELLID,$event)">
+                  </p-checkbox>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      
+    </div>
+  </p-card>
+

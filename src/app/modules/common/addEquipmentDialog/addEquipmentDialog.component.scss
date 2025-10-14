@@ -1,0 +1,41 @@
+.p-dialog .p-dialog-footer {
+  padding: 0.5rem 0.5rem .5rem 1.5rem;
+}
+
+// .filterBTN .p-button {
+//   background-color: var(--theme-light-blue-color);
+//   color: var(--bg-dark-gray);
+// }
+
+.p-dialog .p-dialog-content {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  // padding-top: 50px;
+}
+
+.dialog-content-container {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 10;
+}
+
+// .ag-theme-alpine .ag-header {
+//   position: fixed;
+//   top: 1;
+//   z-index: 12;
+// }
+
+// .ag-body-viewport {
+//   padding-top: 50px !important;
+// }
+
+// .ag-body-vertical-scroll {
+//   padding-top: 48px;
+// }
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+

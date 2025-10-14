@@ -1,0 +1,149 @@
+.pdf-preview-custom-size {
+  height: 80vh !important;
+  width: 100% !important;
+  min-height: 600px;
+  min-width: 800px;
+  box-sizing: border-box;
+  border: none;
+}
+
+// .upload-dialog-header {
+//   background-color: #001A70;
+//   /* Dark blue color */
+//   color: white;
+//   padding: 10px 20px;
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   font-size: 16px;
+//   font-weight: bold;
+// }
+
+
+
+// .upload-dialog-body {
+//   padding: 20px;
+//   text-align: center;
+// }
+
+// .upload-dialog-body p {
+//   color: #333;
+//   font-size: 14px;
+//   line-height: 1.6;
+//   margin-bottom: 20px;
+// }
+
+// .template-link {
+//   color: #1A73E8;
+//   /* Light blue link color */
+//   text-decoration: underline;
+// }
+
+.upload-button {
+  background-color: #007BFF;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+  background-color: #0056b3;
+}
+
+// .file-upload-input {
+//   max-width: 100%;
+//   display: none;
+// }
+
+.file-upload {
+  width: 100%;
+  max-width: 600px;
+  height: 100px;
+  border: 2px dashed #007bff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 8px auto;
+
+  &:hover,
+  &.dragover {
+    background-color: #f0f8ff;
+    border-color: #0056b3;
+  }
+}
+
+// .requiredField {
+//   color: red;
+//   font-size: 18px;
+//   line-height: 10px;
+//   position: relative;
+//   top: -1px;
+//   display: inline-block;
+// }
+
+.upload-select-button-container {
+  display: flex;
+  width: max-content;
+  background: #F0F9FA;
+  font-weight: bold !important;
+  border-radius: 5px;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content: center
+}
+
+// .flex-container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 30px;
+//   padding-left: 15px;
+//   padding-bottom: 15px;
+//   flex-wrap: nowrap;
+//   width: 100%;
+//   box-sizing: border-box;
+// }
+
+// .p-inputtext, .p-multiselect {
+//   width: 137px;
+// }
+
+
+.parentUpload {
+  height: 3rem;
+  position: relative;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  /* Center the content horizontally */
+  align-items: center;
+}
+
+.uploadButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  /* Space between the button and the dropdown */
+}
+
+.parentHoleSection {
+  position: relative;
+}
+
+.holeSectionClass {
+  position: absolute;
+  top: 1%;
+  left: 23%;
+}

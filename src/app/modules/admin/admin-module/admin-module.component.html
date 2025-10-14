@@ -1,0 +1,243 @@
+<div class="centerContent tab-menu">
+    <app-admin-tab></app-admin-tab>
+</div>
+<div style="width: 100%; height: 100%;" class="mt-1 relativePosition">
+    <div class="sky-background">
+        <div class="left-sky-button-container">
+            <!-- <p-button type="text" styleClass="chv-light-blue-btn" label="Persona Editor" class="mr-2"></p-button> -->
+            <!-- Any other content here -->
+            <span class="flex-user-btn"></span>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Create Persona" class="ml-2"
+                (click)="hasAdminAccess ? onCreatePersonaClick() : null" icon="pi pi-plus-circle" pTooltip="Add Persona"
+                [disabled]="!hasAdminAccess"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="User" class="ml-2"
+                (click)="hasAdminAccess ? onCreateUserClick() : null" icon="pi pi-plus-circle" pTooltip="Add User"
+                [disabled]="!hasAdminAccess"></p-button>
+
+        </div>
+    </div>
+    <!-- Common interactive toolbar for search, save, and cancel actions -->
+    <app-interactive-toolbar [showSearchBar]="true" (search)="onSearch($event)" (saveClick)="onToolbarSaveClick()" (cancelClick)="onCancel()"
+        (createPersonaClick)="onCreatePersonaClick()">
+    </app-interactive-toolbar>
+    <!-- Add User Modal using p-dialog -->
+    <p-dialog [(visible)]="showAddUserModal" [modal]="true" [style]="{width: '600px', height: '500px'}"
+        [closable]="false" (onHide)="onAddUserModalClose()">
+        <ng-template pTemplate="header">
+            <div class="dialog-header">
+                <h3 class="dialog-heading">Create User</h3>
+                <button class="dialog-header-close-btn" pButton icon="pi pi-times"
+                    (click)="onAddUserModalClose()"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="body">
+            <app-add-user-dialog (userChange)="onUserChange($event)"></app-add-user-dialog>
+        </ng-template>
+        <p-footer>
+            <button pButton type="button" label="Save" (click)="showAddUserConfirmDialog = true"
+                [disabled]="!isAddUserFormValid"></button>
+            <button pButton type="button" label="Cancel" class="p-button-outlined mr-2"
+                (click)="onAddUserModalClose()"></button>
+        </p-footer>
+        <!-- Confirmation dialog for Add User -->
+        <app-custom-dialog [(visible)]="showAddUserConfirmDialog" [dialogTitle]="'Confirm Save User'"
+            [savebuttonName]="'Save'" (onCreateEvent)="onAddUserModalSaveConfirm()" [dialogWidth]="'500px'"
+            [maximizable]="false" (onClose)="showAddUserConfirmDialog = false">
+            <div class="unsaved-changes-body">
+                <i class="pi pi-info-circle iconSize"></i>
+                <div class="pl-2 pt-3 parentDiv">
+                    <span class="displaymessage">
+                        <p>
+                            You are attempting to create user {{ newUser.email }}. If this is correct click Save,
+                            otherwise click Cancel.
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </app-custom-dialog>
+    </p-dialog>
+    <!-- Create Persona Modal using p-dialog -->
+    <p-dialog [(visible)]="showCreatePersonaModal" [modal]="true" [style]="{width: '400px'}" [closable]="false"
+        (onHide)="onCreatePersonaModalClose()">
+        <ng-template pTemplate="header">
+            <div class="dialog-header">
+                <h3 class="dialog-heading">Create Persona</h3>
+                <button class="dialog-header-close-btn" pButton icon="pi pi-times"
+                    (click)="onCreatePersonaModalClose()"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="body">
+            <div class="create-persona-body">
+                <label for="personaNameInput">Persona Name</label>
+                <input id="personaNameInput" pInputText type="text" [(ngModel)]="newPersonaName"
+                    class="persona-input-box" placeholder="Enter persona name" />
+            </div>
+        </ng-template>
+        <p-footer>
+            <button pButton type="button" label="Save" (click)="onCreatePersonaModalSaveConfirm()"
+                [disabled]="!newPersonaName"></button>
+            <button pButton type="button" label="Cancel" class="p-button-outlined mr-2"
+                (click)="onCreatePersonaModalClose()"></button>
+        </p-footer>
+    </p-dialog>
+
+    <!-- Confirmation dialog for Create Persona -->
+    <app-custom-dialog [(visible)]="showCreatePersonaConfirmDialog" [dialogTitle]="'Save Persona Confirmation'"
+        [savebuttonName]="'Save'" (onCreateEvent)="createPersonaConfirmDialog()" [dialogWidth]="'400px'"
+        [maximizable]="false" (onClose)="closeCreatePersonaConfirmDialog()">
+        <div class="unsaved-changes-body">
+            <i class="pi pi-info-circle iconSize"></i>
+            <div class="pl-2 pt-3 parentDiv">
+                <span class="displaymessage">
+                    <p>
+                        You are attempting to save a new or existing persona. If this is your intention click Save,
+                        otherwise click Cancel.
+                    </p>
+                </span>
+            </div>
+        </div>
+    </app-custom-dialog>
+    <!-- Flex container for two ag-grids side by side -->
+    <div class="admin-flex-container">
+        <!-- Left grid-->
+        <div class="admin-left-grid">
+            <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" [rowData]="adminRowData"
+                [columnDefs]="adminColumnDefs" [quickFilterText]="quickFilterText"
+                [defaultColDef]="{ flex: 1, minWidth: 120, editable: true }"
+                  [rowSelection]="'single'"
+                (cellValueChanged)="onCellValueChanged($event)" (rowClicked)="onRowClicked($event)"
+                (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+
+        </div>
+        <!-- Right grid -->
+        <div class="admin-right-grid">
+            <!-- <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" [rowData]="adminPersonaRowData"
+                [columnDefs]="adminPersonaColumnDefs" [defaultColDef]="{ flex: 1, minWidth: 100, editable: false }"
+                (gridReady)="onGridReady($event)">
+            </ag-grid-angular> -->
+            <div class="tabs-container">
+                <!-- Tabs -->
+                <div class="tabs">
+                    <div class="tab-item" [class.active]="activeAdminTab === 'personas'"
+                        (click)="activeAdminTab = 'personas'">
+                        <i class="pi pi-users mr-1"></i> Personas
+                    </div>
+                    <div class="tab-item" [class.active]="activeAdminTab === 'applications'"
+                        (click)="activeAdminTab = 'applications'">
+                        <i class="pi pi-th-large mr-1"></i> Applications
+                    </div>
+                </div>
+
+                <!-- Grid -->
+                <div class="tab-content">
+                    <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize"
+                        [rowData]="activeAdminTab === 'personas' ? personaRowData : applicationRowData"
+                        [columnDefs]="activeAdminTab === 'personas' ? adminPersonaColumnDefs : adminApplicationColumnDefs"
+                        [headerHeight]="0"
+                        [defaultColDef]="{ flex: 1, minWidth: 120, editable: false }">
+                    </ag-grid-angular>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <app-custom-dialog [(visible)]="showSaveDialog" [dialogTitle]="'Confirm User Updates'" [savebuttonName]="'Save'"
+        (onCreateEvent)="saveAdminChanges()" [dialogWidth]="'400px'" [maximizable]="false"
+        (onClose)="closeSaveDialog()">
+        <div class="unsaved-changes-body">
+            <i class="pi pi-info-circle iconSize"></i>
+            <div class="pl-2 pt-3 parentDiv">
+                <span class="displaymessage">
+                    <p>
+                        You are attempting to save changes to the Admin User Table. If this is correct click Save,
+                        otherwise click Cancel.
+                    </p>
+                </span>
+            </div>
+        </div>
+    </app-custom-dialog>
+    <!-- Persona selection modal using app-custom-dialog -->
+    <app-custom-dialog [(visible)]="showPersonaModal" [dialogTitle]="'Assign Persona & Applications'"
+        [savebuttonName]="'Assign'" (onCreateEvent)="hasAdminAccess ? onPersonaModalSave() : null"
+        [dialogWidth]="'600px'" [maximizable]="false" (onClose)="onPersonaModalClose()"
+        [savebuttonDisabled]="!hasAdminAccess">
+
+        <div class="assign-modal-wrapper">
+            <!-- Tab headers -->
+            <div class="tab-header">
+                <div class="tab-item" [class.active]="activeTab === 'personas'" (click)="activeTab = 'personas'">
+                    <i class="pi pi-users mr-2"></i> Personas
+                </div>
+
+                <div class="tab-item" [class.active]="activeTab === 'applications'"
+                    (click)="activeTab = 'applications'">
+                    <i class="pi pi-th-large mr-2"></i> Applications
+                </div>
+            </div>
+
+            <!-- Tab content -->
+            <div class="tab-content">
+
+                <!-- Personas Tab -->
+                <div *ngIf="activeTab === 'personas'" class="tab-panel">
+                    <div *ngIf="filteredPersonasList?.length; else noPersona" class="list-container">
+
+                        <input type="text" placeholder="Search personas..." [(ngModel)]="personaSearch"
+                            (input)="filterPersonas()" class="search-box" />
+
+                        <div class="assign-list">
+                            <div *ngFor="let persona of filteredPersonasList" class="assign-row">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" [value]="persona.id"
+                                        [checked]="personaModalSelectedIds?.includes(persona.id)"
+                                        (change)="onPersonaModalCheck($event, persona.id)" />
+                                    <span class="checkmark"></span>
+                                    <span class="assign-label">{{ persona.personaName }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #noPersona>
+                        <div class="empty-state">No personas available</div>
+                    </ng-template>
+                </div>
+
+                <!-- Applications Tab -->
+                <div *ngIf="activeTab === 'applications'" class="tab-panel">
+                    <div *ngIf="filteredApplicationsList?.length; else noApp" class="list-container">
+
+                        <input type="text" placeholder="Search applications..." [(ngModel)]="applicationSearch"
+                            (input)="filterApplications()" class="search-box" />
+
+                        <div class="assign-list">
+                            <div *ngFor="let app of filteredApplicationsList" class="assign-row">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" [value]="app.appid"
+                                        [checked]="selectedApplicationIds?.includes(app.appid)"
+                                        (change)="onApplicationCheck($event, app.appid)" />
+                                    <span class="checkmark"></span>
+                                    <span class="assign-label">{{ app.applicationName }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #noApp>
+                        <div class="empty-state">📭 No applications available</div>
+                    </ng-template>
+                </div>
+
+            </div>
+        </div>
+
+
+    </app-custom-dialog>
+
+</div>
+
+<!-- Delete User Confirmation Dialog -->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="showDeleteUserDialog" [buttonName]="'Delete'"
+    [dialogContent]="'You are about to delete this user. This action cannot be undone. If you wish to proceed, click Delete; otherwise, click Cancel.'"
+    [dialogTitle]="'Confirm User Deletion'" (onClose)="closeDeleteUserDialog()" (onDelete)="onDeleteUserConfirm()">
+</app-delete-confirmation-dialog>

@@ -1,0 +1,163 @@
+.file-uploader-dialog {
+    .p-dialog-header {
+        background-color: #fff;
+        color: #000;
+        font-size: 18px;
+        font-weight: 100;
+        border-bottom: 1px solid #ededed;
+    }
+    .p-dialog-content {
+        background-color: #fff;
+        position: relative;
+        p-fileupload {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            .file-uploader-container {
+                display: flex;
+                flex-direction: column-reverse;
+                height: 100%;
+                width: 100%;
+                justify-content: space-between;
+                .p-fileupload-content {
+                    border: 0px dashed #ededed;
+                    background: #fff;
+                    border-radius: 0;
+                    margin: 15px;
+                    max-height: 100%;
+                    padding: 0;
+                    padding-top: 140px;
+                    min-height: 0;
+                    display: flex;
+                    flex-direction: column;
+                    .p-fileupload-files {
+                        background: #fff;
+                        margin-left: 0;
+                        width: 100%;
+                    }
+                    .files-list {
+                        margin-top: 15px;
+                        height: 100%;
+                        overflow: auto;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr 1fr 25px;
+                        gap: 15px;
+                        align-items: center;
+                        justify-content: center;
+                        .header {
+                            font-size: 14px;
+                        }
+                       .p-dropdown, input {
+                            width: 100%;
+                        }
+                    }
+                }
+                .p-fileupload-buttonbar {
+                    border-color: #ededed;
+                    background: #fff;
+                    p-button {
+                        margin-left: 15px;
+                        .p-button {
+                            height: 38px;
+                            background: transparent;
+                            color: var(--theme-blue-bold-color);
+                            border-color: var(--theme-blue-bold-color);
+                            font-size: 13px;
+                            .p-button-icon {
+                                display: none;
+                            }
+                            &.upload-btn {
+                                min-width: 100px;
+                                background: var(--theme-blue-bold-color);
+                                color: #fff;
+                            }
+                        }
+                    }
+                    .p-fileupload-choose {
+                        position: absolute;
+                        top: 100px;
+                        z-index: 1;
+                        left: 0;
+                        right: 0;
+                        margin: auto;
+                        width: 110px;
+                        height: 34px;
+                    }
+                }
+            }
+            p-button {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* NOTE: this is custom css to override file-upload close action behaviour */
+            .cancel-custom-btn {
+                opacity: 1;
+                .p-button-icon {
+                    display: contents !important;
+                    .closeUploader {
+                        position: absolute;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 8;
+                        top: 0;
+                        &::after {
+                            content: "";
+                            position: absolute;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            z-index: 8;
+                            cursor: pointer;
+                            top: 0;
+                            pointer-events: auto;
+                        }
+                    }
+                }
+            }
+        }
+
+        .uploader-overlay {
+            position: absolute;
+            background: #fbfbfb;
+            border: 1px dashed #b9b9b9;
+            width: calc(100% - 30px);
+            height: 140px;
+            top: 10px;
+            pointer-events: none;
+            left: 15px;
+            border-radius: 4px;
+            text-align: center;
+            padding: 18px;
+            color: #b7b7b7;
+            font-size: 14px;
+            p {
+                margin-top: 3px;
+            }
+        }
+    }
+    .upload-spinner {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 8;
+        font-size: 1rem;
+        display: flex;
+        .upload-container {
+            width: 130px;
+            margin: auto;
+            background: #fff;
+            border: 1px solid #dddada;
+            border-radius: 5px;
+            padding: 6px;
+            text-align: center;
+            box-shadow: 0px 1px 7px 0px rgb(115 112 112 / 31%);
+            span {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}

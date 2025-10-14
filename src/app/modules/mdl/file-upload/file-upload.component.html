@@ -1,0 +1,32 @@
+
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '40vw'}" [closable]="false" class="upload-dialog">
+    <ng-template pTemplate="header" class="upload-dialog-header">
+        <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">Upload Data</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+        </div> -->
+        <div class="dialog-header">
+            <h3 class="dialog-heading">Upload Data</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <div class="upload-dialog-body">
+            <p>
+                To ensure accuracy, when adding your equipment to the Master Data Library please use the provided
+                <a href="assets/templates/MDLTemplate.xlsx" download="MDLTemplate.xlsx" style="cursor:pointer;" class="template-link">template</a>. When you are ready, either drag the file into this window or click the Upload button below.
+            </p>
+            <input class="file-upload" #fileInput pInputText type="file" (change)="onFileSelected($event)" accept=".xlsx, .xls" pTooltip="Drag and Drop your file here, or click to browse" />
+            <!-- radio button list for user to select either to override existing records or not-->            
+            <div class="override-radio">
+                <label>Override existing records with same material number: <span class="requiredField">*</span></label>&nbsp;&nbsp;&nbsp;
+                <p-radioButton name="override" value="true" label="Yes" [(ngModel)]="override"></p-radioButton>&nbsp;&nbsp;&nbsp;
+                <p-radioButton name="override" value="false" label="No" [(ngModel)]="override"></p-radioButton>
+            </div><br/>
+            <button pButton (click)="onUpload()" class="upload-button" [disabled]="!isFileValid || override === undefined">Upload</button>
+        </div>
+    </ng-template>
+    <p-footer>
+        <button pButton type="button" label="Close" icon="pi pi-times" (click)="onClose.emit()"></button>
+    </p-footer>
+</p-dialog>

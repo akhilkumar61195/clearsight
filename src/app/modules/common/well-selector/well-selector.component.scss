@@ -1,0 +1,70 @@
+well-selector {
+
+  .p-multiselect,
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-multiselect .p-checkbox {
+    position: absolute;
+    right: 0px;
+  }
+
+  .pb-0 {
+    padding-bottom: 0px !important;
+  }
+
+  p-inputgroupaddon {
+    padding: 4px 2px !important;
+    min-width: 30px !important;
+  }
+
+  .filterWell .p-inputtext {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+
+  .welllist .p-card-content {
+    padding-bottom: 0px !important;
+  }
+
+  .p-input-icon-left {
+    input {
+      width: 100%;
+    }
+
+    width: 100%;
+  }
+
+  .p-card {
+    box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2) !important;
+    ;
+  }
+
+  .nopadding .p-card {
+    box-shadow: none !important;
+  }
+
+  .mb-5px {
+    margin-bottom: 5px;
+  }
+
+  p-divider.removeMargin .p-divider {
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+
+  .custom-bg {
+    background-color: #FAFAFA;
+  }
+
+  .wellgrid {
+    max-height: calc(100vh - 425px);
+    overflow: auto;
+  }
+
+  .filteredwellgrid {
+    max-height: calc(100vh - 435px);
+    overflow: auto;
+  }
+}

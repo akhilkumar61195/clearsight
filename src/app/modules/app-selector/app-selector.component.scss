@@ -1,0 +1,111 @@
+.flex-container {
+    height: 100%;
+    min-height: calc(100vh - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.container-auto {
+    display: flex;
+    margin: auto;
+    background: var(--bg-white) 0% 0% no-repeat padding-box;
+    border: 1px solid var(--bg-light-gray);
+    border-radius: 10px;
+    min-width: 280px;
+}
+
+.app-icon {
+    padding: 0.15rem;
+    background: var(--bg-light-gray) 0% 0% no-repeat padding-box;
+    border-radius: 5px;
+    width: auto;
+    height: 2rem;
+    max-width: 2rem;
+    object-fit: contain;
+    
+    @media screen and (max-width: 768px) {
+        height: 1.75rem;
+        max-width: 1.75rem;
+    }
+    
+    @media screen and (max-width: 480px) {
+        height: 1.5rem;
+        max-width: 1.5rem;
+    }
+}
+
+.app-label {
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    
+    @media screen and (max-width: 768px) {
+        font-size: 0.9rem;
+    }
+    
+    @media screen and (max-width: 480px) {
+        font-size: 0.8rem;
+    }
+}
+
+.app-selector a {
+    text-decoration: none !important;
+    color: black;
+    font-weight: 600;
+    display: block;
+}
+
+.app-selector .app-content {
+    border-radius: 8px;
+    min-height: 2.5rem;
+    
+    @media screen and (max-width: 768px) {
+        min-height: 2.25rem;
+    }
+    
+    @media screen and (max-width: 480px) {
+        min-height: 2rem;
+    }
+}
+
+// Responsive container adjustments
+@media screen and (max-width: 768px) {
+    .container-auto {
+        max-width: 95vw;
+        margin: 0.5rem;
+    }
+    
+    .flex-container {
+        padding: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container-auto {
+        max-width: 98vw;
+        margin: 0.25rem;
+    }
+    
+    .flex-container {
+        padding: 0.25rem;
+        min-height: calc(100vh - 60px);
+    }
+}
+
+// High zoom level support
+@media screen and (max-width: 400px) {
+    .app-label {
+        font-size: 0.75rem;
+    }
+    
+    .app-icon {
+        height: 1.25rem;
+        max-width: 1.25rem;
+    }
+    
+    .app-content {
+        min-height: 1.75rem;
+    }
+}

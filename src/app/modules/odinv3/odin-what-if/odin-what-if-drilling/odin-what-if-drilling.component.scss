@@ -1,0 +1,34 @@
+.whatif-dialog {
+    .p-datatable-wrapper {
+        &.gridWrapperTyr {
+            max-height: calc(100vh - 390px) !important;
+        }
+    }
+
+    [pReorderableColumn] {
+        cursor: unset !important;
+    }
+
+
+    .pagination-block {
+        display: grid;
+        grid-template-columns: 38% auto;
+        width: 100%;
+    }
+}
+
+::ng-deep .p-dialog .p-dialog-footer {
+    margin: 0px;
+}
+
+.p-dialog-content {
+    overflow-y: hidden;
+    flex-grow: 1;
+}
+.select-button-container{
+    display: flex;
+    min-width: 232px;
+    background: #F0F9FA;
+    font-weight: bold !important;
+    border-radius: 5px;
+  }

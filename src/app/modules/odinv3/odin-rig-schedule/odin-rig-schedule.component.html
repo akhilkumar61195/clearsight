@@ -1,0 +1,5 @@
+<div class="centerContent tab-menu" [style]="currentBreakpoint == Breakpoints.Large ? '': 'left: 325px;'">
+    <!-- <p-tabMenu [scrollable]="true" [model]="odinMenu" [activeItem]="activeItem"></p-tabMenu> -->
+    <app-odin-tab [selectedFunction]="selectedView"></app-odin-tab>
+  </div>
+<router-outlet></router-outlet>

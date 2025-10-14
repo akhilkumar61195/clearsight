@@ -1,0 +1,49 @@
+<div class="centerContent tab-menu">
+    <app-admin-tab></app-admin-tab>
+</div>
+
+<div class="mt-1 relativePosition w-full height-full">
+    <div class="right-sky-background right-sky-toggle">
+        <div class="selection-wrapper">
+            <!-- app selection dropdown-->
+            <p-autoComplete [(ngModel)]="selectedApplication" [suggestions]="applications"
+                (completeMethod)="filterCoordinators($event)" [forceSelection]="true" [dropdown]="true"
+                field="applicationName" [appendTo]="'body'" placeholder="Select Application"
+                (onSelect)="setApplicationId($event)" class="mr-2 db">
+            </p-autoComplete>
+            <!-- BU selection dropdown-->
+            <p-autoComplete *ngIf="isBuSelected" [(ngModel)]="selectedBU" [suggestions]="allBu"
+                (completeMethod)="filterBu($event)" [forceSelection]="true" field="buName" [dropdown]="true"
+                [appendTo]="'body'" (onSelect)="setBuId($event)" placeholder="Select Business Unit" class="db">
+            </p-autoComplete>
+        </div>
+        <!-- Toggle button for drilling and completion -->
+        <div class="select-button-container" *ngIf="showFunctionsToggle">
+            <p-selectButton [(ngModel)]="selectedView" [options]="viewOptionsButtons"
+                (ngModelChange)="onViewChange($event)" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+        </div>
+
+    <!-- TYR Options dropdown -->
+    <div class="select-button-container" *ngIf="showTyrOptions">
+      <p-dropdown [(ngModel)]="tyrSelectedView" [options]="tyrViewOptionsButtons" (onChange)="onTyrViewChange($event.value)"
+        optionLabel="label" optionValue="value" [autoDisplayFirst]="false" [showClear]="false">
+      </p-dropdown>
+    </div>
+    </div>
+    <div class="blue-wrapper"></div>
+</div>
+
+<!-- Drilling & Completions list editor -->
+<app-list-editor-component-layout [listEditorData]="listEditorData" class="blue-bg-header"></app-list-editor-component-layout>
+
+<!-- Added  deleteItemDataName in the delete dialog content-->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="'You are attempting to delete <b>' + deleteItemDataName + '</b>. If you wish to continue, click Delete, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Delete'" (onClose)="displayDeleteComponentDialog=false"
+    (onDelete)="deleteConfirm()"></app-delete-confirmation-dialog>
+
+<!-- Add confirmation popup -->
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayAddComponentDialog" [buttonName]="'Save'"
+    [dialogContent]="'You are attempting to save <b>' + addItemDataName + '</b>. If this is correct click Save, otherwise click Cancel.'"
+    [dialogTitle]="'Confirm Add'" (onClose)="displayAddComponentDialog=false"
+    (onDelete)="confirmSave()"></app-delete-confirmation-dialog>

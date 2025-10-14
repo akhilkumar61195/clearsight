@@ -1,0 +1,76 @@
+<p-dialog [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="true" styleClass="crn-dialog"
+    [closable]="false" [style]="{ width: '75vw', height: '130vh' }">
+
+    <!-- <ng-template pTemplate="header" class="upload-dialog-header">
+        <div class="align-items-center  flex justify-content-between">
+            <h3 style="margin: 0;">Add Component</h3>
+        </div>
+    </ng-template> -->
+    <div class="dialog-header">
+        <h3 class="dialog-heading">Add Component</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+    </div>
+    <!-- <ng-template pTemplate="header">
+        <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">Add Component</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="onClose.emit()"></button>
+        </div>
+    </ng-template> -->
+
+
+    <ng-template pTemplate="content">
+        <!-- <div class="dialog-content-container">
+            <div class="grid bg-theme-blue filtercontrols mt-0">
+                <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+                    <span class="p-input-icon-left inputsearchSpan" style="margin-left:7px;">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchComponents" class="whiteblue" [disabled]="unsavedChanges" 
+                               (input)="onSearch($event)" placeholder="Search" />
+                    </span>
+                </div>
+                <div class="col-0 sm:col-0 md:col-6 lg:col-6 p-6px">
+                    <p-button type="text" label="Reset" styleClass="chv-light-blue-btn" (click)="reset(searchComponent)" ></p-button>
+                </div>
+            </div>
+        </div> -->
+        <div class="dialog-content-container">
+            <div class="flex bg-theme-blue  mt-0 ">
+                <div class="p-6px" style="width: 35%;">
+                    <span class="p-input-icon-left inputsearchSpan" style=" width: 100%;">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchComponents" class="whiteblue"
+                            [disabled]="unsavedChanges" (input)="onSearch($event)" placeholder="Search" />
+                    </span>
+                </div>
+                <div class="p-6px" style="width: 45%;">
+                    <p-button type="text" label="Reset" styleClass="chv-light-blue-btn"
+                        (click)="reset(searchComponent)"></p-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ag-Grid Container to display MDL records -->
+        <div class="ag-grid-container">
+            <ag-grid-angular style="width: 100%; height: 70vh;" class="ag-theme-alpine" [columnDefs]="mdlColumnDefs"
+                [rowData]="mdlRecords()" [rowHeight]="rowHeight"
+                [defaultColDef]="{ flex: 1,autoHeight:true, resizable: true, sortable: true,   filter: true, minWidth: 90,suppressHeaderMenuButton: true }"
+                [animateRows]="true" [loading]="loading" (gridReady)="onGridReady($event)" [rowSelection]="rowSelection"
+                [gridOptions]="gridOptions" [quickFilterText]="quickFilterText"
+                (selectionChanged)="onSelectionChanged($event)">
+            </ag-grid-angular>
+            
+            <!-- Footer buttons now part of grid container -->
+            <div class="footer-buttons-container">
+                <button type="button" (click)="addRecord()" class="p-ripple p-element chv-blue-btn p-button p-component mr-2"
+                    [disabled]="!isUpdateEditable || isAddRecordDisabled">
+                    Add Record
+                </button>
+                <button type="button" (click)="onClose.emit()"
+                    class="p-ripple p-element chv-blue-btn p-button p-component">
+                    Close
+                </button>
+            </div>
+        </div>
+
+    </ng-template>
+</p-dialog>

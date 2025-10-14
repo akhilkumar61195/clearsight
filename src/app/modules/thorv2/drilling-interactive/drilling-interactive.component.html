@@ -1,0 +1,125 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<div class="blue-background">
+    <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px" *ngIf="isWellSelected">
+        <span class="p-input-icon-left inputsearchSpan">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" #searchSchematic class="whiteblue" placeholder="Search"
+            (input)="onSearch($event)" />
+        </span>
+      </div>
+      <div class="col-3" *ngIf="isWellSelected">
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Equipment" [ngClass]="{'disabled': !isUpdateEditable}" [disabled]="!isUpdateEditable" icon="pi pi-plus-circle" (click)="showEquipmentDialog()"
+                  class="mr-2"></p-button>
+      </div>
+    <!-- Changed the upload button text to Well Documents -->
+    <div class="export-container align-end" *ngIf="isWellSelected">
+      <p-button  styleClass="chv-light-blue-btn" class="pr-2 pl-2" label="Well Documents" icon="pi pi-cloud-upload" (click)="openUploadDialogBox('WELL')" ></p-button>
+       <!-- New Clone Well Button -->
+
+      <p-button type="text" styleClass="chv-light-blue-btn" class="pr-2"  label="Change log" (click)="changeLog()"></p-button>
+          <!-- <p-button icon="pi pi-save" class="p-button-outlined p-button-secondary saveUI ml-2 mr-2"
+            pTooltip="Save Personalization" tooltipPosition="top" (onClick)="onSaveState()">
+    </p-button> -->
+    <p-button class="p-button-outlined p-button-secondary saveUI ml-2 mr-2 save-user-btn"
+          icon="pi"  
+          pTooltip="Save Personalization"
+          tooltipPosition="top"
+          (onClick)="onSaveState()">
+    </p-button>
+      <p-button icon="pi" class="p-button-outlined p-button-secondary reset-ui-button"
+      pTooltip="Reset Personalization" tooltipPosition="top" (onClick)="onResetState()">
+    </p-button>
+
+</div>
+</div>
+<div *ngIf="isWellSelected">
+    <ag-grid-angular [ngStyle]="{ height: height$ | async }" class="ag-theme-alpine"
+                     [columnDefs]="masterDataColumnDefs"
+                     [rowData]="thorWellsData"
+                     [rowHeight]="rowHeight"
+                     [defaultColDef]="{ flex: 1, minWidth: 100, suppressHeaderMenuButton: true }"
+                     [singleClickEdit]="true"
+                     (gridReady)="onGridReady($event)"
+                     [rowDragManaged]="true"
+                     [animateRows]="true"
+                     rowSelection="multiple"
+                     (cellValueChanged)="onCellValueChanged($event)"
+                     [quickFilterText]="quickFilterText"
+                     (cellClicked)="onCellClick($event)"
+                     [getRowClass]="getRowClass"
+                     [sideBar]="sideBar" >
+    </ag-grid-angular>
+    <div class="pagination-block">
+        <div>
+            <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+        </div>
+        <div>
+          <p-button label="Cancel" (click)="resetThorGrid()"
+              [disabled]="!(addedData?.length || editedRowsData?.length)" [outlined]="true"></p-button>
+          <p-button label="Save" (click)="onClickSave()"
+          [disabled]="!(addedData?.length || editedRowsData?.length)"  class="ml-2"></p-button>
+      </div>
+    </div>
+</div>
+
+<div class="noRowstoShow" *ngIf="noRowsFound">No Rows To Show</div>
+
+<app-select-well-thor 
+  [(display)]="display" 
+  [isFilterBTNDisabled]="isFilterBTNDisabled" 
+  [(functionId)]="functionId"
+  [viewOptions]="viewOptions"
+  [projects]="projects"
+  [selectedWellId]="selectedWellId"
+  [selectedWellNumber]="selectedWellNumber"
+  (updateFilter)="updateFilter()"
+  (searchWellFilter)="searchWellFilter()"
+  (toggleProjectWells)="toggleProjectWells($event)"
+  (onViewSelectionChange)="onViewSelectionChange($event)">
+</app-select-well-thor>
+
+
+<p-overlayPanel #overlayAddEquipment styleClass="crn-overlay-panel"
+                showTransitionOptions=".12s cubic-bezier(0, 0, 0.2, 1)">
+  <ng-template pTemplate="content">
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,YARD_INVENTORY', data, 'YARD_INVENTORY', 1)">
+        Yard Inventory
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,INSPECTION_REPORT', data, 'INSPECTION_REPORT', 2)">
+        Inspection Report
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,M_T', data, 'M_T', 3)">
+        MTRs
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,CMEF', data, 'CMEF', 4)">
+        CMEF
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,LASER_TALLY', data, 'LASER_TALLY', 5)">
+        Laser Tally
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,MASTER_LOG', data, 'MASTER_LOG', 6)">
+        Master Log
+      </span>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<!-- <p-button type="text" styleClass="chv-light-blue-btn" label="Join Chat" icon="pi pi-plus-circle" (click)="joinChat()" *ngIf="!isChatEnabled"
+      class="mr-2" style="position: fixed; bottom: 20px; right: 20px; z-index: 100;"></p-button> -->
+
+<change-log *ngIf="openChangeLog" [entityName]="entityName"  [entityId]="currentEntityId" (onClose)="openChangeLog = false"></change-log>
+<app-file-upload-with-grid [selectedView] ="selectedView" [appId]="appId" [functionId]="functionId" [dialogTitle]="selectedDocument" [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"  [entityType]="entityType" [isUpdateEditable]="isUpdateEditable"  [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" (uploadedFileType)="uploadedFileType($event)" (onClose)="onClose()"></app-file-upload-with-grid>
+<app-addEquipmentDialog *ngIf="showEquipmentAddDialog" [isPageView]="isPageView" [isAddEquipmentEditable]="isAddEquipmentEditable" (addSelected)="onAddSelected($event)" [isUpdateEditable]="isUpdateEditable" (onClose)="showEquipmentAddDialog = false"></app-addEquipmentDialog>
+<!-- <app-validation-thor-dialog [(displayValidationDialog)]="displayValidationDialog" [dialogTitle]="'Error'"(onClose)="displayValidationDialog = false"></app-validation-thor-dialog> -->
+<app-chat [roomName]="roomName" [isChatEnabled]="isChatEnabled" (closeChat$)="onLeaveChat()" *ngIf="isWellSelected"></app-chat>

@@ -1,0 +1,38 @@
+<div style="width: 100%;height:100%;" class="mt-1 relativePosition">
+    <div class="grid bg-theme-blue filtercontrols filtersection">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+            <span class="p-input-icon-left inputsearchSpan">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #searchSchematic class="whiteblue" placeholder="Search Schematics"
+                       (input)="onSearch($event)" />
+            </span>
+        </div>
+        <div class="col-0 sm:col-0 md:col-10 lg:col-9 p-6px">
+            <p-button type="text" styleClass="chv-light-blue-btn" class="ml-2" label="Reset"
+                      (click)="resetSearch(searchSchematic)"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" class="ml-2" label="Create Schematic" [disabled]="!isEditCreateSchematic"
+            [ngClass]="{'disabled': !isEditCreateSchematic}"
+                      (click)="createSchematic()"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" class="ml-2" label="Change log"
+                      (click)="changeLog()"></p-button>
+        </div>
+    </div>
+    <ag-grid-angular style="width: 100%; height: 88vh;" class="ag-theme-alpine" [columnDefs]="CompletionHaedersColumnDefs"
+                     [rowData]="rowData" (rowClicked)="onRowClicked($event)" (gridReady)="onGridReady($event)"
+                     [defaultColDef]="{ flex: 1, minWidth: 100,sortable: true, filter: true,suppressHeaderMenuButton: true }" [animateRows]="true"
+                     [rowDragManaged]="true" [quickFilterText]="quickFilterText" [loading]="gridConfig.loading">
+    </ag-grid-angular>
+
+    <app-create-schematic [(displayCreateSchematicDialog)]="displayCreateSchematicDialog" [isEditAllowed] ="isEditCreateSchematic"
+                          (onClose)="closeCreateSchematicDialog()"></app-create-schematic>
+    <app-edit-schematic  [(displayEditSchematicDialog)] ="displayEditSchematicDialog" (schematicUpdated)="onSchematicUpdated()"
+    (onClose)="closeEditSchemanticDialog()"></app-edit-schematic>    
+    
+
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog" [buttonName]="'Delete'"
+    [dialogContent]="'Are you sure you want to Delete ?'" [dialogTitle]="'Confirm Delete'"
+    (onClose)="displayDeleteComponentDialog=false" (onDelete)="deleteConfirm()"></app-delete-confirmation-dialog>
+
+    <change-log *ngIf="openChangeLog" [entityName]="entityName" (onClose)="openChangeLog = false"></change-log>
+    
+</div>

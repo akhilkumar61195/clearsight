@@ -1,0 +1,128 @@
+<p-dialog [(visible)]="displayViewStatusDialog" [modal]="true" [closable]="false" header="View Status"
+    [style]="{width: '60vw', height:'90vh'}" (onShow)="onShow()">
+    <ng-template pTemplate="header" class="upload-dialog-header">
+        <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px;margin-right:0px;">
+            <h3 style="margin: 0;">File Status</h3>
+            <button style="position: absolute; right: 0px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="displayViewStatusDialog = false"></button>
+        </div> -->
+        <div class="dialog-header mb-2 headingHeight">
+            <h3 class="dialog-heading pb-2">File Status</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times"
+                (click)="displayViewStatusDialog = false"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <ag-grid-angular (rowClicked)="toggleLogVisibility($event.data);" class="ag-theme-alpine gridStyles"
+            [rowData]="files" [columnDefs]="columnDefs" [defaultColDef]="defaultColDef" [pagination]="false"
+            [paginationPageSize]="50" (gridReady)="onGridReady($event)">
+        </ag-grid-angular>
+        <div class="logsHeader">
+            <h3 style="margin: 0;">Logs</h3>
+        </div>
+        <ag-grid-angular class="ag-theme-alpine gridStyles" [gridOptions]="gridOptions" [columnDefs]="logColumnDefs"
+            [defaultColDef]="defaultColDef" [rowData]="logs" [pagination]="false">
+        </ag-grid-angular>
+        <button (click)="exportLogsToExcel(logs)" class="export-btn exportLogsSTyle">
+            <i class="pi pi-file-excel"></i> Export Logs
+        </button>
+        <!-- <p-table [value]="files"
+                 [paginator]="true"
+                 [rows]="20"
+                 [scrollable]="true"
+                 [scrollable]="true"
+                 [scrollHeight]="'75vh'">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Job ID</th>
+                    <th>File Name</th>
+                    <th>Process Status</th>
+                    <th>Created By</th>
+                    <th>Created Date</th>
+                    <th>Logs</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-file>
+                <tr>
+                    <td>{{file.id}}</td>
+                    <td>{{file.fileName}}</td>
+                    <td [ngClass]="{
+                'status-completed': file.processStatus === 'Completed',
+                'status-failed': file.processStatus === 'Failed',
+                'status-in-progress': file.processStatus === 'File Processing',
+                'status-uploaded': file.processStatus === 'File Uploaded',
+                'status-validated': file.processStatus === 'File Validated',
+             }">
+                        {{file.processStatus}}
+                    </td>
+                    <td>{{file.firstName}}</td>
+                    <td>{{file.createdDate | date: 'MM/dd/yyyy'}}</td>
+                    <td>
+                        <button pButton (click)="toggleLogVisibility(file.id)">
+                            <i class="pi" [ngClass]="{'pi-plus': !file.showLogs, 'pi-minus': file.showLogs}"></i>
+                            &nbsp;&nbsp;View Logs
+                        </button>
+                    </td>
+                </tr>
+
+                <tr *ngIf="file.showLogs">
+                    <td colspan="6">
+                        <p-table [value]="file.logs" [scrollable]="true" scrollHeight="200px">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Log Message&nbsp;<button pButton type="button" label="" icon="pi pi-file-excel" (click)="exportLogsToExcel(file)" style="margin-top:-5px;margin-bottom:-6px;"></button></th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-log>
+                                <tr>
+                                    <td>{{ log.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}</td>
+                                    <td>{{ log.logMessage }}</td>
+                                    <td></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </td>
+                </tr>
+                <tr *ngIf="file.showErrors">
+                    <td colspan="6">
+                        <div *ngFor="let error of file.errors">
+                            <p><strong>Material Number:</strong> {{ error.MaterialNumber }}</p>
+                            <p><strong>Validation Error:</strong> {{ error.ValidationError }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table> -->
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Close" icon="pi" (click)="displayViewStatusDialog = false"></button>
+    </ng-template>
+</p-dialog>
+<!-- <p-dalog [modal]="true" [closable]="false" header="View Logs" [style]="{width: '80vw'}" [(visible)]="showLogs">
+    <ng-template pTemplate="header">
+        <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px;margin-right:0px;">
+            <h3 style="margin: 0;">Logs</h3>
+            <button style="position: absolute; right: 0px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="showLogs = false"></button>
+        </div>
+    </ng-template>
+    <ng-template>
+        <p-table [value]="logs" [scrollable]="true" scrollHeight="30vh" *ngIf="showLogs">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Timestamp</th>
+                    <th>Log Message&nbsp;<button pButton type="button" label="" icon="pi pi-file-excel" (click)="exportLogsToExcel(logs)" style="margin-top:-5px;margin-bottom:-6px;"></button></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-log>
+                <tr>
+                    <td>{{ log.timestamp | date: 'MM/dd/yyyy HH:mm:ss' }}</td>
+                    <td>{{ log.logMessage }}</td>
+                    <td></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton label="Close" icon="pi" (click)="showLogs = false"></button>
+    </ng-template>
+</p-dalog> -->

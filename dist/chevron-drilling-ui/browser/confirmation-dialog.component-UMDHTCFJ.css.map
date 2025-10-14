@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/common/confirmation-dialog/confirmation-dialog.component.scss"],
+  "sourcesContent": ["\n::ng-deep .p-dialog-footer {\n    padding: 0rem 0rem .5rem 1rem;\n  }\n  .iconSize{\n    font-size: 40px;\n    color: var(--theme-green-medium-color) !important;\n  }\n  .parentDiv{\n    display: inline-flex;\n    justify-content: center;\n    align-items: center;\n  }\n  .icon-container {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n}\n.continueBtnColor{\n  background-color: var(--theme-green-medium-color) !important;\n}"],
+  "mappings": ";AACA,UAAA,CAAA;AACI,WAAA,KAAA,KAAA,OAAA;;AAEF,CAAA;AACE,aAAA;AACA,SAAA,IAAA;;AAEF,CAAA;AACE,WAAA;AACA,mBAAA;AACA,eAAA;;AAEF,CAAA;AACE,WAAA;AACA,mBAAA;AACA,eAAA;;AAEJ,CAAA;AACE,oBAAA,IAAA;;",
+  "names": []
+}

@@ -1,0 +1,56 @@
+app-login {
+  .flex-container {
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url("/assets/images/background-lg.png");
+    background-size: cover;
+  }
+
+  .login-auto {
+    display: flex;
+    margin: auto;
+    background: var(--bg-white) 0% 0% no-repeat padding-box;
+    border: 1px solid var(--bg-light-gray);
+    background: var(--bg-white) 0% 0% no-repeat padding-box;
+    border: 1px solid var(--theme-light-blue-color);
+    border-radius: 10px;
+    opacity: 1;
+  }
+
+  .pin button{
+    font-size: 14px;
+  }
+
+  .pin button:focus-visible,
+  .pin button:focus,
+  p-button button:focus,
+  .p-button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .pi-unveil {
+    position: relative;
+    bottom: 24px;
+    left: calc(100% - 20px);
+    color: var(--txt-black);
+  }
+
+  .mb-0 {
+    margin-bottom: 0px !important;
+  }
+
+  input {
+    font-family: "gotham-normal" !important;
+    height: 34px;
+    font-size: 14px !important;
+  }
+
+  .labeltxt,
+  .f-w-500  {
+    font-weight: 500;
+  }
+}

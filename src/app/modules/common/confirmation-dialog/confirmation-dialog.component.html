@@ -1,0 +1,17 @@
+
+  <p-dialog [(visible)]="visible" [modal]="true" class="confirmation-dialog" [closable]="false">
+    <div class="dialog-header">
+      <h3 class="dialog-heading">{{dialogTitle}}</h3>
+      <button  class="dialog-header-close-btn" pButton  icon="pi pi-times"  (click)="cancel()"></button>
+    </div>
+    <div class="icon-container pt-5">
+      <i class="pi pi-info-circle" [ngClass]="iconColor"></i>
+    </div>
+    <div class="pl-2 pt-3 parentDiv icon-container">
+      <span class="displaymessage">{{dialogContent}}</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button type="button" pButton class="p-button-outlined mb-1" [label]="cancelButtonName" *ngIf="cancelButtonVisibile" (click)="cancel()"></button>
+      <button type="button" pButton [ngClass]="continueButtonClass" class="mb-1" [label]="countinueButtonName" (click)="continue()"></button>
+    </ng-template>
+  </p-dialog>

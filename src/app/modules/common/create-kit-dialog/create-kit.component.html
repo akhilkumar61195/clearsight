@@ -1,0 +1,39 @@
+<!-- Custom dialog component for creating a kit -->
+<app-custom-dialog 
+    [(visible)]="visible" 
+    [dialogTitle]="'Create Kit'" 
+    [savebuttonName]="'Create'" 
+    (onCreateEvent)="onOpenConfirmationDialog()" 
+    (onClose)="closeDialog()">
+    
+    <!-- Form for creating a kit -->
+    <form [formGroup]="kitForm">
+        <div class="p-fluid grid pl-2 pr-2 well-details pt-0 pb-0">
+            
+            <!-- Input field for entering the kit name -->
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="kitName">
+                    Enter Kit Name:<span class="required">*</span>
+                </label>
+                <input 
+                    id="kitName" 
+                    type="text" 
+                    pInputText 
+                    formControlName="kitName" 
+                    placeholder="Enter Kit Name" 
+                    class="kit-name-input mt-2 db" />
+            </div>
+        </div>
+    </form>
+</app-custom-dialog>
+<app-custom-dialog 
+    [(visible)]="showConfirmationDialog" 
+    [dialogTitle]="'Create Kit Confirmation'" 
+    [savebuttonName]="'Save'" 
+    (onCreateEvent)="handleCreate()"
+    [dialogWidth]="'400px'"
+    [maximizable]="false"
+    (onClose)="closeConfirmationDialog()">
+  
+<p>Do you want to create new Kit ?</p>
+</app-custom-dialog>

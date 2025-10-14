@@ -1,0 +1,90 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<p-dialog [(visible)]="displayWhatIFAnalysis" [modal]="true" (onShow)="loadWhatIfList()" [closable]="false" [style]="{width: '80vw'}">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">Edit What If Analysis</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+    </div>
+    <div class="grid bg-theme-blue filtercontrols pl-2  pt-2 align-items-center">
+        <div class="col-5 sm:col-5 md:col-5 lg:col-5">
+            <span class="p-input-icon-left inputsearchSpan">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text"  (input)="onSearch($event)" class="whiteblue"  placeholder="Search" />
+            </span>
+        </div>
+        <div class="reset-button">
+
+        <p-button type="text" label="Reset Scenario" title="Reset selected scenario" class="filterBTN runfilter" (click)="displayResetComponentDialog=true;"></p-button>
+        
+        </div>
+
+        <div class="ml-2">
+       <div class="whiteblue select-switch-button">
+            <p-selectButton (onChange)="onViewSelectionChange()"
+            [(ngModel)]="selectedView"
+            [options]="whatIfConfigurationSetting"
+            optionLabel="label"
+            optionValue="value"
+            [allowEmpty]="false" />
+        </div>
+  </div>
+    </div>
+    <ng-template pTemplate="body">
+        <ag-grid-angular class="ag-theme-alpine wellHeaders"
+                         style="height: 74vh; margin: 1px; padding: 2px;"
+                         [columnDefs]="editWhatIfColumnDef"
+                         [rowData]="whatIfList"
+                         [rowHeight]="rowHeight"
+                         [quickFilterText]="globalFilter"
+                         [defaultColDef]="{ flex: 1, minWidth: 100 ,suppressHeaderMenuButton:true}"
+                         [singleClickEdit]="true"
+                         [rowDragManaged]="true"
+                         [animateRows]="true"
+                         [domLayout]="'normal'"
+                         [loading]="gridConfig.loading"
+                         (gridReady)="onGridReady($event)"
+                         [context]="{ componentParent: this }"
+                         (cellValueChanged)="onCellValueChanged($event)">
+        </ag-grid-angular>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="pagination-block  pull-left">
+        <div>
+            <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}}
+        </div>
+        <div>
+            <p-button label="Cancel" [disabled]="!isEdit"
+            (click)="resetWhatIfGrid()" [outlined]="true"></p-button>
+        <p-button label="Save Configuration" (click)="confirmSubmit()"
+            [disabled]="!isEdit" class="ml-2"></p-button>
+        <p-button label="Run What If Analysis" class="ml-2 green"
+            (click)="runWhatIfAnalysis()"></p-button>
+        </div>
+    </div>
+    </ng-template>
+
+    
+</p-dialog>
+
+<!-- <app-confirmation-dialog  [(visible)]="displayConfirmationComponentDialog"  [cancelButtonVisibile]="'true'" [dialogContent]="'Are you sure you want to save the changes ?'" [dialogTitle]="'Confirm Edit'"(onCancel)="displayConfirmationComponentDialog=false" (onContinue)="onClickSave(false)"></app-confirmation-dialog>  -->
+
+<app-confirmation-dialog [(visible)]="displayConfirmationComponentDialog" 
+[countinueButtonName]="'Continue'"  [cancelButtonVisibile]="'true'"
+[dialogContent]="'You are attempting to overwrite the Configuration in What If Configuration Slot. If that is correct, click Continue. Otherwise, click Cancel.'"
+[dialogTitle]="'Save Configuration Confirmation'" (onCancel)="displayConfirmationComponentDialog=false" (onContinue)="onClickSave(false)">
+</app-confirmation-dialog>
+
+<app-confirmation-dialog [(visible)]="displayResetComponentDialog" 
+[countinueButtonName]="'Continue'"  [cancelButtonVisibile]="'true'"
+[dialogContent]="'You are attempting to reset the selected What If scenario. Doing so will cause the following to occur:
+
+All cloned What If wells will be deleted from this scenario.
+
+All well information will be updated based on the current values in the Edit Well Headers modal.
+
+Any wells added to the Edit Well Headers modal since this scenario was created will be added.
+
+All wells will be set to “Include”.
+
+If this is your intention, click Continue, otherwise click Cancel.'"
+[dialogTitle]="'Reset Scenario Confirmation'" (onCancel)="displayResetComponentDialog=false" (onContinue)="reset()">
+</app-confirmation-dialog>

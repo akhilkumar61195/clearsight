@@ -1,0 +1,87 @@
+::ng-deep .p-dialog .p-dialog-header {
+  padding: 0 0 0 0;
+  
+}
+.well-details{
+  padding: 35px 15px;
+  margin-right: 0;
+  .well-group{
+    .well-label{
+    font-weight: 700;
+    width: 220px;
+    
+    }
+    .db{
+      display: block;
+      
+    }
+}
+
+
+}
+
+.row-style {
+  flex: 1 1 65%;
+  padding: 3% 1% 1% 1%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  font-weight:bold;
+}
+.row-style1 {
+  flex: 1 1 35%;
+  padding: 1% 2% 1% 1%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.row-style2 {
+  flex: 1 1 40%;
+  padding: 1% 0% 1% 1%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+}
+.row-style3 {
+  flex: 1 1 60%;
+  padding: 1% 0% 1% 1%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+}
+.row-style4 {
+  flex: 1 1 90%;
+  padding: 1% 0% 1% 1%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+}
+
+::ng-deep .p-dialog-footer {
+  padding: 0rem 0rem 1.5rem 1rem;
+}
+
+.requiredField {
+  color: red;
+  font-size: 18px;
+  line-height: 10px;
+  position: relative;
+  top: -1px;
+  display: inline-block;
+}
+.footer-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.calculatedVals {
+  font-weight: bold;
+  color: #000000;
+  background-color: #DBDCDD;
+}

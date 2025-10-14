@@ -1,0 +1,29 @@
+.p-dialog .p-dialog-footer {
+    padding: 0.5rem 0.5rem .5rem 1.5rem;
+  }
+  
+  // .filterBTN .p-button {
+  //   background-color: var(--theme-light-blue-color);
+  //   color: var(--bg-dark-gray);
+  // }
+  
+  .equipment-dialog .p-dialog .p-dialog-content {
+    overflow-y: hidden;  
+    overflow-x: hidden; 
+    padding-top: 50px !important;  
+  }
+  .dialog-content-container {
+    position: sticky;
+    top: 0;  
+    background-color: #fff;  
+    z-index: 10;  
+  }
+
+    .requiredField {
+      color: red;
+      font-size: 18px;
+      line-height: 10px;
+      position: relative;
+      top: -1px;
+      display: inline-block;
+    }

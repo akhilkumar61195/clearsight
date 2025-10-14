@@ -1,0 +1,84 @@
+<p-dialog [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="true" [maximizable]="true"
+  [breakpoints]="{ '960px': '75vw' }" styleClass="crn-dialog" [style]="{ width: '60vw', height: '500px' }"
+  (onHide)="onHide()">
+
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <div class="dialog-custom-header">
+      <div *ngIf="parentDirectory" class="has-document-header">
+        <i class="pi pi-chevron-circle-left" (click)="getDocuments()"></i>
+        <span>{{parentDirectory.shortDescription}} - {{parentDirectory.documentType}}</span>
+      </div>
+      <span *ngIf="!parentDirectory">{{title}}</span>
+      <div class="actions" *ngIf="(!hasDirectory || parentDirectory)">
+        <p-button type="button" (click)="openFileUploder = true" styleClass="chv-blue-btn" icon="pi pi-cloud-upload"
+          iconPos="right" label="Upload"></p-button>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Body -->
+  <ng-template pTemplate="content">
+    <div class="grid p-2">
+      <div class="col-12" *ngIf="documentTypes && documentTypes.length > 1">
+        <p-button *ngFor="let documentType of documentTypes" type="button" (click)="onSwitchDocumentType(documentType)"
+          [outlined]="documentType.id === currentDocumentTypeId ? false : true" styleClass="chv-blue-btn" class="m-1"
+          iconPos="right" label="{{documentType.name}}">
+        </p-button>
+      </div>
+
+      <div class="col-12" *ngIf="holeSectionEnabled">
+        <div class="max-w-full overflow-auto">
+          <p-button *ngFor="let holeSection of holeSections" type="button" (click)="onSwitchMetadata(holeSection)"
+            [outlined]="holeSection.metadata === selectedMetadataFilter ? false : true" styleClass="chv-blue-btn"
+            class="m-1" iconPos="right" label="{{holeSection.metadata}}">
+          </p-button>
+        </div>
+      </div>
+    </div>
+    <p-table [value]="documents" [tableStyle]="{ 'min-width': '50rem' }" [loading]="loading" [responsive]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Version</th>
+          <th>Uploaded By</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-document>
+        <tr>
+          <td>
+            <span class="has-document" *ngIf="(hasDirectory && !parentDirectory)" (click)="getDocuments(document)">
+              <i class="pi pi-folder"></i> {{document.shortDescription}}
+            </span>
+            <span class="anchor-text" *ngIf="(!hasDirectory || parentDirectory)"
+              (click)="downloadDocument(document)">
+              {{document.shortDescription}}
+            </span>
+          </td>
+          <td>{{ document.dateCreated | date: 'MM/dd/yyyy' }}</td>
+          <td>{{ document.version }}</td>
+          <td>{{ document.userIdCreatedByName }}</td>
+          <td>
+            <p-button (click)="onClickDeleteDocument($event, document)" icon="pi pi-trash" severity="danger" [outlined]="true">
+            </p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5" class="text-center">No documents found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+
+</p-dialog>
+
+<document-viewer *ngIf="selectedDocumentId" [documentId]="selectedDocumentId" (onClose)="onCloseDocumentViewer()">
+</document-viewer>
+
+<file-upload *ngIf="openFileUploder" [entityId]="entityId" [entityType]="entityType" [documentTypeId]="documentTypeId"
+  [parentDirectory]="parentDirectory" (refreshData)="onSuccessfullFileUpload()"
+  (onClose)="openFileUploder = false"></file-upload>

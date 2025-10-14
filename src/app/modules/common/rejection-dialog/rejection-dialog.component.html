@@ -1,0 +1,42 @@
+<p-dialog [(visible)]="displayRejectSchematicDialog" (onShow)="getReasonTypes()" [modal]="true" [style]="{ width: '600px', height: '250px' }" [closable]="false">
+    <div class="dialog-header">
+      <h3  class="dialog-heading">Reject Schematic</h3>
+      <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="cancelSchematic()"></button>
+    </div>
+  
+    <form [formGroup]="rejectSchematicForm" (ngSubmit)="submitRejectSchematicForm()">
+      <div class="p-fluid" style="padding: 1rem;">
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="reasonId" class="schematicLabel">Reason Code <span class="starCss">*</span></label>
+           
+            <p-dropdown
+            [options]="reasonTypes"
+            [filter]="true"
+            class="inputFlex"
+            appendTo="body"
+            optionValue="id" optionLabel="reasonCode"
+            formControlName="reasonId">
+          </p-dropdown>
+          </div>
+          <div *ngIf="rejectSchematicForm.get('reasonId')?.invalid && rejectSchematicForm.get('reasonId')?.touched" class="errorMessage">
+            Reason code is required.
+          </div>
+        </div>
+      
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="rejectionNotes" class="schematicLabel">Rejection Notes</label>
+            <input id="rejectionNotes" type="text" formControlName="rejectionNotes" pInputText  class="inputFlex">
+          </div>
+        </div>
+
+      </div>
+      <p-footer style="display: flex; justify-content: center;">
+        <button pButton label="Cancel"   class="cancelBtn" (click)="cancelSchematic()"></button>
+        <button pButton label="Save"  type="submit" class="saveBtn"  [disabled]="rejectSchematicForm.invalid"></button>
+      </p-footer>
+      
+    </form>
+</p-dialog>
+ 

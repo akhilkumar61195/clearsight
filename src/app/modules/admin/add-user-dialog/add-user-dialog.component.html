@@ -1,0 +1,51 @@
+<form [formGroup]="addUserForm" novalidate>
+  <div class="add-user-form-container">
+    <div class="add-user-row">
+      <div class="add-user-col">
+        <label for="firstNameInput" class="add-user-label">First Name <span class="requiredField">*</span></label>
+        <input id="firstNameInput" pInputText formControlName="firstName" placeholder="Enter First Name" />
+        <small class="p-error block"
+          *ngIf="addUserForm.get('firstName')?.invalid && addUserForm.get('firstName')?.touched">
+          First Name is required
+        </small>
+      </div>
+      <div class="add-user-col">
+        <label for="lastNameInput" class="add-user-label">Last Name <span class="requiredField">*</span></label>
+        <input id="lastNameInput" pInputText formControlName="lastName" placeholder="Enter Last Name" />
+        <small class="p-error block"
+          *ngIf="addUserForm.get('lastName')?.invalid && addUserForm.get('lastName')?.touched">
+          Last Name is required
+        </small>
+      </div>
+    </div>
+    <div class="add-user-row">
+      <div class="add-user-col">
+        <label for="emailInput" class="add-user-label">Email <span class="requiredField">*</span></label>
+        <input id="emailInput" pInputText formControlName="email" type="email" placeholder="Enter Email" />
+        <small class="p-error block" *ngIf="addUserForm.get('email')?.invalid && addUserForm.get('email')?.touched">
+          Valid Email is required
+        </small>
+      </div>
+      <div class="add-user-col">
+        <label for="passwordInput" class="add-user-label">Password <span class="requiredField">*</span></label>
+        <input id="passwordInput" pInputText formControlName="password" type="password" placeholder="Enter Password" />
+        <small class="p-error block"
+          *ngIf="addUserForm.get('password')?.invalid && addUserForm.get('password')?.touched">
+          Password is required
+        </small>
+      </div>
+    </div>
+    <div class="add-user-row">
+      <div class="add-user-col">
+        <label for="primaryRole" class="add-user-label">Primary Role</label>
+        <p-dropdown [options]="roleList" formControlName="primaryRole" appendTo="body" optionLabel="value" optionValue="id"
+          placeholder="Select Primary Role">
+        </p-dropdown>
+        <small class="p-error block"
+          *ngIf="addUserForm.get('primaryRole')?.invalid && addUserForm.get('primaryRole')?.touched">
+          Primary Role is required
+        </small>
+      </div>
+    </div>
+  </div>
+</form>

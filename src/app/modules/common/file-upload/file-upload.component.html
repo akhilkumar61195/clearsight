@@ -1,0 +1,73 @@
+<p-dialog class="file-uploader-dialog" [visible]="visible" [modal]="true" [draggable]="true" [resizable]="true"
+  [breakpoints]="{ '960px': '75vw' }" styleClass="crn-dialog" [style]="{ width: '55vw', height: 'auto' }"
+  (onHide)="onClose.emit();" (visibleChange)="onCloseDialog($event)">
+  <!-- Header -->
+  <ng-template pTemplate="header">
+    <div class="dialog-custom-header">
+      <span>Upload Files</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="upload-spinner" *ngIf="showSpinner">
+      <div class="upload-container">
+        <span>Uploading</span>
+      </div>
+    </div>
+    <p-fileUpload chooseLabel="Add File +" uploadStyleClass="upload-btn" cancelStyleClass="cancel-custom-btn"
+      uploadIcon="" [uploadLabel]="uploadFileLabel" name="files[]" styleClass="file-uploader-container"
+      [multiple]="true" [accept]="acceptFileType" cancelLabel="Close" [customUpload]="true"
+      (onClear)="filesList = []; onCloseDialog(false);" (onSelect)="selectedFiles($event)"
+      (uploadHandler)="uploadDocuments($event)">
+
+      <ng-template let-file pTemplate="file">
+        <!-- {{documentTypes| json}} -->
+      </ng-template>
+
+      <ng-template pTemplate="content" let-files>
+        <div *ngIf="files.length">
+          <div class="grid" *ngFor="let file of files; let i = index;let first=first">
+
+            <div class="col-4 flex flex-column gap-1">
+              <label for="fileName" class="form-label labeltxt" *ngIf="first">File Name</label>
+              <input pInputText type="text" [ngModel]='file.name' class="whiteblue" [disabled]="true" />
+            </div>
+            <div class="col-4 flex flex-column gap-1">
+              <label for="documentType" class="form-label labeltxt" *ngIf="first">Document Type</label>
+              <p-dropdown [options]="documentTypes" optionValue="id" optionLabel="name"
+                [ngModel]="filesList[i].documentTypeId" (onChange)="onChangeDocumentType($event, i)" styleClass="w-full"
+                placeholder="Select Document Type" appendTo="body"></p-dropdown>
+            </div>
+
+            <div class="col-3 flex flex-column gap-1"
+              *ngIf="filesList && filesList.length && filesList[i].askHoleSection">
+              <label for="documentType" class="form-label labeltxt" *ngIf="first">Hole Section</label>
+              <p-dropdown [options]="holeSections" optionValue="LOOKUPTEXT" optionLabel="LOOKUPDISPLAYTEXT"
+                [(ngModel)]="filesList[i].holeSection" placeholder="Select Hole Section" appendTo="body"></p-dropdown>
+            </div>
+
+            <div class="col-1">
+              <p-button (click)="removeDocument(files, i)" icon="pi pi-trash" [class]="{'mt-4':first}" severity="danger"
+                [outlined]="true">
+              </p-button>
+            </div>
+
+          </div>
+        </div>
+      </ng-template>
+
+
+      <!-- Hide all buttons icon -->
+      <ng-template pTemplate="chooseicon"></ng-template>
+      <ng-template pTemplate="uploadicon"></ng-template>
+      <ng-template pTemplate="cancelicon">
+        <div class="closeUploader" (click)="onClose.emit();"></div>
+      </ng-template>
+
+    </p-fileUpload>
+    <div class="uploader-overlay">
+      <i class="pi pi-cloud-upload" style="font-size: 2.5rem"></i>
+      <p>Drop file to upload or</p>
+    </div>
+  </ng-template>
+</p-dialog>

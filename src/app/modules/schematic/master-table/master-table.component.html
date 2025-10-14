@@ -1,0 +1,102 @@
+<ngx-spinner bdColor="rgba(0,0,0,0.3)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+    <p style="color: white"> Hang tight, we're loading things for you... </p>
+</ngx-spinner>
+
+<div class="blue-background">
+    <div class="select-button-container">
+        <p-selectButton (onChange)="onViewSelectionChange()" [(ngModel)]="selectedView" [options]="viewOptionsButtons"
+            optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+    <div class="select-button-container minwd-auto">
+        <p-selectButton (onChange)="onViewSelectionPSChange($event)" [(ngModel)]="selectedViewPS"
+            [options]="viewOptionsPS" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+    <div class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler p-1 p-component">
+        <div class="flex align-items-center">
+            <p-checkbox label="Include Contingency" name="includeContingencyOnly" binary="true"
+                [(ngModel)]="includeContingencyOnly" (onChange)="applyFilter()"></p-checkbox>
+        </div>
+
+    </div>
+    <!-- <div class="button-container">
+        <p-button type="button" label="All"
+                  [styleClass]="selectedmasterTableView === -1 ? 'chv-blue-btn' : 'chv-light-blue-btn'"
+                  [ngClass]="{'active': selectedmasterTableView === -1}" (click)="onMasterTableClick(-1)">
+        </p-button>
+
+        <p-button type="button" label="Assembly"
+                  [styleClass]="selectedmasterTableView === 0 ? 'chv-blue-btn' : 'chv-light-blue-btn'"
+                  [ngClass]="{'active': selectedmasterTableView === 0}" (click)="onMasterTableClick(0)">
+        </p-button>
+
+        <p-button type="button" label="Components"
+                  [styleClass]="selectedmasterTableView === 1 ? 'chv-blue-btn' : 'chv-light-blue-btn'"
+                  [ngClass]="{'active': selectedmasterTableView === 1}" (click)="onMasterTableClick(1)">
+        </p-button>
+    </div> -->
+
+    <div class="export-container">
+        <p-button pTooltip="Export to Excel" class="filterBTN export-btn" (click)="exportMasterTableDataAsExcel()"
+            icon="pi pi-file-export" severity="secondary"
+            [disabled]="!masterDataGridData || masterDataGridData.length === 0"
+            [ngClass]="{'disabled': !masterDataGridData || masterDataGridData.length === 0}"></p-button>
+        <p-button pTooltip="Publish Schematic" class="filterBTN export-btn pl-2" (click)="exportToOdin()"
+            icon="pi pi-file-export" severity="secondary" label="Publish Schematic"
+            [disabled]="!masterDataGridData || masterDataGridData.length === 0 || !hasComponentType() || !isPublishSchematic"
+            [ngClass]="{'disabled': !masterDataGridData || masterDataGridData.length === 0 || !hasComponentType() || !isPublishSchematic}"></p-button>
+        <p-button pTooltip="Import Depth Table" class="filterBTN export-btn pl-2" (click)="importDepthTableDialog()"
+            icon="pi pi-cloud-upload" severity="secondary" label="Import Depth Table"
+            [disabled]="!masterDataGridData || masterDataGridData.length === 0 || !isImportDepthTable"
+            [ngClass]="{'disabled': !masterDataGridData || masterDataGridData.length === 0 || !isImportDepthTable}">
+        </p-button>
+        <!-- <p-button pTooltip="Control Line and Clamp" class="filterBTN export-btn pl-2" (click)="controlLineClampDialog()"
+                  icon="pi pi-cloud-upload" severity="secondary" label="Control Line Clamp"
+                  [disabled]="!masterDataGridData || masterDataGridData.length === 0"> </p-button> -->
+        <!-- <p-button pTooltip="View Status" class="filterBTN export-btn pl-2" (click)="viewStatus()" severity="secondary"
+                  label="View Status" [disabled]="!masterDataGridData || masterDataGridData.length === 0"> </p-button> -->
+        <p-button class="p-button-outlined p-button-secondary saveUI ml-2 save-user-btn" icon="pi"
+            pTooltip="Save Personalization" tooltipPosition="top" (onClick)="onSaveState()">
+        </p-button>
+        <p-button icon="pi"
+            class="p-button-outlined p-button-secondary reset-ui-button ml-2" pTooltip="Reset Personalization"
+            tooltipPosition="top" (onClick)="onResetState()">
+        </p-button>
+
+    </div>
+</div>
+
+<div>
+    <ag-grid-angular style="width: 100%; height: 80vh;" class="ag-theme-alpine" [columnDefs]="masterDataColumnDefs"
+        [rowData]="filteredMasterDataGridData" [rowHeight]="rowHeight" (gridReady)="onGridReady($event)"
+        [defaultColDef]="{ flex: 1, minWidth: 100, suppressHeaderMenuButton: true }" [singleClickEdit]="true"
+        [rowDragManaged]="true" [animateRows]="true" (rowClicked)="onRowClicked($event)" [getRowClass]="getRowClass"
+        [sideBar]="sideBar">
+    </ag-grid-angular>
+</div>
+
+<app-export-to-odin-dialog [(displayExportToOdinDialog)]="displayExportToOdinDialog"
+    [IsApprovedRequest]="IsApprovedRequest" (onClose)="closeExportToOdinDialog()"
+    [schematicName]="schematic.schematicsName" [schematic]="schematic"></app-export-to-odin-dialog>
+<app-import-depth-table-dialog [(displayImportDepthTableDialog)]="displayImportDepthTableDialog"
+    (onClose)="closeImportDepthTableDialog()" (fileUploaded)="refreshTable()" [statusId]="statusId"
+    [schematicId]="schematicId"></app-import-depth-table-dialog>
+<!-- <app-batch-file-status-dialog [(displayBatchStatusDialog)]="displayBatchStatusDialog"
+                              (onClose)="closeBatchStatusDialog()" [schematicId]="schematicId"></app-batch-file-status-dialog> -->
+
+<!-- Custom dialog and excel upload and button reuseable -->
+<!-- <app-custom-dialog [visible]="displayControlLineAndClampDialog" [title]="'Control Line and Clamp'"
+                   [description]="'To add your control line and clamp calculations, either drag your file into the space below or click choose file:'"
+                   [downloadTemplateLink]="'assets/templates/ClampTemplate.xlsx'" (onClose)="displayControlLineAndClampDialog = false">
+<app-excel-upload-dialog [validateData]="customValidate" [showDescription]="isShowDescription" [acceptedFileTypes]="'.xlsx, .xls'"
+                            [expectedHeaders]="['Manufacturer Part #', 'Halliburton Part #', 'Min Quantity (Primary)', 'Total Quantity Provided', 'Type']"
+                            [additionalFields]="{ schematicsID: schematicId, uid: userDetail.uid }"
+                            [schematicId]="schematicId"
+                            [columnMapping]="{
+                                'Manufacturer Part #': 'ManufacturerPart',
+                                'Halliburton Part #': 'HalliburtonPart',
+                                'Min Quantity (Primary)': 'PrimaryDemand',
+                                'Total Quantity Provided': 'TotalQty',
+                                'Type': 'Type'
+                              }"
+                            (onUploadFile)="handleUpload($event)"></app-excel-upload-dialog>
+</app-custom-dialog> -->

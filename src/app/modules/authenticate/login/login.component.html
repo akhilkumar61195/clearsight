@@ -1,0 +1,49 @@
+<div class="flex-container noselect">
+    <div class="col-12 md:col-8 lg:col-4 sm:col-6 h-full m-auto login-auto bg-white border-round-2xl">
+        <div class="card w-full p-5">
+            <div class="grid align-items-center justify-content-center mt-2">
+                <img src="assets/images/sample_logo.png" width="120px">
+            </div>
+            <div class="grid align-items-center justify-content-center mt-2 font-semibold text-base">
+                Login
+            </div>
+            <form [formGroup]="form" class="formgrid grid" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+                <div class="grid mt-2">
+                    <div class="field col-12 field">
+                        <label for="email" class="form-label text-sm labeltxt">Username</label>
+                        <input type="email" pInputText id="email" formControlName="username"
+                            class="text-base text-color surface-overlay p-10px border-1 border-solid border-round appearance-none outline-none focus:border-primary w-full"
+                            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" [pattern]="EMAILPATTERN"
+                            [email]="true" />
+                        <div *ngIf="submitted && f.username.errors" class="errorMessage">
+                            <div *ngIf="f.username.errors.required">Username is required</div>
+                            <div *ngIf="f.username.errors.email">
+                                Email format is invalid
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 col-12 field">
+                        <label class="w-full labeltxt text-sm">Password</label>
+                        <input [type]="hide ? 'password' :'text'" pInputText formControlName="password"
+                            class="text-base text-color surface-overlay p-10px border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+                            [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <i class="pi pi-eye pi-unveil" *ngIf="hide" (click)="unveilReveilPWD()"></i>
+                        <i class="pi pi-eye-slash pi-unveil" *ngIf="!hide" (click)="unveilReveilPWD()"></i>
+                        <div *ngIf="submitted && f.password.errors" class="errorMessage">
+                            <div *ngIf="f.password.errors.required">Password is required</div>
+                        </div>
+                    </div>
+                    <div class="mt-1 col-12 field errorMessage text-center text-sm text-center" *ngIf="errormessage">{{errormessage}}</div>
+                    <div class="col-12 field">
+                        <p-button label="Login" [loading]="loading" [disabled]="loading"
+                            loadingIcon="pi pi-spin pi-spinner" class="col-12 pin" (onClick)="onSubmit()"></p-button>
+                    </div>
+                    <div class="col-12 field grid">
+                        <a href="javascript:void(0)"
+                            class="w-full font-medium text-sm cursor-pointer text-center text-black f-w-500">Forgot Password?</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

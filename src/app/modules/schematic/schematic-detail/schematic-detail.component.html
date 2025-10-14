@@ -1,0 +1,59 @@
+<div class="sky-background">
+    <div class="left-sky-button-container">
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Well Features" [disabled] ="!isWellFeaturesEditable" (onClick)="showWellFeaturesDialog()"
+            class="mr-2"></p-button>
+        <!--  ngClass dynamically applies the 'disabled' class to the button when 
+  'isPerforationsEnabled' is false. -->
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Perforations"
+            (click)="showPerforationTableDialog()" class="mr-2" [disabled]="!isPerforationsEnabled" [ngClass]="{'disabled': !isPerforationsEnabled}"></p-button>
+       <p-button type="text" styleClass="chv-light-blue-btn" label="Clamp/Control Line"
+       (click)="showControlLineDialog()" class="mr-2"></p-button> 
+       <!-- removed persona eariler it was showing for only external engineer login -->
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Clone Schematic"
+            (click)="showCloneSchematicDialog()" class="mr-2"></p-button>
+        <p-button type="text" styleClass="chv-light-blue-btn"  class="mr-2" label="Change Log" (click)="changeLog()"></p-button>
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Upload Status" (click)="viewStatus()"></p-button>
+
+        <p-button type="text" *ngIf="userDetail?.length > 0 && userDetail[0]?.accessAction  =='X'  && schematic?.statusId===4" styleClass="chv-light-blue-btn" label="Approve" (click)="displayExportToOdinDialog = true;"></p-button>
+        <p-button type="text" *ngIf="userDetail?.length > 0 && userDetail[0]?.accessAction  =='X'  && schematic?.statusId===4"  styleClass="chv-light-blue-btn" label="Reject" (click)="displayRejectSchematicDialog=true;"></p-button>
+    </div>
+    <div class="select-button-container">
+        <p-selectButton (onChange)="onViewSelectionChange($event)" [(ngModel)]="selectedView" [options]="viewOptions"
+            optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+</div>
+
+
+<app-assembly-builder *ngIf="schematic && this.selectedView==2" [statusId]="schematic?.statusId" [schematic]="schematic"
+    [viewData]="viewData"></app-assembly-builder>
+
+<app-master-table *ngIf="schematic &&  this.selectedView==1" [schematic]="schematic"  [statusId]="schematic?.statusId" [viewData]="viewData"
+    (viewChanged)="onViewChanged($event)"></app-master-table>
+
+<app-well-features-dialog [(displayWellFeaturesDialog)]="displayWellFeaturesDialog" [schematicId]="schematicId"
+    (onClose)="closeWellFeaturesDialog()" [statusId]="schematic?.statusId" (onSave)="saveWellFeaturesDialog()"></app-well-features-dialog>
+<app-perforations-table-dialog [(displayPerforationTableDialog)]="displayPerforationTableDialog" [refresh]="refreshPerforationTable"
+    [schematicId]="schematicId" [statusId]="schematic?.statusId" (zoneCountChanged)="onZoneCountChanged($event)" (onClose)="closePerforationTableDialog()"></app-perforations-table-dialog>
+<app-clone-schematic-dialog [(displayCloneSchematicDialog)]="displayCloneSchematicDialog" 
+    (onClose)="closeCloneSchematicDialog()" [schematicId]="schematicId"></app-clone-schematic-dialog>
+
+<change-log *ngIf="openChangeLog" [entityName]="entityName" [schematicDetailId]="schematicDetailId"
+    (onClose)="openChangeLog = false"></change-log>
+
+<app-confirmation-dialog [(visible)]="displayConfirmationComponentDialog"
+    [countinueButtonName]="'Continue'"
+    [dialogContent]="'You have unsaved changes. If you switch views, your changes will be lost. Do you want to continue?'"
+    [dialogTitle]="'Confirm'" (onCancel)="onCancel()" (onContinue)="changeView()">
+</app-confirmation-dialog>
+
+<app-export-to-odin-dialog [(displayExportToOdinDialog)]="displayExportToOdinDialog"  [IsApprovedRequest]="IsApprovedRequest"
+                           (onClose)="closeExportToOdinDialog()" [schematicName]="schematic?.schematicsName" [schematic]="schematic"></app-export-to-odin-dialog>
+
+<app-reject-schematic [(displayRejectSchematicDialog)]="displayRejectSchematicDialog"(onClose)="closeRejectDilaog($event)" [schematicDetailId]="schematicDetailId"></app-reject-schematic>
+<app-file-upload-with-grid [selectedView] ="selectedDocumentView" [appId]="appId" [functionId]="functionId"  [dialogTitle]="selectedDocument" 
+    [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"  [entityType]="entityType" 
+ [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" (onClose)="onClose()"></app-file-upload-with-grid>
+<!-- moved view status from dark blue to light blue -->
+<app-file-log-status-dialog [(displayBatchStatusDialog)]="displayBatchStatusDialog"
+                              (onClose)="displayBatchStatusDialog=false" [taskType]="'depthtable,clamps'" [schematicId]="schematicId"></app-file-log-status-dialog>
+

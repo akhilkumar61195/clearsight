@@ -1,0 +1,50 @@
+import { SchematicMasterTable } from "./schematic-master-table";
+
+export interface ThorCompletionsMaterials {
+  wellId: number;
+  wellNumber: number | null;
+  id: number | null;
+  dateCreated: string | null;
+  item: string | null;
+  holeSection: string | null;
+  materialType: string | null;
+  materialShortDesc: string | null;
+  materialId: string | null;
+  designComment: string | null;
+  manufacturerPart: string | null;
+  serialNumber: string | null;
+  uoM: string | null;
+  primaryQuantity: number | null;
+  secondaryQuantity: number | null;
+  contingentQuantity: number | null;
+  primaryFt: number | null;
+  secondaryFt: number | null;
+  contingencyFt: number | null;
+  primarySource: string | null;
+  backupQuantity: number | null;
+  quantityShipped: number | null;
+  quantityReturned: number | null;
+  wellViewConsumption: number | null;
+  rigReadyDate: string | null;
+  vendor: string | null;
+  release: string | null;
+  status: string | null;
+  additionalComments: string | null;
+  sapDocNumber: string | null;
+  reconciledInSap: string | null;
+  specSheetDocumentCount: number | null;
+  cvxPoDocumentCount: number | null;
+  matDocumentCount: number;
+  buildPriorityNumber: number | null;
+  sectionId: number | null;
+  sectionName: string | null;
+  sortOrder: number | null;
+  primaryBackupFt: number | null;
+  mcComments: string | null;
+  componentTypeId: number | null;
+  componentTypeName: string | null;
+  functionId?: number | null;
+  materialGroup?: string | null;
+  masterDetails?: SchematicMasterTable[] | null;
+}
+

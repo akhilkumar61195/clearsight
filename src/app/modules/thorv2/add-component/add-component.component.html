@@ -1,0 +1,58 @@
+<p-dialog [(visible)]="showAddComponentDialog" [modal]="true"  [style]="{ width: '78vw' }" [closable]="false">
+    <div class="dialog-header">
+      <h3  class="dialog-heading">Add Component</h3>
+      <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="cancelAddComponent()"></button>
+    </div>
+  
+    <ng-template pTemplate="content">
+        <div class="dialog-content-container">
+            <div class="grid bg-theme-blue filtercontrols mt-0">
+                <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+                    <span class="p-input-icon-left inputsearchSpan" style="margin-left:7px;">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" [(ngModel)]="searchComponents" class="whiteblue" [disabled]="unsavedChanges" 
+                               (input)="onSearch($event)" placeholder="Search" />
+                    </span>
+                </div>
+                <div class="col-0 sm:col-0 md:col-6 lg:col-6 p-6px">
+                    <p-button type="text" label="Reset" class="filterBTN runfilter" (click)="reset(searchComponent)"></p-button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="ag-grid-container">
+            <ag-grid-angular  #agGrid  style="width: 100%; height: 70vh;"
+                             class="ag-theme-alpine"
+                             [columnDefs]="mdlColumnDefs"
+                             [rowData]="mdlRecords"
+                             [rowHeight]="rowHeight"
+                             [defaultColDef]="{ flex: 1,autoHeight:true, resizable: true, sortable: true,   filter: true, minWidth: 90,suppressHeaderMenuButton: true }"
+                             [animateRows]="true"
+                             [loading]="loading"
+                             (gridReady)="onGridReady($event)"
+                             [rowSelection]="rowSelection"
+                             [gridOptions]="gridOptions"
+                             [quickFilterText]="quickFilterText"
+                             (selectionChanged)="onSelectionChanged($event)">
+            </ag-grid-angular>
+        </div>
+
+    </ng-template>
+
+
+
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container">
+            <button type="button"  style="margin: 15px 7px;"
+                    class="p-ripple p-element chv-blue-btn p-button p-component" (click)="addRecords()" [disabled]="isAddRecordDisabled">
+                Add Record
+            </button>
+            <button type="button" (click)="cancelAddComponent()" style="margin: 15px 7px;"
+                    class="p-ripple p-element chv-blue-btn p-button p-component">
+                Close
+            </button>
+        </div>
+    </ng-template>
+  </p-dialog>
+ 

@@ -1,0 +1,139 @@
+<div class="w-full flex bg-theme-blue spacebetween p-card p-component p-6px aligncenter">
+  <div class="gap-1 odin-filter-flex aligncenter">
+    <div class="filter-section">
+      <div class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler">
+        <div class="flex align-items-center pl-2">
+          <p-radioButton name="pMonth" value="6" [(ngModel)]="selectedMonthSummary" inputId="6"
+            (onClick)="onMonthChange()"></p-radioButton>
+          <label for="6" class="ml-2">6</label>
+        </div>
+
+        <div class="flex align-items-center pl-2 pr-2">
+          <p-radioButton name="pMonth" value="12" [(ngModel)]="selectedMonthSummary" inputId="12"
+            (onClick)="onMonthChange()"></p-radioButton>
+          <label for="12" class="ml-2">12</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pMonth" value="18" [(ngModel)]="selectedMonthSummary" inputId="18"
+            (onClick)="onMonthChange()"></p-radioButton>
+          <label for="18" class="ml-2">18</label>
+        </div>
+
+        <div class="flex align-items-center gap-1 ">
+          <p-radioButton name="pMonth" value="24" [(ngModel)]="selectedMonthSummary" inputId="24"
+            (onClick)="onMonthChange()"></p-radioButton>
+          <label for="24" class="ml-2">24 Months</label>
+        </div>
+        <div class="monthSelection pr-2">({{futureDate}})</div>
+      </div>
+    </div>
+
+    <div class="filter-section pl-2">
+      <div class="flex flex-wrap gap-2 justify-content lightBlueBG displaytoggler">
+        <div class="flex align-items-center pl-2 ">
+          <p-radioButton name="pDate" value="P10" [(ngModel)]="selectedPType" inputId="P10"
+            (onClick)="onPChange();"></p-radioButton>
+          <label for="P10" class="ml-2">P10</label>
+        </div>
+
+        <div class="flex align-items-center pr-2">
+          <p-radioButton name="pDate" value="P50" [(ngModel)]="selectedPType" inputId="P50"
+            (onClick)="onPChange();"></p-radioButton>
+          <label for="P50" class="ml-2">P50</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="filter-section pl-2">
+      <div class="flex flex-wrap gap-2 justify-content lightBlueBG displaytoggler">
+        <div class="flex align-items-center pl-2 pr-2">
+          <p-checkbox label="Inc Contingency" name="include_contingency" [value]="true"
+            [(ngModel)]="include_contingency" (onChange)="toggleBalance()"></p-checkbox>
+        </div>
+      </div>
+    </div>
+    <div class="flex aligncenter ml-3">
+      <div class="label-text">
+        <p class="m-0 text-white">Data Source </p>
+      </div>
+      <div class="select-button-container ml-2">
+        <p-selectButton [(ngModel)]="selectedInventory" [options]="inventoryButtons" (ngModelChange)="onInventoryChange($event)"
+          optionLabel="label" optionValue="value" [allowEmpty]="false">
+        </p-selectButton>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="flex aligncenter">
+    <p-button title="Edit What if Analysis" label="What if Analysis" (click)="showWhatIfDialog = true"
+      styleClass="chv-light-blue-btn" icon="edit-icon" severity="secondary" class="mr-2"></p-button>
+
+    <p-button [title]="((whatIf ? 'Running' : 'Run') + ' What If Analysis')"
+      [label]="((whatIf ? 'Running' : 'Run') + ' What If Analysis')" (click)="runWhatIfAnalysis()"
+      [class]='{"run-btn": !whatIf,"running-btn": whatIf}' icon="whatif-icon" severity="secondary"></p-button>
+
+    <p-button type="text" (click)="displayEditWellHeaders=true;" class="ml-2" styleClass="chv-light-blue-btn"
+      icon="edit-icon" label="Well Headers"></p-button>
+
+    <p-button type="text" (click)="toggleSelectwell()" class="ml-2" styleClass="chv-light-blue-btn"
+      label="Select Wells"></p-button>
+    <p-button type="text" (click)="changeLog()" class="ml-2" styleClass="chv-light-blue-btn"
+      label="Change log"></p-button>
+    <div class="select-button-container ml-2">
+      <p-selectButton [(ngModel)]="selectedView" [options]="viewOptionsButtons" (ngModelChange)="onViewChange($event)"
+        optionLabel="label" optionValue="value" [allowEmpty]="false" />
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
+
+<!-- <app-odin-drilling-dashboard *ngIf="selectedView == 1"></app-odin-drilling-dashboard>
+<app-odin-completion-dashboard *ngIf="selectedView == 2"></app-odin-completion-dashboard> -->
+
+<app-well-headers [(displayEditWellHeaders)]="displayEditWellHeaders" [appId]="appId" [functionId]="selectedView"
+  (onClose)="onWellHeadersCancel($event)" (onSave)="onWellHeadersSave()"></app-well-headers>
+<!-- <app-odin-what-if-drilling *ngIf="showWhatIfDialog && (selectedView == 1)" (onClose)="showWhatIfDialog = false"
+                           [isRunAnalysisEnabled]="isRunAnalysisEnabled"
+                           (setRunAnalysisButtonFlag)="enableRunAnalysisButtonFlag($event)"></app-odin-what-if-drilling> -->
+<!-- <app-odin-what-if-completions *ngIf="showWhatIfDialog && (selectedView == 2)" (onClose)="showWhatIfDialog = false"
+                              [isRunAnalysisEnabled]="isRunAnalysisEnabled"
+                              (setRunAnalysisButtonFlag)="enableRunAnalysisButtonFlag($event)"></app-odin-what-if-completions> -->
+<app-odin-what-if [appId]="appId" [functionId]="selectedView" (onClose)="showWhatIfDialog = false"
+  [(displayWhatIFAnalysis)]="showWhatIfDialog" [isRunAnalysisEnabled]="isRunAnalysisEnabled"
+  (selectedScenario)="getSelectedScenario($event)"
+  (setRunAnalysisButtonFlag)="enableRunAnalysisButtonFlag($event)"></app-odin-what-if>
+<p-sidebar [(visible)]="displaySelectWells" [closeOnEscape]="false" [dismissible]="false" position="right"
+  styleClass="w-4">
+  <ng-template pTemplate="header">
+    <div class="font-bold">Select Well</div>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <app-odin-well-selector (setFilterValues)="setWellSelection($event)"></app-odin-well-selector>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button type="text" (click)="clearValues()" class="col-5" label="Clear" [outlined]="true"></p-button>
+    <p-button type="text" (click)="updateFilter()" class="col-5 col-offset-1" label="Update"></p-button>
+  </ng-template>
+</p-sidebar>
+<change-log *ngIf="openChangeLog" [entityName]="'odin'" [selectedFunction]="selectedView"
+  (onClose)="openChangeLog = false"></change-log>
+<div class="centerContent tab-menu" [style]="currentBreakpoint == Breakpoints.Large ? '': 'left: 325px;'">
+  <!-- <p-tabMenu [scrollable]="true" [model]="odinMenu" [activeItem]="activeItem"></p-tabMenu> -->
+  <app-odin-tab [selectedFunction]="selectedView"></app-odin-tab>
+</div>
+<app-custom-dialog [(visible)]="openInventoryModal" [dialogTitle]="'Confirmation'" [savebuttonName]="'Continue'"
+  (onCreateEvent)="onInventoryButtonClicked()" [dialogWidth]="'400px'" [maximizable]="false" (onClose)="closeInventoryModal()">
+  <div class="unsaved-changes-body">
+    <i class="pi pi-info-circle iconSize"></i>
+    <div class="pl-2 pt-3 parentDiv">
+      <span class="displaymessage">
+        <p>
+          You are attempting to change the Data Source for all Dashboard calculations. Doing so will delete all values
+          in the Calculated Inventory column. If this is your intention click Continue, otherwise click Cancel
+        </p>
+      </span>
+    </div>
+  </div>
+</app-custom-dialog>

@@ -1,0 +1,100 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<p-dialog [(visible)]="displayEditWellHeaders" [modal]="true" (onShow)="loadWellData()" [closable]="false" [style]="{width: '80vw'}" class="editwell-section">
+    <div class="dialog-header">
+        <h3 class="dialog-heading">{{dialogHeader}}</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+    </div>
+    <div class="dialog-content-container">
+        <div class="flex bg-theme-blue  mt-0">
+            <div class="p-6px flex-1" style="width: 25%;">
+                <span class="p-input-icon-left inputsearchSpan ">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text"  (input)="onSearch()" [(ngModel)]="searchText" class="whiteblue"
+                           placeholder="Search" />
+                </span>
+            </div>
+            <div class="p-6px" style="width: 45%;">
+                <p-button type="text" label="Reset" class="filterBTN runfilter" (click)="resetFilter()"></p-button>
+                <p-button type="text" *ngIf="functionId===1 && wellDetails && isWellHeaders" styleClass="chv-light-blue-btn" label="Create Well" icon="pi pi-plus-circle" [disabled]="!CreateWellAccess" (onClick)="addNewWell()"
+                          class="ml-2"></p-button>
+            </div>
+
+        </div>
+    </div>
+    <ng-template pTemplate="body">
+        <!-- Added dynamic changes for tyr -->
+        <ag-grid-angular class="ag-theme-alpine wellHeaders"
+                         style="height: 78vh; margin: 1px; padding: 2px;"
+                         [columnDefs]="!isTyr ? wellHaedersColumnDefs : tyrColumnDefs"
+                         [rowData]="wellDetails"
+                         [rowHeight]="rowHeight"
+                         [quickFilterText]="globalFilter"
+                         [defaultColDef]="{ flex: 1, minWidth: 100 ,suppressHeaderMenuButton:true}"
+                         [singleClickEdit]="true"
+                         [rowDragManaged]="true"
+                         [animateRows]="true"
+                         [domLayout]="'normal'"
+                         [rowSelection]="isTyr ? 'multiple' : 'single'"
+                         (selectionChanged)="onSelectionChanged()"
+                         [loading]="gridConfig.loading"
+                         (gridReady)="onGridReady($event)"
+                         (cellValueChanged)="onCellValueChanged($event)">
+        </ag-grid-angular>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container">
+            <button pButton style="align-content:center"
+                    label="Cancel"
+                    class="p-button-secondary"
+                    (click)="closeDialog()"></button>
+
+            <button pButton style="align-self:center" [disabled]="!isEdit"
+                    label="Save" (click)="onEdit()"
+                    class="p-button-primary"></button>
+
+        </div>
+    </ng-template>
+</p-dialog>
+<!-- Unsaved changes dialog -->
+<app-custom-dialog 
+    [(visible)]="visible" 
+    [dialogTitle]="'Change Well Headkit'" 
+    [savebuttonName]="'Continue'" 
+    (onCreateEvent)="onWellHeadContinue()"
+    [dialogWidth]="'600px'"
+    [maximizable]="false"
+    (onClose)="closeWellHeadDialog()">
+    <div class="unsaved-changes-body">
+        <i class="pi pi-info-circle iconSize"></i>
+    <div class="pl-2 pt-3 parentDiv">
+        <span class="displaymessage">
+            <!-- <p>Are you sure you want to change the existing Wellhead Kit from <b>{{oldValue}}</b> to <b>{{newValue}}</b>? Click "Continue" to proceed or "Cancel" to discard the changes.</p> -->
+        <p>You are attempting to change the Wellhead Kit for <b>{{wellNameChanged}}</b>. Doing so will result in the erasure of all current demand data for that well. If you wish to continue, click Update, otherwise click Cancel.</p>
+        </span>
+    </div>
+</div>
+</app-custom-dialog>
+
+<app-confirmation-dialog [(visible)]="displayConfirmationComponentDialog"
+                         [cancelButtonVisibile]="'true'"
+                         [dialogContent]="confirmationMessage"
+                         [dialogTitle]="confirmationTitle"
+                         (onCancel)="displayConfirmationComponentDialog=false"
+                         (onContinue)="updateChanges()">
+</app-confirmation-dialog>
+
+
+<app-export-to-thor-dialog [(displayExportToThorDialog)]="displayExportToThorDialog"
+                           (onClose)="closeExportToThorDialog()" [functionId]="functionId"
+                           [odin]="odinData" (publishCompleted)="refreshGrid()">
+</app-export-to-thor-dialog>
+<app-clone-well-dialog [(displaycloneHeaderDialog)]="displaycloneHeaderDialog" [isClone]="isCloneWell" (onSave) = "saveCloneWellDialog()"
+                       (onClose)="closeCloneWellDialog()" (refreshGrid)="refreshGrid()">
+</app-clone-well-dialog>
+
+<app-delete-confirmation-dialog [(displayDeleteComponentDialog)]="displayDeleteComponentDialog"
+                                [buttonName]="'Delete'"
+                                [dialogContent]="dialogContent"
+                                [dialogTitle]="'Confirm Delete'"                               
+                                (onClose)="displayDeleteComponentDialog=false"
+                                (onDelete)="deleteConfirm()"></app-delete-confirmation-dialog>

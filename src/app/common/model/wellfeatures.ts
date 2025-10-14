@@ -1,0 +1,51 @@
+export class WellFeatures {
+  wellFeaturesId?: number;
+  schematicsId?: number;
+  rkbtoMsl?: number;
+  waterDepth?: number;
+  rkbtoMl?: number;
+  rkbto1834Hpwh?: number;
+  topofTubingHeadSpool?: number;
+  tol?: number;
+  tiebackGap?: number;
+  cflex?: string;
+  safetyValveSetDepth?: number;
+  sumpPackerTop?: number;
+  sumpPackerMuleShoeEoa?: number;
+  bridgePlugGatekeeperTop?: number;
+  endofLiner?: number;
+  ratholeLength?: number;
+  ratholeLengthLcinstalled?: number;
+  vitrunLength?: number;
+  psasealEngagement?: number;
+  threeWayXoadjustmentFactor?: number;
+  productionSealAdjustmentFactor?: number;
+  pisshiftingToolAdjustmentFactor?: number;
+  sumpPackerFactor?: number;
+  userIdCreatedBy?: string;
+  dateCreated?: Date;
+  dateLastModified?: Date;
+  userIdModifiedBy?: string;
+  noOfZones?: number;
+  tubingHangerSpaceOutLength?: number;
+  chemicalInjectionAssemblySetDepth?: number;
+  productionSealLocatorSpaceOutFactor?: number;
+  productionPackerSetDepth?: number;
+  threeWayAdapterAdjustmentFactor?: number;
+  snapLatchSpaceOutFactor?: number;
+  productionScreenOverlap?: number;
+  washdownAssemblySpaceOutFactor?: number;
+  lsotjmeteringModuleFactor?: number;
+  landingNippleProfileSetDepth?: number;
+  espproductionPackerSetDepth?: number;
+  upperTeleswivelStrokeExtension?: number;
+  lowerTeleswivelStrokeExtension?: number;
+  chemicalInjectionMandrelAdjustmentFactor?: number;
+  sealEngagementFactor?: number;
+  completionDesignId?: number | null;
+  copyZone?: boolean;
+
+  constructor(init?: Partial<WellFeatures>) {
+    Object.assign(this, init);
+  }
+};

@@ -1,0 +1,88 @@
+<p-dialog  class="change-log-dialog mdlChange-log-dialog" [(visible)]="visible" [modal]="true" [draggable]="true" [resizable]="true"
+  [breakpoints]="{ '900px': '75vw' }" styleClass="crn-dialog" [style]="{ width: '80vw', height: '90vh' }"
+  (onHide)="onClose.emit()">
+
+  <ng-template pTemplate="header">
+    <div class="align-items-center col-11 flex justify-content-between">
+      <span>Change Logs</span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div class="card">
+      <p-table
+          #dt2
+          [value]="changeLogData"
+          dataKey="auditId"
+          [rows]="20"
+          [loading]="loading"
+          [paginator]="true"
+          [globalFilterFields]="['auditId','changeDate','oldValue', 'newValue', 'tableUniqueId', 'columnName','userId','tableName','actionName', 'changeDate']"
+          [tableStyle]="{ 'min-width': '75rem' }"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="right-align">#</th>
+            <th class="left-align">Date</th>
+            <th class="left-align">Time</th>
+            <th>Supplier Part #</th>
+            <th>Legacy Ref #</th>
+            <th>Attribute</th>
+            <th>Original</th>
+            <th>Change</th>
+            <th>User</th>
+          </tr>
+          <tr>
+              <th>
+                  <p-columnFilter type="text" field="auditId"  ariaLabel="Filter by audit Id" />
+              </th>
+              <th>
+                <p-columnFilter type="date" field="changeDate"  ariaLabel="Filter by date" />
+               
+              </th>
+              <th>
+                  <p-columnFilter type="text" field="changeDate"  ariaLabel="Filter by time" />
+              </th>
+              <th>
+                <p-columnFilter type="text" field="tableUniqueId"  ariaLabel="Filter Supplier part" />
+              </th>
+              <th>
+                <p-columnFilter type="text" field="actionName"  ariaLabel="Filter legecy Reference number" />
+            </th>
+            <th>
+                <p-columnFilter type="text" field="columnName"  ariaLabel="Filter attribute" />
+            </th>
+            <th>
+                <p-columnFilter type="text" field="oldValue"  ariaLabel="Filter oldValue" />
+            </th>
+            <th>
+                <p-columnFilter type="text" field="newValue" ariaLabel="Filter newValue" />
+            </th>
+            <th>
+              <p-columnFilter type="text" field="userId"  ariaLabel="Filter user" />
+          </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-changeLogData>
+          <tr>
+            <td>{{ changeLogData.auditId }}</td>
+            <td>{{ changeLogData.changeDate | date: 'MM/dd/yyyy' }}</td>
+            <td>{{ changeLogData.changeDate | date: 'HH:mm' }}</td>
+            <td>{{ changeLogData.tableUniqueId }}</td>
+            <td>{{ changeLogData.actionName }}</td>
+            <td>{{ changeLogData.columnName }}</td>
+            <td>{{ changeLogData.oldValue | formatDecimal }}</td>
+            <td>{{ changeLogData.newValue | formatDecimal }}</td>
+            <td>{{ changeLogData.userId }}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="4">No change log found.</td>
+          </tr>
+        </ng-template>
+     
+      </p-table>
+    </div>
+  </ng-template>
+</p-dialog>

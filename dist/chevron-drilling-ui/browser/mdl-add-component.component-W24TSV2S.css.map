@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/common/mdl-add-component/mdl-add-component.component.scss"],
+  "sourcesContent": ["\n\n.p-dialog .p-dialog-footer {\n    padding: 0.5rem 0.5rem .5rem 1.5rem;\n  }\n  ::ng-deep  .p-dialog .p-dialog-content {\n    overflow-y: hidden;  \n    overflow-x: hidden; \n    padding-top: 50px;  \n  }\n  .dialog-content-container {\n    position: sticky;\n    top: 0;  \n    background-color: #fff;  \n    z-index: 10;  \n  }\n  .ag-theme-alpine .ag-header {\n    position: fixed ;\n    top: 1;\n    z-index: 12; \n  }\n  .ag-body-viewport{\n    padding-top: 50px !important;\n  }\n  .ag-body-vertical-scroll{\n      padding-top: 48px;\n  }\n  .flex {\n    display: flex;\n    align-items: center;\n  }"],
+  "mappings": ";AAEA,CAAA,SAAA,CAAA;AACI,WAAA,OAAA,OAAA,OAAA;;AAEF,UAAA,CAHF,SAGE,CAAA;AACE,cAAA;AACA,cAAA;AACA,eAAA;;AAEF,CAAA;AACE,YAAA;AACA,OAAA;AACA,oBAAA;AACA,WAAA;;AAEF,CAAA,gBAAA,CAAA;AACE,YAAA;AACA,OAAA;AACA,WAAA;;AAEF,CAAA;AACE,eAAA;;AAEF,CAAA;AACI,eAAA;;AAEJ,CAAA;AACE,WAAA;AACA,eAAA;;",
+  "names": []
+}

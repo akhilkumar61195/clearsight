@@ -1,0 +1,94 @@
+<p-sidebar [(visible)]="visible" [closeOnEscape]="false" [dismissible]="false" position="right" styleClass="w-4"  [showCloseIcon]="false">
+    <ng-template pTemplate="header">
+        <div class="font-bold">Select Well</div>
+        <button class="custom-close-btn p-ripple p-element p-sidebar-close p-sidebar-icon p-link" (click)="closeSidebar()">
+          <i class="pi pi-times"></i>
+        </button>    
+    </ng-template>
+    <ng-template pTemplate="content">
+      <div class="grid mt-3 select-popup">
+        <div class="select-button-container">
+          <p-selectButton (onChange)="handleViewSelectionChange($event)" [(ngModel)]="viewOptionsFunctionId"
+            [options]="viewOptions" optionLabel="label" optionValue="value" [allowEmpty]="false" />
+        </div>
+        <div class="col-7 right-0 pt-0 pb-0">
+          <span class="p-input-icon-left w-100 filterWell">
+            <i class="pi pi-search"></i>
+            <input type="text" class="w-100" pInputText [(ngModel)]="searchTerm" (input)="onSearchTermChange()"
+              placeholder="Search Wells" />
+          </span>
+        </div>
+      </div>
+      <div>
+   <!-- Show Well Comparator Button -->
+    <p-button 
+      type="text" 
+      styleClass="chv-light-blue-btn" 
+      label="Well Comparison View" 
+      class="comparator-btn" 
+      [disabled]="!selectedWellId || !projects?.length"
+      (onClick)="toggleComparatorView()" 
+      [icon]="!isComparatorView() ? 'pi pi-eye-slash' : 'pi pi-eye'"
+      [title]="!isComparatorView() ? 'Enable Well Comparator' : 'Disable Well Comparator'">
+    </p-button>
+
+    <p-button 
+      type="text" 
+      styleClass="chv-light-blue-btn" 
+      [label]="draftWellLabel" 
+      class="comparator-btn"
+      (onClick)="showDraftWells()" 
+      [title]="draftWellLabel">
+    </p-button>
+    </div>
+    <p-card class="set-ptb-10" *ngIf="viewOptionsFunctionId" [ngClass]="{'nopadding custom-bg': isFilter}">
+      <!-- Adding the selected well names-->
+      <div class="comparator-label">
+        <div>
+          <span>Current Selected Well:</span>
+          <span>{{ currentWellName }}</span>
+        </div>
+    
+        <div *ngIf="isComparatorView()">
+          <span>Comparison Well:</span>
+          <span>{{ comparatorWellName }}</span>
+        </div>
+      </div>
+    
+      <div class="grid">
+        <div class="col-12 flex align-items-start flex-wrap well-container" [ngClass]="{'filteredwellgrid': isFilter, 'wellgrid': !isFilter}">
+        <ng-container *ngFor="let project of projects">
+          <div class="project-group card" *ngIf="project.wells?.length">
+            <div class="card-header project-header flex align-items-center">
+              <h3 class="project-checkbox">{{ project.rig }}</h3>
+            </div>
+            <div class="card-body project-wells flex flex-wrap">
+              <ng-container *ngFor="let well of project.wells">
+                <div class="well-radio flex align-items-center">
+                  <p-radioButton *ngIf="!isComparatorView()" [label]="well.wellName" name="well" [value]="well.id"
+                    [(ngModel)]="selectedWellNumber" (ngModelChange)="onWellSelectionChange(well, project)">
+                  </p-radioButton>
+                  <!--Added the checkboxes for comparator view mode-->
+                  <p-checkbox *ngIf="isComparatorView()" [label]="well.wellName" [value]="well.id"
+                    [(ngModel)]="selectedWellNumbers" (onChange)="onWellCheckboxChange($event, well, project)">
+                  </p-checkbox>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    </p-card>
+    <div *ngIf="showDraftedWells">
+      <app-well-headers [dialogHeader]="draftWellLabel" [isWellHeaders]="false" [isTyr]="true" [displayEditWellHeaders]="true" [appId]="1" [functionId]="1"  (onClose)="createDraftOnClose($event)" (onSave)="onDraftSave()"></app-well-headers> <!-- Setting appId 1 for ODIN and for functionId we need to make it dynamic when we add completions in tyr-->
+    </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <p-button type="text"  (onClick)="onContinue()" class="col-12" [disabled]="
+      (!isComparatorView() && !store.selectedWellId()) || 
+      (isComparatorView() && selectedWellNumbers.length < 2) || 
+      !projects?.length
+    " label="Continue"></p-button>
+    </ng-template>
+</p-sidebar>

@@ -1,0 +1,87 @@
+.well-container {
+    margin: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: stretch;
+  }
+  
+  .project-group {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    width: 100%;
+    min-width:360px;
+    /*height:185px;*/
+    flex: 2;
+    overflow:auto;
+    align-self:stretch;
+  }
+  
+  .project-header {
+    font-weight: bold;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    background-color:lightgrey;
+  }
+  
+  .project-label {
+    margin-left: 8px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .project-wells {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .well-checkbox {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    font-size: 12px;
+  }
+  
+  .project-checkbox {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    font-size: 12px;
+  }
+  
+  .select-button-container {
+    display: flex;
+    width: 172px;
+    background: #F0F9FA;
+    font-weight: bold !important;
+    border-radius: 4px;
+    margin-right: 10px;
+  }
+  
+  .p-selectbutton {
+    padding: 1px;
+    display: flex;
+    width: 30 px;
+    gap: 2px;
+  }
+  
+   .p-selectbutton .p-button {
+    color: black;
+    font-weight: 600;
+    background: #F0F9FA;
+    border: 0px;
+    border-radius: 4px;
+  }
+  
+   .p-selectbutton .p-button.p-highlight {
+    background-color: #05b4bc;
+    color: #fff;
+    transform: scale(0.98);
+  }
+  

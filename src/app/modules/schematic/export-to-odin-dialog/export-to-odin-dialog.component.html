@@ -1,0 +1,34 @@
+<ngx-spinner bdColor = "rgba(0,0,0,0.2)" size = "default" color = "#fff" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Hang tight, we're loading things for you... </p></ngx-spinner>
+<p-dialog [(visible)]="displayExportToOdinDialog" [modal]="true" (onShow)="getUserDetails()" [style]="{ width: '400px' }" [closable]="false">
+    <div class="dialog-header">
+        <h3 *ngIf="!IsApprovedRequest" style="margin: 0;">
+            {{
+            userPersonaDetails?.length > 0 && userPersonaDetails[0]?.accessAction  =='X'
+            ? 'Confirm Schematic Publish'
+            : 'Request Approval Confirmation'
+            }}
+        </h3>
+        <h3 *ngIf="IsApprovedRequest" style="margin: 0;">Confirm Schematic Approval</h3>
+        <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeExportToOdin()"></button>
+    </div>
+    <ng-template pTemplate="body">
+        <p *ngIf="!IsApprovedRequest" class="p-4">You are attempting to publish schematic <b>{{schematicName}}</b> If
+            you wish to continue click the Request Approval button. Otherwise, click Close.</p>
+        <p *ngIf="IsApprovedRequest" class="p-4">You are attempting to approve schematic <b>{{schematicName}}</b> If you
+            wish to continue, click Approve. Otherwise, click close.</p>
+
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container mt-4">
+            <button pButton style="align-content:center" label="Close" class="p-button-secondary"
+                (click)="closeExportToOdin()"></button>
+
+            <button *ngIf="!IsApprovedRequest" pButton style="align-self:center"
+            [label]="(userPersonaDetails?.length > 0 && userPersonaDetails[0]?.accessAction === 'X') ? 'Publish' : 'Request Approval'"
+            class="p-button-primary" (click)="exportToOdin()"></button>
+
+            <button *ngIf="IsApprovedRequest" pButton style="align-self:center" [label]="'Approve'"
+                class="p-button-primary" (click)="exportToOdin()"></button>
+        </div>
+    </ng-template>
+</p-dialog>

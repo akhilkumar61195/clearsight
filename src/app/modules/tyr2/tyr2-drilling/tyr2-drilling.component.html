@@ -1,0 +1,250 @@
+<ngx-spinner bdColor="rgba(0,0,0,0.2)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+    <p style="color: white"> Hang tight, we're loading things for you... </p>
+  </ngx-spinner>
+<div class="blue-background" [ngClass]="{ 'p-sidebar-mask': !isWellSelected }">
+
+    <div class="col-0 sm:col-0 md:col-10 lg:col-9 p-6px toolbar-section" [ngClass]="{'toolbar-section-collapse-width': (!isRightGridExpanded() || isComparatorWell)}" *ngIf="isWellSelected">
+      <div class="toolbar-flex-row">
+        <p-button type="text" styleClass="chv-light-blue-btn" label="Create Task" class=" ml-2"
+          (onClick)="showCreateTaskDialog()" icon="pi pi-plus-circle"></p-button>
+          <!-- Supplier filter -->
+          <p-multiSelect [options]="tyrFilteredDropDownValue.supplierName" [showToggleAll]="false" [disabled]="unsavedChanges"
+            selectedItemsLabel="{0} columns selected" [(ngModel)]="supplierSelected"
+            (onChange)="applyComponentTypeFilter($event,'supplierName')"
+            [dropdownIcon]="supplierSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+            styleClass="lightBlueBG odin-lightBlueBG py-0" filterPlaceHolder="Search" placeholder="Supplier">
+            <ng-template pTemplate="header">
+              <div class="clear-selection mr-2" *ngIf="supplierSelected?.length">
+                <i class="pi pi-filter-slash"
+                  (click)="supplierSelected = ''; applyComponentTypeFilter(supplierSelected,'supplierName')"></i>
+              </div>
+            </ng-template>
+          </p-multiSelect>
+
+          <!-- Status Filter-->
+          <p-multiSelect [options]="tyrFilteredDropDownValue.statusName" [showToggleAll]="false" [disabled]="unsavedChanges"
+            selectedItemsLabel="{0} columns selected" [(ngModel)]="statusNameSelected"
+            (onChange)="applyComponentTypeFilter($event,'statusName')"
+            [dropdownIcon]="statusNameSelected?.length ? 'pi pi-filter-fill' : 'pi pi-chevron-down'"
+            styleClass="lightBlueBG odin-lightBlueBG py-0" filterPlaceHolder="Search" placeholder="Status">
+            <ng-template pTemplate="header">
+              <div class="clear-selection mr-2" *ngIf="statusNameSelected?.length">
+                <i class="pi pi-filter-slash"
+                  (click)="statusNameSelected = ''; applyComponentTypeFilter(statusNameSelected,'statusName')"></i>
+              </div>
+            </ng-template>
+          </p-multiSelect>
+          <div class="flex flex-wrap gap-1 justify-content lightBlueBG displaytoggler p-1 p-component ml-2">
+        <div class="flex align-items-center">
+            <p-checkbox
+    label="Completed"
+    name="includeCompleted"
+    binary="true"
+    [(ngModel)]="showCompletedTasks"
+    (onChange)="onCompletedCheckboxChange()"
+  ></p-checkbox>
+        </div>
+
+      </div>
+      </div>
+        <div class="pull-right pl-2">
+            <p-button title="Clear Filter" class="filterBTN ml-1 text-gray-600"
+            (click)="clearAllFilters()" icon="pi pi-filter-slash" severity="secondary">
+            </p-button>
+        </div>
+    </div>
+</div>
+<div *ngIf="isWellSelected">
+    <!-- Standard ag-grid container with row grouping and sidebar -->
+    <div class="tyr2-grid-container" [ngClass]="{'tyr2-grid-expanded': isRightGridExpanded() || isComparatorWell}">
+        <!-- First Grid - TYR2 Tasks -->
+        <div class="tyr2-grid-left">
+            <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" [rowData]="submittedRowData"
+                [columnDefs]="submittedColumnDefs" [defaultColDef]="{ 
+                  flex: 1, 
+                  minWidth: 120, 
+                  editable: true,
+                  sortable: true,
+                  filter: true,
+                  resizable: true,
+                  suppressHeaderMenuButton: true
+                }" [gridOptions]="gridOptions" [groupDefaultExpanded]="0" [animateRows]="true"
+                [groupDisplayType]="'groupRows'" [suppressAggFuncInHeader]="true" [quickFilterText]="quickFilterText"
+                [sideBar]="sideBar" [singleClickEdit]="true" (gridReady)="onSubmittedGridReady($event)"
+                (cellValueChanged)="onSubmittedCellValueChanged($event)" [autoGroupColumnDef]="{
+                  headerName: 'Status Groups',
+                  minWidth: 200,
+                  cellRendererParams: {
+                    suppressCount: false,
+                    checkbox: false
+                  }
+                }" [singleClickEdit]="true">
+            </ag-grid-angular>
+            
+            <!-- Pagination block for TYR2 Tasks Grid -->
+            <div class="pagination-block">
+                <div>
+                    <!-- <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}} -->
+                </div>
+                <div>
+                    <p-button label="Cancel" (click)="resetTaskGrid()" [outlined]="true"></p-button>
+                    <p-button label="Save Tasks" (click)="onClickSave()" class="ml-2"></p-button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Grid - Drilling Interactive -->
+        <div class="tyr2-grid-right" *ngIf="!isComparatorWell">
+            <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" [columnDefs]="masterDataColumnDefs"
+                [rowData]="thorWellsData" [rowHeight]="rowHeight"
+                [defaultColDef]="{ flex: 1, minWidth: 100, suppressHeaderMenuButton: true }" [singleClickEdit]="true"
+                (gridReady)="onDrillingGridReady($event)" [rowDragManaged]="true" [animateRows]="true"
+                rowSelection="multiple" (cellValueChanged)="onCellValueChanged($event)"
+                [quickFilterText]="quickFilterText" (cellClicked)="onCellClick($event)" [getRowClass]="getRowClass"
+                [sideBar]="drillingSideBar">
+            </ag-grid-angular>
+            
+            <!-- Pagination block for Drilling Grid -->
+            <div class="pagination-block">
+                <div>
+                    <!-- <span class="labeltxt">Total Records:</span> {{totalRecords ? totalRecords : 0}} -->
+                </div>
+                <div>
+                    <p-button label="Cancel" [outlined]="true"></p-button>
+                    <p-button label="Update THOR" class="ml-2"></p-button>
+                </div>
+            </div>
+        </div>
+        <!-- Added ag-grid for comparator well -->
+        <div class="tyr2-grid-right" *ngIf="isComparatorWell">
+            <ag-grid-angular class="ag-theme-alpine admin-grid-fullsize" [rowData]="comparatorRowData"
+                [columnDefs]="submittedColumnDefs" [defaultColDef]="{ 
+                  flex: 1, 
+                  minWidth: 120, 
+                  editable: true,
+                  sortable: true,
+                  filter: true,
+                  resizable: true,
+                  suppressHeaderMenuButton: true
+                }" [gridOptions]="gridOptions" [groupDefaultExpanded]="0" [animateRows]="true"
+                [groupDisplayType]="'groupRows'" [suppressAggFuncInHeader]="true" [quickFilterText]="quickFilterText"
+                [sideBar]="sideBar" [singleClickEdit]="true" (gridReady)="onSubmittedComparatorGridReady($event)"
+                (cellValueChanged)="onSubmittedCellValueChanged($event)" [autoGroupColumnDef]="{
+                  headerName: 'Status Groups',
+                  minWidth: 200,
+                  cellRendererParams: {
+                    suppressCount: false,
+                    checkbox: false
+                  }
+                }">
+            </ag-grid-angular>
+        </div>
+    </div>
+</div>
+
+<div class="noRowstoShow" *ngIf="noRowsFound">No Rows To Show</div>
+
+<!-- Well Selector View -->
+<app-well-selector [(visible)]="displaySidebar" [(viewOptionsFunctionId)]="viewOptionsFunctionId"
+    [viewOptions]="viewOptions" [projects]="projects" [selectedWellId]="selectedWellId"
+    [selectedWellNumber]="selectedWellNumber" (updateFilter)="updateFilter()" (searchWellFilter)="searchWellFilter()"
+    (toggleProjectWells)="toggleProjectWells($event)" (onViewSelectionChange)="onViewSelectionChange($event)">
+</app-well-selector>
+
+<p-overlayPanel #overlayAddEquipment styleClass="crn-overlay-panel"
+                showTransitionOptions=".12s cubic-bezier(0, 0, 0.2, 1)">
+  <ng-template pTemplate="content">
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,YARD_INVENTORY', data, 'YARD_INVENTORY', 1)">
+        Yard Inventory
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,INSPECTION_REPORT', data, 'INSPECTION_REPORT', 2)">
+        Inspection Report
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,M_T', data, 'M_T', 3)">
+        MTRs
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,CMEF', data, 'CMEF', 4)">
+        CMEF
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,LASER_TALLY', data, 'LASER_TALLY', 5)">
+        Laser Tally
+      </span>
+    </div>
+    <div class="flex overlay-item">
+      <span (click)="openUploadDialogBox('MATERIAL,MASTER_LOG', data, 'MASTER_LOG', 6)">
+        Master Log
+      </span>
+    </div>
+  </ng-template>
+</p-overlayPanel>
+
+<!-- PDF Preview Modal using p-dialog -->
+<p-dialog [(visible)]="showPdfModal" [modal]="true" styleClass="pdf-modal" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h3 class="dialog-heading">PDF Preview</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closePdfModal()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <div class="pdf-preview-body">
+            <!-- Show iframe first -->
+            <iframe *ngIf="!pdfLoadError" [src]="safePdfUrl" class="pdf-preview-iframe" (load)="onPdfLoad()"
+                (error)="onPdfError()">
+            </iframe>
+
+            <!-- Fallback that appears after iframe fails -->
+            <div *ngIf="pdfLoadError" class="pdf-fallback">
+                <div class="fallback-content">
+                    <i class="pi pi-exclamation-triangle pdf-error-icon"></i>
+                    <h4>Unable to Load PDF</h4>
+                    <p>The PDF could not be loaded in the preview window.</p>
+                    <a [href]="selectedPdfUrl" target="_blank" rel="noopener noreferrer">
+                        <button pButton type="button" label="Open PDF in New Tab" icon="pi pi-external-link"
+                            class="p-button-raised"></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<app-create-task-dialog [(visible)]="displayCreateTaskDialog" (onClose)="closeCreateTaskDialog()"></app-create-task-dialog>
+<app-file-upload-with-grid [selectedView] ="selectedView" [appId]="appId" [functionId]="functionId" [dialogTitle]="selectedDocument" [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"  [entityType]="entityType" [isUpdateEditable]="isUpdateEditable"  [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" (uploadedFileType)="uploadedFileType($event)" (documentIdsEmitter)="documentIdsEmitter($event)" (onClose)="onClose()"></app-file-upload-with-grid>
+<app-create-task-dialog [(visible)]="displayCreateTaskDialog" 
+                      [wellOptions]="wells"
+                      [selectedWellId]="selectedWellId"
+                      (onClose)="closeCreateTaskDialog()" 
+                      (onSave)="handleTaskSave($event)"></app-create-task-dialog>
+
+<app-file-upload-with-grid 
+        [selectedView]="selectedView" 
+        [appId]="attachmentAppId" 
+        [functionId]="functionId" 
+        [dialogTitle]="selectedDocument" 
+        [entityId]="entityId" 
+        [wellDocumentTypes]="wellDocumentTypes"  
+        [entityType]="entityType" 
+        [isUpdateEditable]="isUpdateEditable"  
+        [existingDocuments]="currentTaskData?.documents || []"
+        [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" 
+        (uploadedFileType)="uploadedFileType($event)" 
+        (onClose)="onFileUploadClose()">
+    </app-file-upload-with-grid>                    
+
+
+<app-chat [roomName]="roomName" [isChatEnabled]="isChatEnabled" (closeChat$)="onLeaveChat()"
+    *ngIf="isWellSelected"></app-chat>
+
+<app-move-email [(displayDeleteComponentDialog)]="displayMoveToTaskDialog"
+    [dialogContent]="moveEmailContent"
+    [dialogTitle]="moveTypeHeader" (onClose)="displayMoveToTaskDialog=false"></app-move-email>

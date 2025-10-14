@@ -1,0 +1,51 @@
+
+<div style="width: 100%;height:100%;" class="mt-1">
+    <!--  <b>{{selectedView}}</b> -->
+     <p-card class="col-12 p-0 removePCardPadding bg-none">
+         <ng-container>
+             <app-odin-ddl (valuesChanged)="updateValues($event)" [selectedFunction]="selectedRawView" ></app-odin-ddl>
+         </ng-container>
+         <ng-container *ngIf="dropdownValue === 'SAP Unit Cost'">
+             <!-- SAP Unit Cost -->
+             <app-odin-sap-unit-cost [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-sap-unit-cost>
+         </ng-container>
+ 
+         <ng-container *ngIf="dropdownValue === 'Grouped Inventory'">
+             <!--  Grouped Inventory -->
+             <app-odin-grouped-inventory [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-grouped-inventory>
+         </ng-container>
+ 
+         <ng-container *ngIf="dropdownValue === 'Automatic Read Inventory'">
+             <!-- Read Inventory -->
+             <app-odin-inventory [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-inventory>
+         </ng-container>
+ 
+         <ng-container *ngIf="dropdownValue === 'Tenaris Orders'" style="margin-top:-12px">
+             <!-- Tenaris Orders -->
+             <app-odin-tenaris [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-tenaris>
+         </ng-container>
+ 
+         <ng-container *ngIf="dropdownValue === 'Valluorec Orders'">
+             <!-- Valluorec Orders -->
+             <app-odin-valluorec [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-valluorec>
+         </ng-container>
+ 
+         <ng-container *ngIf="dropdownValue === 'Liner Hanger Orders'">
+             <!-- Liner Hanger Orders -->
+             <app-odin-l-hand-well-head [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-l-hand-well-head>
+         </ng-container>
+          <ng-container *ngIf="dropdownValue === 'Wellhead Orders'">
+            <!-- Wellhead Orders -->
+             <app-wellhead-orders [text]="textValue" [dropdownValue]="dropdownValue"></app-wellhead-orders>
+         </ng-container>
+         <ng-container *ngIf="dropdownValue === 'Yard Inventory'">
+             <!-- Yard Inventory -->
+             <app-odin-yard-inventory [text]="textValue" [dropdownValue]="dropdownValue"></app-odin-yard-inventory>
+         </ng-container>
+     </p-card>
+ </div>
+
+<div class="centerContent tab-menu" [style]="currentBreakpoint == Breakpoints.Large ? '': 'left: 325px;'">
+    <!-- <p-tabMenu [scrollable]="true" [model]="odinMenu" [activeItem]="activeItem"></p-tabMenu> -->
+    <app-odin-tab [selectedFunction]="selectedRawView"></app-odin-tab>
+  </div>

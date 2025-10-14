@@ -1,0 +1,27 @@
+
+.parentInput{
+    display: flex; 
+    align-items: center;
+  }
+  
+  .cancelBtn {
+    color: black;
+    background-color: #d9d9d9;
+  }
+  
+  .saveBtn {
+    margin-left: 10px;
+    background-color: #3ab23a;
+  }
+  .starCss{
+    color:red;
+    font-size: 17px;
+    padding-left: 6px;
+  }
+  
+  .schematicLabel{
+    flex: 0 0 150px
+  }
+//   .p-dialog-content{
+// overflow-y:auto;
+//   }

@@ -1,0 +1,53 @@
+// Form layout for reject invoice dialog
+.form-row {
+	display: flex;
+	gap: 16px;
+	align-items: center;
+	margin-top: 16px;
+}
+
+.form-label {
+	flex: 0 0 140px;
+	text-align: left;
+	display: flex;
+	align-items: center;
+}
+
+.form-label label {
+	margin: 0;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+.form-input {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.form-input p-dropdown,
+.form-input textarea {
+	width: 100%;
+}
+
+// Style for the action button container
+.action-btn-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	gap: 6px;
+}
+.ag-row-even-custom {
+  background-color: #ffffff !important;
+}
+
+.ag-row-odd-custom {
+  background-color: #f5f5f5 !important;
+}
+// /* Darker grey for group rows */
+// .ag-row-group-dark {
+//   background-color: #d9d9d9 !important;
+//   font-weight: bold;
+// }

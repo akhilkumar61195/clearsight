@@ -1,0 +1,77 @@
+<div class="mt-1 relativePosition mdl-completion-wrapper">
+    <div class="grid bg-theme-blue filtercontrols filtersection blue-background p-0 pr-3">
+        <div class="col-12 sm:col-12 md:col-6 lg:col-3 p-6px">
+            <span class="p-input-icon-left inputsearchSpan">
+                <i class="pi pi-search"></i>
+                <input #search pInputText type="text" class="whiteblue" (input)="onSearch($event)" placeholder="Search" />
+            </span>
+        </div>
+        <div class="col-8 p-6px">
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Reset" class="ml-2" (click)="resetFilter(search)"></p-button>
+            <p-button [disabled]="!isRecordEditable" type="text" styleClass="chv-light-blue-btn" label="Add Record"  class=" ml-2" (onClick)="showAddRecordDialog()" icon="pi pi-plus-circle" ></p-button>
+            <p-button [disabled]="!isEditableField" type="text" styleClass="chv-light-blue-btn" label="Bulk Upload"  class="ml-2" (onClick)="showUploadDialog()" icon="pi pi-cloud-upload" ></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Upload Status"  class="ml-2" (click)="displayViewStatusDialog = true" icon="pi"></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="List Editor"  class="ml-2" (onClick)="listEditorDialog.isListEditorVisible = true" icon="pi pi-pencil" ></p-button>
+            <p-button type="text" styleClass="chv-light-blue-btn" label="Change Log"  class="ml-2" (click)="mdlChangeLog()"></p-button> 
+        </div>
+        <div class="personlisation-buttons">
+            <p-button icon="pi" class="p-button-outlined p-button-secondary reset-ui-button ml-2"
+            pTooltip="Reset Personalization" tooltipPosition="top" (onClick)="onResetState()">
+            </p-button> 
+             <p-button class="p-button-outlined p-button-secondary saveUI ml-2 save-user-btn"
+          icon="pi"  
+          pTooltip="Save Personalization"
+          tooltipPosition="top"
+          (onClick)="onSaveState()">
+    </p-button>
+    </div>
+
+    </div>
+    <ag-grid-angular [rowData]="records()" [rowHeight]="40" (rowClicked)="OpenEditDialog($event.data,$event);"
+                     [columnDefs]="columnDefs"
+                     [quickFilterText]="globalFilter"
+                     (gridReady)="onGridReady($event)"
+                     [ngStyle]="{ height: height$ | async }"
+                     class="ag-theme-alpine"
+                     [paginationPageSizeSelector]="false"
+                     [defaultColDef]="{ flex: 1, minWidth: 120, sortable: true, filter: true,resizable: true ,suppressHeaderMenuButton:true}"
+                     [animateRows]="true"
+                     [sideBar]="sideBar">
+    </ag-grid-angular>
+    <div class="pagination-block">
+        <div>
+            <span class="labeltxt">Total Records:</span> {{totalRecords || 0}}
+        </div>
+    </div>
+</div>
+<mdl-change-log *ngIf="showChangeLogDialog" [notificationRedirect]="notificationRedirect"
+                [wellMaterialId]="(advanceFilter?.well || 0)" (onClose)="showChangeLogDialog = false"></mdl-change-log>
+<app-add-record-dialog [(visible)]="displayAddRecordDialog" [isEdit]="isEdit" (onClose)="closeAddRecordDialog($event)" [originalRecord]="selectedRecord"></app-add-record-dialog>
+
+<!-- <app-file-upload [(visible)]="displayUploadDialog" (onClose)="closeUploadDialog()" [isUploadAllowed]="isEditableField"></app-file-upload> -->
+<app-mdl-file-upload [(visible)]="displayUploadDialog" (onClose)="closeUploadDialog()" [isUploadAllowed]="isEditableField" [functionId]="2"></app-mdl-file-upload>
+
+<!-- implemented global file status -->
+<app-file-log-status-dialog [(displayBatchStatusDialog)]="displayViewStatusDialog"
+                              (onClose)="displayViewStatusDialog=false" [taskType]="'MDL Completions'" [schematicId]="'0'"></app-file-log-status-dialog> 
+<!-- <app-mdl-list-editor [isEditAllowed]="isListEditable" #listEditorDialog></app-mdl-list-editor> -->
+<change-log *ngIf="openChangeLog" [entityName]="entityName"  (onClose)="openChangeLog = false"></change-log>
+
+
+<!-- <app-file-upload-with-grid [selectedView] ="selectedView" [mdlRecord]="mdlRecord"  [appId]="appId" [functionId]="functionId" [dialogTitle]="selectedDocument" [entityId]="entityId" [wellDocumentTypes]="wellDocumentTypes"  [entityType]="entityType"  [(displayfileUploadInteractiveDialog)]="displayfileUploadInteractiveDialog" (onClose)="onClose()"></app-file-upload-with-grid> -->
+ <app-list-editor #listEditorDialog></app-list-editor>
+
+<p-dialog [(visible)]="permissionToEditRecord" [modal]="true" [style]="{width: '25vw'}" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="info-block">
+            <h3 class="info-header">Information</h3>
+            <button class="info-close-btn" pButton icon="pi pi-times" (click)="okClick()"></button>
+        </div>
+    </ng-template>
+    <div class="mt-4 info-content">
+        You don't have permission to edit {{supplierName}} data.
+    </div>
+    <p-footer>
+        <button pButton type="button" label="Ok" icon="pi pi-check" (click)="okClick()"></button>
+    </p-footer>
+</p-dialog>

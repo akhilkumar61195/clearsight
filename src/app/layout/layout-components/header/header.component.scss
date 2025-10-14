@@ -1,0 +1,253 @@
+app-layout-header {
+    .sticky-top {
+        position: fixed;
+        width: 100%;
+    }
+
+    .menuwithdd {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .p-menu {
+        cursor: pointer;
+    }
+
+    .pmenu .p-menuitem-link:first-child,
+    .pmenu .p-menubar:first-child {
+        padding: 0px !important;
+    }
+
+    .pmenu .p-submenu-list {
+        width: auto !important;
+        text-wrap: nowrap !important;
+        top: 45px;
+        border-radius: 5px;
+        min-width: 140px;
+    }
+
+    .pmenu .p-menubar {
+        border: none !important;
+    }
+
+    .pmenu .p-icon-wrapper {
+        margin-left: 5px !important;
+    }
+
+    .pmenu .p-menuitem-content {
+        width: auto;
+        background-color: transparent;
+    }
+
+    .pmenu .p-submenu-list .p-menuitem {
+        padding: 5px !important;
+    }
+
+    .usr-icon {
+        background-image: url("/assets/icons/user-avatar.png");
+        width: 25px !important;
+        background-size: 20px 22px;
+        height: 22px;
+        background-repeat: no-repeat;
+    }
+
+    .logout-icon {
+        background: url("/assets/icons/logout-avtar.png");
+        width: 25px;
+        background-size: cover;
+        height: 25px;
+    }
+    .selectormenu .p-menuitem-content {
+        width: auto;
+    }
+
+    .selectormenu p-menubarsub .p-menuitem-icon {
+        position: absolute;
+        right: 0px;
+    }
+
+    .p-menuitem-text {
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .bg-theme {
+        background-color: #05b4bc;
+    }
+
+    .headersection,
+    .headersection .p-component {
+        font-size: 13px;
+    }
+
+    @media only screen and (min-device-width: 768px) {
+        .usermenu {
+            .p-menubar-root-list {
+                min-width: 180px;
+                padding-left: 5px;
+                left: -130px;
+                border-radius: 2px;
+            }
+        }
+
+        .selectormenu {
+            .p-menubar-root-list {
+                min-width: auto;
+                padding-left: 5px;
+                left: -100px;
+                border-radius: 2px;
+            }
+        }
+
+        .pmenu {
+            .p-menuitem-content {
+                padding: 5px;
+            }
+        }
+
+        .menu-header {
+            background-color: var(--theme-blue-color) !important;
+            padding-top: 0.9rem !important;
+            padding-bottom: 0.9rem !important;
+            color: var(--txt-white) !important;
+        }
+
+        .menu-header .p-button.p-button-outlined {
+            color: var(--txt-white) !important;
+            border: none !important
+        }
+
+        .fnt-18 {
+            font-size: 18px !important;
+        }
+    }
+    .icon-bell{
+        cursor: pointer;
+
+        .p-badge.p-component.p-badge-no-gutter{
+            font-size: 10px;
+            min-width: 1.2rem;
+            height: 1.2rem;
+            line-height: 1.2rem;
+           
+        }
+
+        .p-badge{
+            background-color: var(--theme-red-color);
+        }
+    }
+
+}
+
+.tableContainer {
+    display: flex;
+    justify-content: center;  
+     
+    flex-direction:column; 
+  
+
+  }
+  
+  .tableCss {
+    width: auto;              
+    border-collapse: collapse !important; 
+    border-spacing: 0;
+    row-gap: 0; 
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    line-height: 1;
+  }
+
+  .trCss td {
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;    
+    line-height: 1;
+  }
+  .bold-text {
+    font-weight: bold;     
+  }
+  
+  .custom-menubar {
+    display: flex;
+    align-items: center; /* Vertically aligns items */
+    justify-content: space-between; /* Ensures space distribution */
+    width: 100%; /* Makes the menubar take full width */
+    padding: 0 1rem;
+    position: relative; /* Ensure proper stacking context */
+  }
+  
+  .menubar-center {
+    position: absolute; /* Centers content absolutely */
+    left: 50%;
+    top: 5px;
+    transform: translateX(-50%);
+    text-align: center;
+    
+  }
+  
+  .menubar-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0px;
+  }
+  .menubar-details-container {
+    display: flex;
+    flex-direction: column; /* Arrange label and value in rows */
+    align-items: flex-start; /* Center-align the content */
+    row-gap: 0%;
+  }
+  .menubar-details {
+    font-size: 0.875rem;
+    color: #888;
+    display: flex;
+    justify-content: space-around;  
+    align-content: right;
+    flex-direction: flex-start;
+    width:100%;
+    line-height: 1;
+    text-align: left;
+      .thor-items{
+        display: flex;
+        justify-content: center;
+        // margin-top: 5px;
+        tr{
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+        .menubar-detail-label{
+            display: block;
+            margin-left: 0rem;
+          }
+          
+      }
+      
+  }
+
+  .menubar-detail-label {
+    margin-top: 0;
+    margin-left: 1rem;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color:  #888;
+    margin-bottom: 0px;
+    text-align: left;
+  }
+  
+  .menubar-detail-value {
+    margin-top: 0;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: #000;
+    text-align: left;
+  }
+  .rightMenu{
+   position: relative;
+  }

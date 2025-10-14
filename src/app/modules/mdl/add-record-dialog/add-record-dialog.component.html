@@ -1,0 +1,398 @@
+<form [formGroup]="addRecordForm" novalidate>
+    <p-dialog [(visible)]="visible" [modal]="true" [style]="{width: '60vw'}" [closable]="false" (onHide)="onHide()" (onShow)="onShow()">
+        <ng-template pTemplate="header" >
+            <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+                <h3 style="margin: 0;">{{!isEdit ? 'Add Record' : 'Edit Record'}}</h3>
+                <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+            </div> -->
+            <div class="dialog-header headerClass" style="z-index: 100;">
+                <h3  class="dialog-heading">{{!isEdit ? 'Add Record' : 'Edit Record'}}</h3>
+                <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+              </div>
+        </ng-template>
+        <ng-template pTemplate="body pt-2">
+            <div class="equipment-heading pt-6"> {{!isEdit ? 'Add your equipment information in the table below.' : 'Edit your equipment information in the table below.'}}</div>
+
+            <div class="p-fluid component-type-header">
+                <div class="row-style">
+                    <label for="componentTypeID">Component Type <span class="requiredField">*</span></label>
+                    <!-- <input id="componentTypeID" pInputText formControlName="newmdlRecord.componentTypeID" /> -->
+                    <p-dropdown [options]="componentType"
+                                formControlName="componentTypeID"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Component Type">
+                    </p-dropdown>
+                    <!-- <small style="color:red;" *ngIf="addRecordForm.get('componentTypeID').invalid">Select Component Type</small> -->
+                    <!-- <small class="p-error block" *ngIf="
+                addRecordForm.get('componentTypeID')?.invalid && addRecordForm.get('componentTypeID')?.dirty
+              ">
+                        Select Component Type
+                    </small> -->
+                </div>
+
+                <div class="row-style">
+                    <!-- <label for="isThreadedConnection">Is Threaded Connection</label> -->
+                    <!--  <input id="isThreadedConnection" pInputText formControlName="newmdlRecord.isThreadedConnection" /> -->
+                    <!-- <div>
+            <input type="radio" id="threadedYes" name="isThreadedConnection" formControlName="isThreadedConnection" value=1 />
+            <label for="threadedYes">Yes</label>
+
+            <input type="radio" id="threadedNo" name="isThreadedConnection" formControlName="isThreadedConnection" value=0 />
+            <label for="threadedNo">No</label>
+        </div> -->
+                    <div class="p-field-checkbox">
+                        <p-checkbox formControlName="isThreadedConnection"                        
+                                    binary="true" 
+                                    [label]="'Is Threaded Connection'"
+                                    inputId="isThreadedConnectione">
+                        </p-checkbox>
+                    </div><br/>
+                    <div class="p-field-checkbox">
+                        <p-checkbox formControlName="isContainsElastomerElements"
+                                    binary="true"
+                                    [label]="'Contains Elastomer Elements'"
+                                    inputId="isContainsElastomerElements">
+                        </p-checkbox>
+                    </div>
+                </div>
+
+                <div class="row-style">
+                    <label for="materialDescription">Material Description</label>
+                    <input id="materialDescription" pInputText formControlName="materialDescription" readonly/>
+                </div>
+                <div class="row-style">
+                    <label for="supplierName">Supplier<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <p-dropdown [options]="supplier"
+                                formControlName="supplierId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Supplier"
+                              >
+                    </p-dropdown>
+
+                </div>
+                <div class="row-style">
+                    <label for="manufacturerId">Manufacturer</label>                    
+                    <p-dropdown [options]="manufacturer"
+                                formControlName="manufacturerId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Manufacturer">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="tradeName">Trade Name</label>
+                    <input id="tradeName" pInputText formControlName="tradeName" />
+                </div>
+                <div class="row-style">
+                    <label for="materialNumber">MM# / MMR# <span class="requiredField">*</span></label>
+                    <input id="materialNumber" pInputText formControlName="materialNumber" />
+                    <!-- <small *ngIf="addRecordForm.get('materialNumber').invalid && addRecordForm.get('materialNumber').touched">Material Number is required</small> -->
+                </div>
+                <div class="row-style">
+                    <label for="UnitOfMeasurement">Unit Of Measurement</label>
+                    <p-dropdown [options]="uomList"
+                                formControlName="uoMid"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Unit Of Measurement">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="VendorSapnumber">Vendor SAP #</label>
+                    <input id="VendorSapnumber" pInputText formControlName="vendorSapnumber" />
+                </div>
+                <div class="row-style">
+                    <label for="SupplierPartNumber">Supplier Part #</label>
+                    <input id="SupplierPartNumber" pInputText formControlName="supplierPartNumber" />
+                </div>
+                <div class="row-style">
+                    <label for="LegacyRefNumber">Legacy Ref #</label>
+                    <input id="LegacyRefNumber" pInputText formControlName="legacyRefNumber" />
+                </div>
+                <div class="row-style">
+                    <label>Nominal/Max OD (IN) </label>
+                    <div class="dim-upper-style">
+                        <div class="dim-style">Primary<span  *ngIf="shouldValidate" class="requiredField">*</span><input id="NominalOD1" pInputText formControlName="nominalOd1" (blur)="onInputChange($event,'drift_od_id')" /></div>
+                        <div class="dim-style" >Secondary<span *ngIf="isNominalOd2Required" class="requiredField">*</span><input id="NominalOD2" (blur)="onInputChange($event,'drift_od_id')" pInputText formControlName="nominalOd2" /></div>
+                        <div class="dim-style" >Tertiary <span *ngIf="isNominalOd3Required" class="requiredField">*</span><input id="NominalOD3" (blur)="onInputChange($event,'drift_od_id')" pInputText formControlName="nominalOd3" /></div>
+                        <div class="dim-style"></div>
+                    </div>
+                </div>
+                <div class="row-style">
+                    <label>Actual OD (IN) </label>
+                    <div class="dim-upper-style">
+                        <div class="dim-style">Primary<span  *ngIf="shouldValidate" class="requiredField">*</span><input id="ActualOD1" pInputText formControlName="actualOd1" (blur)="onInputChange($event,'drift_od_id')" /></div>
+                        <div class="dim-style" >Secondary<span *ngIf="isActualOd2Required" class="requiredField">*</span><input id="ActualOD2" pInputText formControlName="actualOd2" (blur)="onInputChange($event,'drift_od_id')" /></div>
+                        <div class="dim-style" >Tertiary<span *ngIf="isActualOd3Required" class="requiredField">*</span><input id="ActualOD3" pInputText formControlName="actualOd3" (blur)="onInputChange($event,'drift_od_id')"/></div>
+                        <div class="dim-style"></div>
+                    </div>
+                </div>
+                <div class="row-style">
+                    <label>Actual ID (IN) </label>
+                    <div class="dim-upper-style">
+                        <div class="dim-style">Primary<span  *ngIf="shouldValidate" class="requiredField">*</span><input id="ActualID1" pInputText formControlName="actualId1" (blur)="onInputChange($event,1)" /></div>
+                        <div class="dim-style" >Secondary <span *ngIf="isActualId2Required" class="requiredField">*</span><input id="ActualID2" pInputText formControlName="actualId2" (blur)="onInputChange($event,'drift_od_id')" /></div>
+                        <div class="dim-style" >Tertiary<span *ngIf="isActualId3Required" class="requiredField">*</span><input id="ActualID3" pInputText formControlName="actualId3" (blur)="onInputChange($event,'drift_od_id')"/></div>
+                        <div class="dim-style"></div>
+                    </div>
+                </div>
+                <div class="row-style">
+                    <label for="drift">Drift (IN)<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <input id="drift" pInputText formControlName="drift" (blur)="onInputChange($event,1)"/>
+                </div>
+                <div class="row-style">
+                    <label>Weight (LB) </label>
+                    <div class="dim-upper-style">
+                        <div class="dim-style">Primary<span  *ngIf="shouldValidate" class="requiredField">*</span><input id="Weight1" pInputText formControlName="weight1" (blur)="onInputChange($event,'weight')"/></div>
+                        <div class="dim-style" >Secondary<span *ngIf="isWeight2Required" class="requiredField">*</span><input id="Weight2" pInputText formControlName="weight2" (blur)="onInputChange($event,'weight')" /></div>
+                        <div class="dim-style" >Tertiary<span *ngIf="isWeight3Required" class="requiredField">*</span><input id="Weight3" pInputText formControlName="weight3" (blur)="onInputChange($event,'weight')" /></div> 
+                        <div class="dim-style"></div>
+                    </div>
+                </div>
+                <div class="row-style">
+                    <label for="WallThickness">Wall Thickness (IN)<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <input id="WallThickness" pInputText formControlName="wallThickness" (blur)="onInputChange($event,'wall_thickness')"/>
+                </div>
+                <div class="row-style">
+                    <label>Material Grade (MG)</label>
+                    <div class="dim-upper-style">
+                        <!-- <div class="dim-style"><input id="materialGradeID1" pInputText formControlName="newmdlRecord.materialGradeID1" /></div> -->
+                        <div class="dim-style">
+                            Primary <span  *ngIf="shouldValidate" class="requiredField">*</span>
+                            <p-dropdown [options]="materialGrade"
+                                        formControlName="materialGradeId1"
+                                        optionLabel="value"
+                                        optionValue="id"
+                                        placeholder="Select MG">
+                            </p-dropdown>
+                        </div>
+                        <div class="dim-style" >
+                            Secondary <span *ngIf="isMaterialGradeId2Required" class="requiredField">*</span> 
+                            <!-- <div class="dim-style"><input id="materialGradeID2" pInputText formControlName="newmdlRecord.materialGradeID2" /></div> -->
+                            <p-dropdown [options]="materialGrade"
+                                        formControlName="materialGradeId2"
+                                        optionLabel="value"
+                                        optionValue="id"
+                                        placeholder="Select MG">
+                            </p-dropdown>
+                        </div>
+                        <div class="dim-style" >
+                            Tertiary <span *ngIf="isMaterialGradeId3Required" class="requiredField">*</span> 
+                            <!-- <div class="dim-style"><input id="materialGradeID3" pInputText formControlName="newmdlRecord.materialGradeID3" /></div> -->
+                            <p-dropdown [options]="materialGrade"
+                                        formControlName="materialGradeId3"
+                                        optionLabel="value"
+                                        optionValue="id"
+                                        placeholder="Select MG">
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-style">
+                    <label for="rbw">RBW</label>
+                    <p-dropdown [options]="rbwList"
+                              formControlName="rbwId"
+                              optionLabel="value"
+                              optionValue="id"
+                              placeholder="Select RBW">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="rangeId">Range<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <!-- <input id="rangeId" pInputText formControlName="newmdlRecord.rangeId" /> -->
+                    <p-dropdown [options]="range"
+                                formControlName="rangeId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Range">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="YeildStrength">Yield Strength <span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <input id="YeildStrength" pInputText formControlName="yeildStrength" />
+                </div>
+                <div class="row-style">
+                    <label for="MaxPressureRating">Max Pressure Rating  (PSI)<span *ngIf="isMaxPressureRatingRequired" class="requiredField">*</span></label>
+                    <input id="MaxPressureRating" pInputText formControlName="maxPressureRating" (blur)="onInputChange($event,'pressure')"/>
+                </div>
+                <div class="row-style">
+                    <label for="axialStrength">Axial Strength (PSI)<span *ngIf="isAxialStrengthRequired" class="requiredField">*</span></label>
+                    <input id="axialStrength" pInputText formControlName="axialStrength" (blur)="onInputChange($event,'pressure')"/>
+                </div>
+                <div class="row-style">
+                    <label for="DiffPressureRating">Differential Pressure Rating  (PSI)<span *ngIf="isDiffPressureRatingRequired" class="requiredField">*</span></label> 
+                    <input id="DiffPressureRating" pInputText formControlName="diffPressureRating" (blur)="onInputChange($event,'pressure')"/>
+                </div>
+                <div class="row-style">
+                    <label for="BurstPressure">Burst Pressure (PSI)<span *ngIf="isBurstAndCollapesRequires" class="requiredField">*</span></label>
+                    <input id="BurstPressure" pInputText formControlName="burstPressure" (blur)="onInputChange($event,'pressure')"/>
+                </div>
+                <div class="row-style">
+                    <label for="CollapsePressure">Collapse Pressure (PSI)<span *ngIf="isBurstAndCollapesRequires" class="requiredField">*</span></label>
+                    <input id="CollapsePressure" pInputText formControlName="collapsePressure" (blur)="onInputChange($event,'pressure')"/>
+                </div>
+                <div class="row-style">
+                    <label for="maxTempRating">Max Temperature Rating (F)</label>
+                    <input id="maxTempRating" pInputText formControlName="maxTempRating" (blur)="onInputChange($event,'temperature')"/>
+                </div>
+                <div class="row-style">
+                    <label for="topendConnectionId">Top Connection<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <!-- <input id="topendConnectionID" pInputText formControlName="newmdlRecord.topendConnectionID" /> -->
+                    <p-dropdown [options]="endConnections"
+                                formControlName="topendConnectionId"
+                                optionLabel="value"
+                                optionValue="id"
+                                (onChange)="changedtopConnection($event)"
+                                placeholder="Select Top Connection">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="middleendConnectionId">Middle Connection<span *ngIf="isMiddleendConnectionIdRequired" class="requiredField">*</span></label>
+                    <!-- <input id="middleendConnectionId" pInputText formControlName="newmdlRecord.middleendConnectionId" /> -->
+                    <p-dropdown [options]="endConnections"
+                                formControlName="middleendConnectionId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Middle Connection">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="bottomendConnectionId">Bottom Connection</label>
+                    <!-- <input id="bottomendConnectionID" pInputText formControlName="newmdlRecord.bottomendConnectionID" /> -->
+                    <p-dropdown [options]="endConnections"
+                                formControlName="bottomendConnectionId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Bottom Connection">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="connectionConfigId">Connection Configuration<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <!-- <input id="connectionConfigID" pInputText formControlName="newmdlRecord.connectionConfigID" /> -->
+                    <p-dropdown [options]="connectionConfig"
+                                formControlName="connectionConfigId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Connection Config">
+                    </p-dropdown>
+                </div>
+
+                <div class="row-style">
+                    <label for="connectionTypeId">Connection Type<span  *ngIf="shouldValidate" class="requiredField">*</span></label>
+                    <!-- <input id="connectionConfigID" pInputText formControlName="newmdlRecord.connectionConfigID" /> -->
+                    <p-dropdown [options]="connectionTypeList"
+                                formControlName="connectionTypeId"
+                                optionLabel="value"
+                                optionValue="id"
+                                placeholder="Select Connection Type">
+                    </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="elastomersMinTempRating">Min Temperature Rating (F) - Elastomers <span *ngIf="isElastomersMinTempRatingRequired" class="requiredField">*</span></label>
+                    <input id="elastomersMinTempRating" pInputText formControlName="elastomersMinTempRating" (blur)="onInputChange($event,'temperature')"/>
+                </div>
+                <div class="row-style">
+                    <label for="elastomersMaxTempRating">Max Temperature Rating (F) - Elastomers <span *ngIf="isElastomersMaxTempRatingRequired" class="requiredField">*</span></label>
+                    <input id="elastomersMaxTempRating" pInputText formControlName="elastomersMaxTempRating" (blur)="onInputChange($event,'temperature')"/>
+                </div>
+                <div class="row-style">
+                    <label for="qualityPlanDesignation">Quality Plan Designation <span *ngIf="isQualityPlanDesignationRequired" class="requiredField">*</span></label>
+                    <input id="qualityPlanDesignation" pInputText formControlName="qualityPlanDesignation" />
+                </div>
+                <div class="row-style">
+                    <label for="ElastomerNotes">Elastomer Notes</label>
+                    <input id="ElastomerNotes" style="height:100px;" pInputText formControlName="elastomerNotes" />
+                </div>
+                <div class="row-style">
+                    <label for="StandardNotes">Standard Notes</label>
+                    <input id="StandardNotes" style="height:100px;" pInputText formControlName="standardNotes" />
+                </div>
+
+                <div class="row-style">
+                    <label for="connectionBurstPressure">Connection Burst Pressure (PSI)<span *ngIf="isConnectionBurstPressure" class="requiredField">*</span></label> 
+                    <input id="connectionBurstPressure" pInputText formControlName="connectionBurstPressure" />
+                </div>
+                <div class="row-style">
+                    <label for="connectionCollapsePressure">Connection Collapse Pressure (PSI)<span *ngIf="isConnectionCollapsePressure" class="requiredField">*</span></label>
+                    <input id="connectionCollapsePressure" pInputText formControlName="connectionCollapsePressure" />
+                </div>
+                <div class="row-style">
+                    <label for="connectionYeildStrength">Connection Yeild Strength (PSI)<span *ngIf="isconnectionYeildStrengthrequired" class="requiredField">*</span></label>  
+                    <input id="connectionYeildStrength" pInputText formControlName="connectionYeildStrength" />
+                </div>
+                <div class="row-style">
+                    <label for="makeupLoss">Makeup Loss (IN)<span *ngIf="isMakeupLossRequired" class="requiredField">*</span></label>
+                    <input id="makeupLoss" pInputText formControlName="makeupLoss" />
+                </div>
+                <div class="row-style">
+                    <label for="elastomerTypeID">Elastomer Type ID <span *ngIf="isElastomerTypeIDRequired" class="requiredField">*</span></label>
+                    <input id="elastomerTypeID" pInputText formControlName="elastomerTypeID" />
+                </div>
+                <div class="row-style">
+                    <label for="groupId">Group</label>
+                    <p-dropdown                  
+                        formControlName="groupId" 
+                        [options]="groups" 
+                        optionLabel="value" 
+                        optionValue="id"
+                        placeholder="Select Group">
+                  </p-dropdown>
+                </div>
+                <div class="row-style">
+                    <label for="materialGroup">Material Group</label>
+                    <input id="materialGroup" pInputText formControlName="materialGroup" />
+                </div>
+                <div class="row-style">
+                    <label for="sectionName">Section</label>
+                    <p-dropdown 
+                 
+                    formControlName="sectionId" 
+                    [options]="sections" 
+                    optionLabel="sectionName" 
+                    optionValue="sectionId"
+                    placeholder="Select a section">
+                  </p-dropdown>
+   
+                </div>
+                <div class="row-style">
+                    <label for="projectTags">Project Tags </label>
+                    <input id="projectTags" pInputText formControlName="projectTags" />
+                </div>
+                <div class="row-style">
+                    <label for="administrativeNotes">Administrative Notes</label>
+                    <input id="administrativeNotes" pInputText formControlName="administrativeNotes" />
+                </div>
+                <div class="row-style">
+                    <label for="administrativeNotes">Spec Sheet</label>
+                    <input class="file-upload" #fileInput pInputText type="file" [disabled]="addRecordForm.invalid" 
+                    (change)="onFileSelected($event)" accept=".pdf,.doc,.docx"  pTooltip="Drag and Drop your file here, or click to browse" />
+
+                </div>
+            </div>
+
+        </ng-template>
+        <p-footer>
+            <button pButton type="button" label="Reset" icon="pi pi-refresh" (click)="resetDialog()"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="closeDialog()"></button>
+            <button pButton type="button" label="Save" icon="pi pi-check" [disabled]="addRecordForm.invalid" (click)="saveRecordAndClose()"></button>
+            <button pButton type="button" label="Save And Add Another Record" *ngIf="!isEdit" icon="pi pi-check" [disabled]="addRecordForm.invalid" (click)="saveRecord()"></button>
+        </p-footer>
+    </p-dialog>
+</form>
+<p-dialog [(visible)]="cancelVisible" [modal]="true" [style]="{width: '50vw'}" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="dialog-header">
+            <h3 style="margin: 0;">Warning</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="this.cancelVisible = false;"></button>
+        </div>
+    </ng-template>
+    <div  class="pt-6 confirmParent p-4">
+        You are attempting to close the window without saving your information. If you wish to continue, click Ok. If you wish to save your data, please click Cancel.
+    </div>
+    <p-footer>
+        <button pButton type="button" label="Ok" icon="pi pi-check" (click)="okClick()"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" (click)="this.cancelVisible = false;"></button>
+    </p-footer>
+</p-dialog>

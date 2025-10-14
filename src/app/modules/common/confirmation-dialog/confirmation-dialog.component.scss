@@ -1,0 +1,21 @@
+
+::ng-deep .p-dialog-footer {
+    padding: 0rem 0rem .5rem 1rem;
+  }
+  .iconSize{
+    font-size: 40px;
+    color: var(--theme-green-medium-color) !important;
+  }
+  .parentDiv{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.continueBtnColor{
+  background-color: var(--theme-green-medium-color) !important;
+}

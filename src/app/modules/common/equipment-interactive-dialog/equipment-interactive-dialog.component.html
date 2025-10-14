@@ -1,0 +1,183 @@
+<p-dialog [(visible)]="displayEquipmentDialog" class="equipment-dialog" [modal]="true" [closable]="false" [style]="{width: '45%'}">
+    <ng-template pTemplate="header">
+        <div class="dialog-header" style="z-index: 9999;">
+            <h3 class="dialog-heading">Add Material</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <form [formGroup]="addEquipmentForm" (ngSubmit)="addNewMaterial()">
+          <div class="p-fluid grid pl-2 pr-2 well-details pt-0 pb-0">
+                  <div class="form-group well-group col-6">
+              <label class="well-label w-93" for="holeSection">Hole Selection</label>
+
+              <p-dropdown
+                [options]="holeSelectionList"
+                [filter]="true"
+                class="mt-2 db"
+                formControlName="holeSection">
+              </p-dropdown>
+            </div>
+            <div class="form-group well-group col-6">
+              <label class="well-label w-93" for="hsType">HS Type</label>
+              <p-dropdown
+              [options]="hsTypeList"
+              [filter]="true"
+              class="mt-2 db"
+              formControlName="hsType"
+              >
+            </p-dropdown>
+            </div>
+            <div class="form-group well-group col-6">
+                <label class="well-label w-93" for="group">Material Group</label>
+                <p-dropdown
+                [options]="groupList"
+                [filter]="true"
+                class="mt-2 db"
+                formControlName="mGroup"
+                >
+              </p-dropdown>
+            </div>
+            <div class="form-group well-group col-6">
+              <label class="well-label w-93" for="materialType">Material Type<span class="requiredField">*</span></label>
+              <p-dropdown
+              [options]="materialTypeList"
+              [filter]="true"
+              class="mt-2 db"
+              formControlName="materialType"
+              >
+            </p-dropdown>
+          </div>
+      
+            <div class="form-group well-group col-6">
+              <label class="well-label" for="materialShortDesc">Item Short description<span class="requiredField">*</span></label>
+            <input pInputText type="text" formControlName="materialShortDesc" class="mt-2 db"/>
+
+                      </div>
+                      <div class="form-group well-group col-6">
+                        <label class="well-label" for="marketUnitPrice">Market Unit Price</label>
+                        <input pInputText type="number" formControlName="marketUnitPrice" class="mt-2 db"/>
+                      </div>
+            <div class="form-group well-group col-6">
+              <label class="well-label" for="materialId">MM/MMR<span class="requiredField">*</span></label>
+              <input pInputText type="text" formControlName="materialId" class="mt-2 db"/>
+            </div>
+
+            <div class="form-group well-group col-6">
+              <label class="well-label" for="materialId">Vendor SAP #</label>
+              <input pInputText type="text" formControlName="vendorSapnumber" class="mt-2 db"/>
+            </div>
+            <div class="form-group well-group col-6">
+              <label class="well-label" for="uoMid">Unit of Measure</label>
+              <p-dropdown
+                [options]="uomList"
+                [filter]="true"
+                class="mt-2 db"
+                formControlName="uoMid"
+              ></p-dropdown>
+            </div>
+      
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="wall">Wall</label>
+                <input pInputText type="number" formControlName="wall" class="mt-2 db" />
+              </div>
+
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="od">OD</label>
+            
+              <input pInputText type="number" formControlName="od" class="mt-2 db" />
+
+            </div>
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="weight">Weight</label>
+              <input pInputText type="number" formControlName="weight" class="mt-2 db" />
+            </div>
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="grade">Grade</label>
+              <input pInputText type="text" formControlName="grade" class="mt-2 db" />
+
+            </div>
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="connection">Connection</label>
+              <input pInputText type="text" formControlName="connection" class="mt-2 db" />
+
+            </div>
+            <div class="form-group well-group col-6">
+                <label class="well-label w-93" for="vendor">Vendor</label>
+                <p-dropdown
+                [options]="vendorList"
+                [filter]="true"
+                class="mt-2 db"
+                formControlName="vendor"
+                >
+              </p-dropdown>
+            </div>
+            <div class="form-group well-group col-6">
+              <label class="well-label" for="manfacturer">Manufacturer #</label>
+              <input pInputText type="text" formControlName="manufacturerNum" class="mt-2 db"/>
+            </div>
+           
+            <div class="form-group well-group col-6">
+                <label class="well-label" for="tier">Tier</label>
+                <input pInputText type="text" formControlName="tier" class="mt-2 db"/>
+              </div>
+              <div class="form-group well-group col-6">
+                <label class="well-label" for="openOrClosed">Open/Closed</label>
+                <p-dropdown
+                [options]="openCloseDropDownData"
+                [filter]="true"
+                class="mt-2 db"
+                formControlName="openOrClosed"
+                >
+              </p-dropdown>
+        
+            </div>
+
+
+          <div class="form-group well-group col-6">
+            <label class="well-label" for="sooner">Sooner</label>
+          <input pInputText type="number" formControlName="sooner" class="mt-2 db" />
+
+        </div>
+          <div class="form-group well-group col-6">
+              <label class="well-label" for="tenaris">Tenaris</label>
+            <input pInputText type="number" formControlName="tenaris" class="mt-2 db" />
+
+          </div>
+          <div class="form-group well-group col-6">
+            <label class="well-label" for="drillQuip">Drill-Quip</label>
+          <input pInputText type="number" formControlName="drillQuip" class="mt-2 db" />
+
+        </div>
+        <div class="form-group well-group col-6">
+          <label class="well-label" for="connection">Comments</label>
+        <input pInputText type="text" formControlName="connection" class="mt-2 db" />
+
+      </div>
+
+
+        <div class="form-group well-group col-6">
+          <label class="well-label" for="leadTimeInDays">Lead Time (Days)</label>
+        <input pInputText type="number" formControlName="leadTimeInDays" class="mt-2 db" />
+
+      </div>
+      <div class="form-group well-group col-6">
+        <label class="well-label" for="sourservice" style="width: 48%;">Sour Service</label>
+      <div class="mt-2">
+        <p-checkbox 
+          formControlName="sourservice" 
+          binary="true" 
+          [label]="''"
+          [trueValue]="'Yes'" 
+          [falseValue]="'No'">
+        </p-checkbox>
+      </div>
+    </div>
+          </div>
+          
+          <div class="form-group footer-buttons-container">
+            <button pButton style="align-self:center" label="Save" [disabled]="!addEquipmentForm.valid" class="p-button-primary"></button>
+          </div>
+        </form>
+      </ng-template>
+</p-dialog>

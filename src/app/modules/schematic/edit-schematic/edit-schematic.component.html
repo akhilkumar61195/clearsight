@@ -1,0 +1,132 @@
+<p-dialog [(visible)]="displayEditSchematicDialog" [modal]="true" [style]="{ width: '400px' }" [closable]="false">
+    <div class="dialog-header">
+      <h3  class="dialog-heading">Update Schematic</h3>
+      <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="cancelSchematic()"></button>
+    </div>
+  
+    <form [formGroup]="completionSchematicForm">
+      <div class="p-fluid" style="padding: 1rem;">
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="schematicsName" class="schematicLabel">Schematic Name <span class="starCss">*</span></label>
+            <input id="schematicsName" type="text" formControlName="schematicsName" pInputText style="flex: 1;">
+          </div>
+          <div *ngIf="completionSchematicForm.get('schematicsName')?.invalid && completionSchematicForm.get('schematicsName')?.touched" class="errorMessage">
+            Schematic Name is required.
+          </div>
+        </div>
+      
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="project" class="schematicLabel">Project<span class="starCss">*</span></label>
+            <p-dropdown
+            [options]="projects"
+            [filter]="true"
+            class="mt-2 db"
+            formControlName="project"
+            >
+          </p-dropdown>
+          </div>
+          <div *ngIf="completionSchematicForm.get('project')?.invalid && completionSchematicForm.get('project')?.touched" class="errorMessage">
+            Project Name is required.
+          </div>
+        </div>
+      
+        <div class="p-field mb-3" >
+          <div  class="parentInput">
+            <label for="lease" class="schematicLabel">Lease</label>
+            <input id="lease" type="text" formControlName="lease" pInputText style="flex: 1;">
+          </div>
+        </div>
+      
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="wellName" class="schematicLabel">Well Name<span class="starCss">*</span></label>
+            <input id="wellName" type="text" formControlName="wellName" pInputText style="flex: 1;">
+          </div>
+          <div *ngIf="completionSchematicForm.get('wellName')?.invalid && completionSchematicForm.get('wellName')?.touched" class="errorMessage">
+            Well Name is required.
+          </div>
+        </div>
+       <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="completionDesignId" class="schematicLabel">Well Type</label>
+            <p-dropdown
+            [options]="completionDesigns"
+            [filter]="true"
+            class="mt-2 db"
+            appendTo="body"
+            formControlName="completionDesignId"
+            (onChange)="onWellTypeChange($event)"
+            >
+          </p-dropdown>
+          </div>
+
+        </div>
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="noOfZones" class="schematicLabel">No of Zones</label>
+            <input id="wellLocation" type="number" formControlName="noOfZones" pInputText style="flex: 1;">
+         </div>
+       
+        </div>
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="wellLocation" class="schematicLabel">Well Location<span class="starCss">*</span></label>
+            <input id="wellLocation" type="text" formControlName="wellLocation" pInputText style="flex: 1;">
+          </div>
+          <div *ngIf="completionSchematicForm.get('wellLocation')?.invalid && completionSchematicForm.get('wellLocation')?.touched" class="errorMessage">
+            Well Location is required.
+          </div>
+        </div>
+      
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="chevronEngineer" class="schematicLabel">Primary Engineer<span class="starCss">*</span></label>
+            <!-- <input id="chevronEngineer" type="text" formControlName="chevronEngineer" pInputText style="flex: 1;"> -->
+            <p-dropdown
+            [options]="planningEnginnersList"
+            [filter]="true"
+            class="mt-2 db"
+            appendTo="body"
+            formControlName="chevronEngineer"
+            >
+          </p-dropdown>
+          </div>
+          <div *ngIf="completionSchematicForm.get('chevronEngineer')?.invalid && completionSchematicForm.get('chevronEngineer')?.touched" class="errorMessage">
+            Primary Engineer is required.
+          </div>
+        </div>
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="chevronWBS" class="schematicLabel">Backup Engineer</label>
+            <!-- <input id="chevronWBS" type="text" formControlName="backupEngineer" pInputText style="flex: 1;"> -->
+            <p-dropdown
+            [options]="planningEnginnersList"
+            [filter]="true"
+            class="mt-2 db"
+            appendTo="body"
+            formControlName="backupEngineer"
+            >
+          </p-dropdown>
+          </div>
+          <div *ngIf="completionSchematicForm.errors?.engineerMismatch" class="errorMessage">
+            Primary Engineer and Backup Engineer should not be the same.
+          </div>
+        </div>
+        <div class="p-field mb-3" >
+          <div class="parentInput">
+            <label for="chevronWBS" class="schematicLabel">Chevron WBS</label>
+            <input id="chevronWBS" type="text" formControlName="chevronWBS" pInputText style="flex: 1;">
+          </div>
+        </div>
+        
+      </div>
+      <p-footer style="display: flex; justify-content: center;">
+        <button pButton label="Cancel"   class="cancelBtn" (click)="cancelSchematic()"></button>
+        <button pButton label="Update"  type="submit" class="saveBtn" (click)="updateEditSchematic()" [disabled]="completionSchematicForm.invalid"></button>
+      </p-footer>
+      
+    </form>
+</p-dialog>
+ 

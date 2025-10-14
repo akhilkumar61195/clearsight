@@ -1,0 +1,12 @@
+<p-dropdown class="dropdown-header"
+  [options]="filteredDropdownOptions" 
+  [(ngModel)]="selectedOption" 
+  placeholder="Select Page" 
+  (onChange)="navigateToPage($event.value)">
+  <ng-template let-item pTemplate="item">
+    <div class="dropdown-item">
+      <span>{{ item.label }}</span>
+      <i class="pi pi-arrow-right pull-right"></i> <!-- Add right icon here -->
+    </div>
+  </ng-template>
+</p-dropdown>

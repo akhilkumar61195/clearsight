@@ -1,0 +1,433 @@
+<p-dialog [(visible)]="displayWellFeaturesDialog" [modal]="true" [closable]="false" [style]="{width: dialogWidth}"
+    (onShow)="loadWellFeatures()">
+    <ng-template pTemplate="header">
+        <!-- <div style="width:100%;color: white; padding: 10px; position: relative;display: flex; flex-wrap: wrap;background-color:#166568;margin-top:0px">
+            <h3 style="margin: 0;">Well Features</h3>
+            <button style="position: absolute; right: 5px;top:5px;background-color:#166568;border-color:#166568" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div> -->
+        <div class="dialog-header">
+            <h3 class="dialog-heading">Well Features</h3>
+            <button class="dialog-header-close-btn" pButton icon="pi pi-times" (click)="closeDialog()"></button>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="body">
+        <form [formGroup]="wellFeaturesForm" novalidate>
+            <!-- <div class="p-fluid" style="display: flex; flex-wrap: wrap;">
+                <div class="p-field-radiobutton row-style2">
+                    <label>
+                        <input type="radio" name="designVariable" value="singleTripMultiZone" (change)="onDesignChange('singleTripMultiZone')" checked="true" /> Single-Trip Multi-Zone
+                    </label>
+                </div>
+                <div class="p-field-radiobutton row-style3">
+                    <label>
+                        <input type="radio" name="designVariable" value="artificialLiftCan" (change)="onDesignChange('artificialLiftCan')" /> Conventional Single-Zone w/Artificial Lift (CAN System)
+                    </label>
+                </div>
+                <div class="p-field-radiobutton row-style2">
+                    <label>
+                        <input type="radio" name="designVariable" value="conventionalSingleZone" (change)="onDesignChange('conventionalSingleZone')" /> Conventional Single-Zone
+                    </label>
+                </div>
+                <div class="p-field-radiobutton row-style3">
+                    <label>
+                        <input type="radio" name="designVariable" value="artificialLiftYCheck" (change)="onDesignChange('artificialLiftYCheck')" /> Conventional Single-Zone w/Artificial Lift (Y-Check System)
+                    </label>
+                </div>
+                <div class="p-field-radiobutton row-style2">
+                    <label>
+                        <input type="radio" name="designVariable" value="injector" (change)="onDesignChange('injector')" /> Injector
+                    </label>
+                </div>
+            </div> -->
+            <table>
+                <tr>
+                    <td style="width:40%;">
+                        <div class="p-fluid" style="display: flex; flex-wrap: wrap;">
+                            <!-- rkbtoMsl -->
+                            <div class="row-style">
+                                <label for="rkbtoMsl">RKB to MSL</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="rkbtoMsl" pInputText formControlName="rkbtoMsl"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- waterDepth -->
+                            <div class="row-style">
+                                <label for="waterDepth">Water Depth</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="waterDepth" pInputText formControlName="waterDepth"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- rkbtoMl -->
+                            <div class="row-style">
+                                <label for="rkbtoMl">RKB to ML</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="rkbtoMl" pInputText formControlName="rkbtoMl"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- rkbto1834Hpwh -->
+                            <div class="row-style">
+                                <label for="rkbto1834Hpwh">RKB to 18-3/4" HPWH</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="rkbto1834Hpwh" pInputText formControlName="rkbto1834Hpwh"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- topofTubingHeadSpool -->
+                            <div class="row-style">
+                                <label for="topofTubingHeadSpool">Top of Tubing Head Spool</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="topofTubingHeadSpool" pInputText formControlName="topofTubingHeadSpool"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- tol -->
+                            <div class="row-style">
+                                <label for="tol">TOL</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="tol" pInputText formControlName="tol" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <!-- tiebackGap -->
+                            <div class="row-style">
+                                <label for="tiebackGap">Tieback Gap</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="tiebackGap" pInputText formControlName="tiebackGap"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- cflex -->
+                            <div class="row-style">
+                                <label for="cflex">C-Flex</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="cflex" pInputText formControlName="cflex" style="background-color:#FFF2CC" />
+                            </div>
+
+                            <!-- safetyValveSetDepth -->
+                            <div class="row-style">
+                                <label for="safetyValveSetDepth">Safety Valve Set Depth</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="safetyValveSetDepth" pInputText formControlName="safetyValveSetDepth"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- sumpPackerTop -->
+                            <div class="row-style">
+                                <label for="sumpPackerTop">Sump Packer Top</label>
+                            </div>
+                            <div class="row-style1">
+                                <input class="calculatedVals" id="sumpPackerTop" pInputText
+                                    formControlName="sumpPackerTop" readonly appNumberFormat />
+                            </div>
+
+                            <!-- sumpPackerMuleShoeEoa -->
+                            <div class="row-style">
+                                <label for="sumpPackerMuleShoeEoa">Sump Packer Mule Shoe EOA</label>
+                            </div>
+                            <div class="row-style1">
+                                <input class="calculatedVals" id="sumpPackerMuleShoeEoa" pInputText
+                                    formControlName="sumpPackerMuleShoeEoa" readonly appNumberFormat />
+                            </div>
+
+                            <!-- bridgePlugGatekeeperTop -->
+                            <div class="row-style">
+                                <label for="bridgePlugGatekeeperTop">Bridge Plug Gatekeeper Top</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="bridgePlugGatekeeperTop" pInputText formControlName="bridgePlugGatekeeperTop"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- endofLiner -->
+                            <div class="row-style">
+                                <label for="endofLiner">End of Liner</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="endofLiner" pInputText formControlName="endofLiner"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <!-- ratholeLength -->
+                            <div class="row-style">
+                                <label for="ratholeLength">Rathole Length</label>
+                            </div>
+                            <div class="row-style1">
+                                <input class="calculatedVals" id="ratholeLength" pInputText
+                                    formControlName="ratholeLength" readonly appNumberFormat />
+                            </div>
+
+                            <!-- ratholeLengthLcinstalled -->
+                            <div class="row-style">
+                                <label for="ratholeLengthLcinstalled">Rathole Length LC Installed</label>
+                            </div>
+                            <div class="row-style1">
+                                <input class="calculatedVals" id="ratholeLengthLcinstalled" pInputText
+                                    formControlName="ratholeLengthLcinstalled" readonly appNumberFormat />
+                            </div>
+
+                            <!-- noOfZones-->
+                            <div class="row-style">
+                                <label for="noOfZones">No of Zones</label>
+                            </div>
+                            <div class="row-style1">
+                                <input id="noOfZones" pInputText formControlName="noOfZones"
+                                    style="background-color:#FFF2CC" [min]=1 appNumberFormat />
+                            </div>
+
+                        </div>
+                    </td>
+                    <td style="width:60%;vertical-align:text-top;">
+                        <div class="p-fluid" style="display: flex; flex-wrap: wrap;">
+                            <!-- <div class="p-field-radiobutton row-style4">
+                                <label>
+                                    <input type="radio" name="designVariable" value="singleTripMultiZone"
+                                        (change)="onDesignChange('singleTripMultiZone')" checked="true" /> Single-Trip
+                                    Multi-Zone
+                                </label>
+                            </div>
+                            <div class="p-field-radiobutton row-style4">
+                                <label>
+                                    <input type="radio" name="designVariable" value="artificialLiftCan"
+                                        (change)="onDesignChange('artificialLiftCan')" /> Conventional Single-Zone
+                                    w/Artificial Lift (CAN System)
+                                </label>
+                            </div>
+                            <div class="p-field-radiobutton row-style4">
+                                <label>
+                                    <input type="radio" name="designVariable" value="conventionalSingleZone"
+                                        (change)="onDesignChange('conventionalSingleZone')" /> Conventional Single-Zone
+                                </label>
+                            </div>
+                            <div class="p-field-radiobutton row-style4">
+                                <label>
+                                    <input type="radio" name="designVariable" value="artificialLiftYCheck"
+                                        (change)="onDesignChange('artificialLiftYCheck')" /> Conventional Single-Zone
+                                    w/Artificial Lift (Y-Check System)
+                                </label>
+                            </div>
+                            <div class="p-field-radiobutton row-style4">
+                                <label>
+                                    <input type="radio" name="designVariable" value="injector"
+                                        (change)="onDesignChange('injector')" /> Injector
+                                </label>
+                            </div> -->
+                            <div *ngFor="let option of designOptions" class="p-field-radiobutton row-style4">
+                                <label>
+                                  <input 
+                                    type="radio" 
+                                    name="designVariable" 
+                                    [value]="option.value" 
+                                    (change)="onDesignChange(option.value)"                                    
+                                    [checked]="option.value === selectedDesignVariable"  />
+                                  {{ option.label }}
+                                </label>
+                              </div>
+                              
+                            <div class="row-style" *ngIf="vitrunLengthVisible">
+                                <label for="vitrunLength">VIT Run Length</label>
+                            </div>
+                            <div class="row-style1" *ngIf="vitrunLengthVisible">
+                                <input id="vitrunLength" pInputText formControlName="vitrunLength"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="psasealEngagementVisible">
+                                <label for="psasealEngagement">PSA Seal Engagement</label>
+                            </div>
+                            <div class="row-style1" *ngIf="psasealEngagementVisible">
+                                <input id="psasealEngagement" pInputText formControlName="psasealEngagement"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="productionSealAdjustmentFactorVisible">
+                                <label for="productionSealAdjustmentFactor">Production Seal Adjustment Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="productionSealAdjustmentFactorVisible">
+                                <input id="productionSealAdjustmentFactor" pInputText
+                                    formControlName="productionSealAdjustmentFactor" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="pisshiftingToolAdjustmentFactorVisible">
+                                <label for="pisshiftingToolAdjustmentFactor">PIS Shifting Tool Adjustment Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="pisshiftingToolAdjustmentFactorVisible">
+                                <input id="pisshiftingToolAdjustmentFactor" pInputText
+                                    formControlName="pisshiftingToolAdjustmentFactor" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="tubingHangerSpaceOutLengthVisible">
+                                <label for="tubingHangerSpaceOutLength">Tubing Hanger Space Out Length</label>
+                            </div>
+                            <div class="row-style1" *ngIf="tubingHangerSpaceOutLengthVisible">
+                                <input id="tubingHangerSpaceOutLength" pInputText
+                                    formControlName="tubingHangerSpaceOutLength" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="chemicalInjectionAssemblySetDepthVisible">
+                                <label for="chemicalInjectionAssemblySetDepth">Chemical Injection Assembly Set
+                                    Depth</label>
+                            </div>
+                            <div class="row-style1" *ngIf="chemicalInjectionAssemblySetDepthVisible">
+                                <input id="chemicalInjectionAssemblySetDepth" pInputText
+                                    formControlName="chemicalInjectionAssemblySetDepth" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="productionSealLocatorSpaceOutFactorVisible">
+                                <label for="productionSealLocatorSpaceOutFactor">Production Seal Locator Space Out
+                                    Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="productionSealLocatorSpaceOutFactorVisible">
+                                <input id="productionSealLocatorSpaceOutFactor" pInputText
+                                    formControlName="productionSealLocatorSpaceOutFactor"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="productionPackerSetDepthVisible">
+                                <label for="productionPackerSetDepth">Production Packer Set Depth</label>
+                            </div>
+                            <div class="row-style1" *ngIf="productionPackerSetDepthVisible">
+                                <input id="productionPackerSetDepth" pInputText
+                                    formControlName="productionPackerSetDepth" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="landingNippleProfileSetDepthVisible">
+                                <label for="landingNippleProfileSetDepth">Landing Nipple Profile Set Depth</label>
+                            </div>
+                            <div class="row-style1" *ngIf="landingNippleProfileSetDepthVisible">
+                                <input id="landingNippleProfileSetDepth" pInputText
+                                    formControlName="landingNippleProfileSetDepth" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="snapLatchSpaceOutFactorVisible">
+                                <label for="snapLatchSpaceOutFactor">Snap Latch Space Out Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="snapLatchSpaceOutFactorVisible">
+                                <input id="snapLatchSpaceOutFactor" pInputText formControlName="snapLatchSpaceOutFactor"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="productionScreenOverlapVisible">
+                                <label for="productionScreenOverlap">Production Screen Overlap</label>
+                            </div>
+                            <div class="row-style1" *ngIf="productionScreenOverlapVisible">
+                                <input id="productionScreenOverlap" pInputText formControlName="productionScreenOverlap"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="washdownAssemblySpaceOutFactorVisible">
+                                <label for="washdownAssemblySpaceOutFactor">Washdown Assembly Space Out Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="washdownAssemblySpaceOutFactorVisible">
+                                <input id="washdownAssemblySpaceOutFactor" pInputText
+                                    formControlName="washdownAssemblySpaceOutFactor" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="lSOTJMeteringModuleFactorVisible">
+                                <label for="lsotjmeteringModuleFactor">LSOTJ Metering Module Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="lSOTJMeteringModuleFactorVisible">
+                                <input id="lsotjmeteringModuleFactor" pInputText
+                                    formControlName="lsotjmeteringModuleFactor" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="eSPProductionPackerSetDepthVisible">
+                                <label for="espproductionPackerSetDepth">ESP Production Packer Set Depth</label>
+                            </div>
+                            <div class="row-style1" *ngIf="eSPProductionPackerSetDepthVisible">
+                                <input id="espproductionPackerSetDepth" pInputText
+                                    formControlName="espproductionPackerSetDepth" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="upperTeleswivelStrokeExtensionVisible">
+                                <label for="upperTeleswivelStrokeExtension">Upper Teleswivel Stroke Extension</label>
+                            </div>
+                            <div class="row-style1" *ngIf="upperTeleswivelStrokeExtensionVisible">
+                                <input id="upperTeleswivelStrokeExtension" pInputText
+                                    formControlName="upperTeleswivelStrokeExtension" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="lowerTeleswivelStrokeExtensionVisible">
+                                <label for="lowerTeleswivelStrokeExtension">Lower Teleswivel Stroke Extension</label>
+                            </div>
+                            <div class="row-style1" *ngIf="lowerTeleswivelStrokeExtensionVisible">
+                                <input id="lowerTeleswivelStrokeExtension" pInputText
+                                    formControlName="lowerTeleswivelStrokeExtension" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="chemicalInjectionMandrelAdjustmentFactorVisible">
+                                <label for="chemicalInjectionMandrelAdjustmentFactor">Chemical Injection Mandrel
+                                    Adjustment Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="chemicalInjectionMandrelAdjustmentFactorVisible">
+                                <input id="chemicalInjectionMandrelAdjustmentFactor" pInputText
+                                    formControlName="chemicalInjectionMandrelAdjustmentFactor"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="sealEngagementFactorVisible">
+                                <label for="sealEngagementFactor">Seal Engagement Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="sealEngagementFactorVisible">
+                                <input id="sealEngagementFactor" pInputText formControlName="sealEngagementFactor"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="threeWayAdapterAdjustmentFactorVisible">
+                                <label for="threeWayXoadjustmentFactor">3-Way Adapter Adjustment Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="threeWayAdapterAdjustmentFactorVisible">
+                                <input id="threeWayXoadjustmentFactor" pInputText
+                                    formControlName="threeWayXoadjustmentFactor" style="background-color:#FFF2CC"
+                                    appNumberFormat />
+                            </div>
+
+                            <div class="row-style" *ngIf="sumpPackerFactorVisible">
+                                <label for="sumpPackerFactor">Sump Packer Factor</label>
+                            </div>
+                            <div class="row-style1" *ngIf="sumpPackerFactorVisible">
+                                <input id="sumpPackerFactor" pInputText formControlName="sumpPackerFactor"
+                                    style="background-color:#FFF2CC" appNumberFormat />
+                            </div>
+
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-buttons-container">
+            <button pButton style="align-content:center" label="Cancel" class="p-button-outlined"
+                (click)="closeDialog()"></button>
+            <button pButton style="align-self:center" [label]="isEdit ? 'Update' : 'Save'" class="continueBtnColor"
+                [disabled]="wellFeaturesForm.invalid" (click)="confirmSave()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+<app-confirmation-dialog [(visible)]="displayConfirmDialog" [cancelButtonVisibile]="'true'"
+    [dialogContent]="dialogContent" [dialogTitle]="'Confirm Edit'" (onCancel)="displayConfirmDialog=false"
+    (onContinue)="saveSchematic()"></app-confirmation-dialog>

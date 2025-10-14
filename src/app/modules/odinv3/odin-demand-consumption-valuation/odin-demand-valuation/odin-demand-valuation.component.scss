@@ -1,0 +1,69 @@
+.p-accordion-header-link {
+    border: none;
+    width: 30%;
+}
+
+.well-classes {
+    .p-checkbox {
+        display: none;
+    }
+}
+
+.wells-block {
+    width: max-content;
+    position: relative;
+    bottom: -41px;
+    left: 20px;
+    z-index: 9;
+}
+
+.consumption-grid {
+    height: 100%;
+    display: block;
+    position: relative;
+
+    p-table {
+        .p-datatable {
+            height: calc(100vh - 250px);
+            top: 0px !important;
+
+            &.p-datatable-scrollable {
+                > .p-datatable-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1;
+                    height: 100%;
+                    max-height: calc(100%) !important;
+
+                    td.contingentQuantity {
+                        background-color: rgba(11, 45, 113, 0.2);
+                    }
+                }
+            }
+
+            .even td {
+                background-color: rgba(217, 217, 217, 0.5) !important;
+            }
+
+            .odd td {
+                background-color: #ffffff;
+            }
+        }
+    }
+}
+
+.cursor-default {
+    cursor: default !important;
+}
+
+.p-paginator {
+    padding: 0px !important;
+}
+
+.p-paginator-left-content {
+    margin: 5px !important;
+}
+
+.p-datatable .p-datatable-tfoot > tr > td {
+    padding: 5px !important;
+}

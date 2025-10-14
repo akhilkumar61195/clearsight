@@ -11,6 +11,7 @@
     "start:4205": "ng serve --port 4205",
     "start:4206": "ng serve --port 4206",
     "build-dev": "ng build --configuration=development --aot=true",
+    "build": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

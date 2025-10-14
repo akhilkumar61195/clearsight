@@ -5916,10 +5916,10 @@ map-obj@^4.1.0:
   resolved "https://registry.npmjs.org/map-obj/-/map-obj-4.3.0.tgz"
   integrity sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==
 
-"marked@>= 9.0.0 < 13.0.0":
-  version "12.0.2"
-  resolved "https://registry.npmjs.org/marked/-/marked-12.0.2.tgz"
-  integrity sha512-qXUm7e/YKFoqFPYPa3Ukg9xlI5cyAtGmyEIzMfW//m6kXwCy2Ps9DYf5ioijFKQ8qyuscrHoY04iJGctu2Kg0Q==
+marked@^9.0.0, "marked@>= 9.0.0 < 13.0.0":
+  version "9.0.0"
+  resolved "https://registry.npmjs.org/marked/-/marked-9.0.0.tgz"
+  integrity sha512-37yoTpjU+TSXb9OBYY5n78z/CqXh76KiQj9xsKxEdztzU9fRLmbWO5YqKxgCVGKlNdexppnbKTkwB3RipVri8w==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"

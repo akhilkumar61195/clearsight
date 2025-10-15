@@ -32,7 +32,7 @@ jobs:
           app_location: "."  # Root of your Angular project
           api_location: ""   # No backend API
           output_location: "dist/chevron-drilling-ui"  # Angular build output folder
-          app_build_command: "npm run build -- --configuration production"  # Use production build
+          app_build_command: "npm run build"  # Use production build
           ###### End of Repository/Build Configurations ######
 
   close_pull_request_job:

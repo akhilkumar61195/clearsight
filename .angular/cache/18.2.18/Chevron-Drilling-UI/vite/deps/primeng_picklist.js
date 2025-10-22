@@ -1,11 +1,11 @@
 import {
+  HomeIcon
+} from "./chunk-SCCAQMHS.js";
+import {
   AngleDoubleLeftIcon,
   AngleDoubleRightIcon,
   AngleLeftIcon
 } from "./chunk-RLWS3MXS.js";
-import {
-  SearchIcon
-} from "./chunk-7Z667QV4.js";
 import {
   AngleUpIcon
 } from "./chunk-L3P4QBJO.js";
@@ -13,27 +13,24 @@ import {
   AngleDownIcon
 } from "./chunk-EUYLAJIK.js";
 import {
-  HomeIcon
-} from "./chunk-SCCAQMHS.js";
+  SearchIcon
+} from "./chunk-7Z667QV4.js";
 import {
   AngleRightIcon
 } from "./chunk-O5W2B56H.js";
 import {
   ButtonDirective,
   ButtonModule
-} from "./chunk-RCAT7VOQ.js";
+} from "./chunk-UL2S6FNV.js";
 import "./chunk-U3QPBUAC.js";
-import "./chunk-UFU4JCQO.js";
 import {
   Ripple,
   RippleModule
-} from "./chunk-NJB2RNKT.js";
+} from "./chunk-LYA7WMOY.js";
+import "./chunk-UFU4JCQO.js";
 import {
   BaseIcon
 } from "./chunk-7YHFQNWY.js";
-import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
 import {
   FilterService,
   PrimeNGConfig,
@@ -44,6 +41,9 @@ import {
   ObjectUtils,
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   BreakpointObserver,
   Platform,
@@ -147,7 +147,6 @@ import {
   ɵɵtextInterpolate,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import {
   animationFrameScheduler,
   asapScheduler,
@@ -155,6 +154,7 @@ import {
   isObservable,
   merge
 } from "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import {
   BehaviorSubject,
   ConnectableObservable,

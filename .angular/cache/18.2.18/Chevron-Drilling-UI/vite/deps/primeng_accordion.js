@@ -6,9 +6,6 @@ import {
 } from "./chunk-R3HBU2RI.js";
 import "./chunk-7YHFQNWY.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   Header,
   PrimeTemplate,
   SharedModule
@@ -16,6 +13,9 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   animate,
   state,
@@ -76,8 +76,8 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

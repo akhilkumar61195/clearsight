@@ -18,8 +18,8 @@ import {
   ɵɵelement,
   ɵɵproperty
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import {
   __spreadProps,

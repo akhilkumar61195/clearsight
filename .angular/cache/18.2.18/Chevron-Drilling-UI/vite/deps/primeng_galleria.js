@@ -10,19 +10,16 @@ import {
   ChevronLeftIcon
 } from "./chunk-NDBWFTPV.js";
 import {
-  ChevronRightIcon
-} from "./chunk-KHJNXBN5.js";
-import {
   TimesIcon
 } from "./chunk-LRLGJR74.js";
 import {
   Ripple,
   RippleModule
-} from "./chunk-NJB2RNKT.js";
-import "./chunk-7YHFQNWY.js";
+} from "./chunk-LYA7WMOY.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
+  ChevronRightIcon
+} from "./chunk-KHJNXBN5.js";
+import "./chunk-7YHFQNWY.js";
 import {
   PrimeNGConfig,
   PrimeTemplate,
@@ -32,6 +29,9 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   animate,
   style,
@@ -104,8 +104,8 @@ import {
   ɵɵtemplateRefExtractor,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

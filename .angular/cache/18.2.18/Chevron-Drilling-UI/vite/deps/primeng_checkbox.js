@@ -6,7 +6,6 @@ import {
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
 import "./chunk-7YHFQNWY.js";
-import "./chunk-BUGEQH7Q.js";
 import {
   PrimeNGConfig,
   PrimeTemplate,
@@ -15,6 +14,7 @@ import {
 import {
   ObjectUtils
 } from "./chunk-NGXWC2RD.js";
+import "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR,
   NgControl
@@ -73,8 +73,8 @@ import {
   ɵɵtextInterpolate1,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

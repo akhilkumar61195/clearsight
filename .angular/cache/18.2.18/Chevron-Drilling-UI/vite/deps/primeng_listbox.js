@@ -7,16 +7,13 @@ import {
 import {
   Scroller,
   ScrollerModule
-} from "./chunk-MST6NYA3.js";
+} from "./chunk-V35ZRVD7.js";
 import "./chunk-U3QPBUAC.js";
 import {
   Ripple,
   RippleModule
-} from "./chunk-NJB2RNKT.js";
+} from "./chunk-LYA7WMOY.js";
 import "./chunk-7YHFQNWY.js";
-import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
 import {
   FilterService,
   Footer,
@@ -29,6 +26,9 @@ import {
   ObjectUtils,
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR
 } from "./chunk-3YHF7OYE.js";
@@ -100,8 +100,8 @@ import {
   ɵɵtextInterpolate1,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

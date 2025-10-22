@@ -11,9 +11,6 @@ import {
 } from "./chunk-LRLGJR74.js";
 import "./chunk-7YHFQNWY.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   PrimeNGConfig,
   SharedModule,
   TranslationKeys
@@ -22,6 +19,9 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   animate,
   animation,
@@ -95,8 +95,8 @@ import {
   ɵɵtextInterpolate1,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import {
   Subject
 } from "./chunk-YBINNAIN.js";

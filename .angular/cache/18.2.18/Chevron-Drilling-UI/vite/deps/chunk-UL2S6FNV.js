@@ -2,14 +2,11 @@ import {
   SpinnerIcon
 } from "./chunk-U3QPBUAC.js";
 import {
+  Ripple
+} from "./chunk-LYA7WMOY.js";
+import {
   AutoFocus
 } from "./chunk-UFU4JCQO.js";
-import {
-  Ripple
-} from "./chunk-NJB2RNKT.js";
-import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
 import {
   PrimeTemplate,
   SharedModule
@@ -17,6 +14,9 @@ import {
 import {
   ObjectUtils
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   DOCUMENT,
   NgClass,
@@ -996,4 +996,4 @@ export {
   Button,
   ButtonModule
 };
-//# sourceMappingURL=chunk-RCAT7VOQ.js.map
+//# sourceMappingURL=chunk-UL2S6FNV.js.map

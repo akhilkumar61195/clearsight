@@ -2,40 +2,37 @@ import {
   SearchIcon
 } from "./chunk-7Z667QV4.js";
 import {
+  Tooltip,
+  TooltipModule
+} from "./chunk-KGRKX2PL.js";
+import {
   CheckIcon
 } from "./chunk-POVP2FGM.js";
 import {
-  Tooltip,
-  TooltipModule
-} from "./chunk-SITWC4ET.js";
-import {
   Scroller,
   ScrollerModule
-} from "./chunk-MST6NYA3.js";
+} from "./chunk-V35ZRVD7.js";
 import {
   Overlay,
   OverlayModule
-} from "./chunk-5AEHSMOM.js";
+} from "./chunk-EOY6PYSD.js";
 import {
   TimesIcon
 } from "./chunk-LRLGJR74.js";
 import {
+  Ripple,
+  RippleModule
+} from "./chunk-LYA7WMOY.js";
+import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
-import {
-  Ripple,
-  RippleModule
-} from "./chunk-NJB2RNKT.js";
 import {
   ChevronDownIcon
 } from "./chunk-R3HBU2RI.js";
 import {
   BaseIcon
 } from "./chunk-7YHFQNWY.js";
-import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
 import {
   FilterService,
   PrimeNGConfig,
@@ -47,6 +44,9 @@ import {
   ObjectUtils,
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR
 } from "./chunk-3YHF7OYE.js";
@@ -3209,4 +3209,4 @@ export {
   Dropdown,
   DropdownModule
 };
-//# sourceMappingURL=chunk-HW7JJZXQ.js.map
+//# sourceMappingURL=chunk-TRGUY5E4.js.map

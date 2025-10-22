@@ -1,11 +1,11 @@
 import {
+  Ripple,
+  RippleModule
+} from "./chunk-LYA7WMOY.js";
+import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
-import {
-  Ripple,
-  RippleModule
-} from "./chunk-NJB2RNKT.js";
 import {
   PrimeTemplate,
   SharedModule
@@ -624,4 +624,4 @@ export {
   SelectButton,
   SelectButtonModule
 };
-//# sourceMappingURL=chunk-LMLHTJJS.js.map
+//# sourceMappingURL=chunk-OG57L5OI.js.map

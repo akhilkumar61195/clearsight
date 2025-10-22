@@ -5,14 +5,13 @@ import {
   TimesIcon
 } from "./chunk-LRLGJR74.js";
 import {
+  TimesCircleIcon
+} from "./chunk-6IZ3EWJY.js";
+import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
-import {
-  TimesCircleIcon
-} from "./chunk-6IZ3EWJY.js";
 import "./chunk-7YHFQNWY.js";
-import "./chunk-BUGEQH7Q.js";
 import {
   PrimeNGConfig,
   PrimeTemplate,
@@ -21,6 +20,7 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR
 } from "./chunk-3YHF7OYE.js";
@@ -81,8 +81,8 @@ import {
   ɵɵtextInterpolate,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

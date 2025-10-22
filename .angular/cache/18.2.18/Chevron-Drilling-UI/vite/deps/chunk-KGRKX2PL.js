@@ -1,14 +1,14 @@
 import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   PrimeNGConfig
 } from "./chunk-V5C3C4TU.js";
 import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-NGXWC2RD.js";
+import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   CommonModule,
   isPlatformBrowser
@@ -866,4 +866,4 @@ export {
   Tooltip,
   TooltipModule
 };
-//# sourceMappingURL=chunk-SITWC4ET.js.map
+//# sourceMappingURL=chunk-KGRKX2PL.js.map

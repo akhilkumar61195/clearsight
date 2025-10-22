@@ -1,42 +1,39 @@
 import {
   Scroller,
   ScrollerModule
-} from "./chunk-MST6NYA3.js";
+} from "./chunk-V35ZRVD7.js";
+import {
+  Overlay,
+  OverlayModule
+} from "./chunk-EOY6PYSD.js";
 import {
   InputTextModule
 } from "./chunk-7BRL7OIA.js";
 import {
+  TimesIcon
+} from "./chunk-LRLGJR74.js";
+import {
+  TimesCircleIcon
+} from "./chunk-6IZ3EWJY.js";
+import {
   ButtonDirective,
   ButtonModule
-} from "./chunk-RCAT7VOQ.js";
+} from "./chunk-UL2S6FNV.js";
 import {
   SpinnerIcon
 } from "./chunk-U3QPBUAC.js";
 import {
-  Overlay,
-  OverlayModule
-} from "./chunk-5AEHSMOM.js";
-import {
-  TimesIcon
-} from "./chunk-LRLGJR74.js";
+  Ripple,
+  RippleModule
+} from "./chunk-LYA7WMOY.js";
 import {
   AutoFocus,
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
 import {
-  Ripple,
-  RippleModule
-} from "./chunk-NJB2RNKT.js";
-import {
-  TimesCircleIcon
-} from "./chunk-6IZ3EWJY.js";
-import {
   ChevronDownIcon
 } from "./chunk-R3HBU2RI.js";
 import "./chunk-7YHFQNWY.js";
-import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
 import {
   OverlayService,
   PrimeNGConfig,
@@ -48,10 +45,13 @@ import {
   ObjectUtils,
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
-import "./chunk-G4LKXM7C.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR
 } from "./chunk-3YHF7OYE.js";
+import "./chunk-G4LKXM7C.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -125,8 +125,8 @@ import {
   ɵɵtwoWayProperty,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

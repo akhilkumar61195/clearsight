@@ -3,10 +3,6 @@ import {
   AutoFocusModule
 } from "./chunk-UFU4JCQO.js";
 import {
-  ConnectedOverlayScrollHandler,
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   OverlayService,
   PrimeNGConfig,
   TranslationKeys
@@ -15,14 +11,18 @@ import {
   zindexutils
 } from "./chunk-NGXWC2RD.js";
 import {
+  ConnectedOverlayScrollHandler,
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-3YHF7OYE.js";
+import {
   animate,
   style,
   transition,
   trigger
 } from "./chunk-G4LKXM7C.js";
-import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-3YHF7OYE.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -75,8 +75,8 @@ import {
   ɵɵtemplate,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

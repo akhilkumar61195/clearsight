@@ -6,9 +6,6 @@ import {
   BaseIcon
 } from "./chunk-7YHFQNWY.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   PrimeNGConfig,
   PrimeTemplate,
   SharedModule
@@ -16,6 +13,9 @@ import {
 import {
   UniqueComponentId
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   NG_VALUE_ACCESSOR
 } from "./chunk-3YHF7OYE.js";
@@ -76,8 +76,8 @@ import {
   ɵɵtemplate,
   ɵɵtemplateRefExtractor
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

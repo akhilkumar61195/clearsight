@@ -2,12 +2,12 @@ import {
   SpinnerIcon
 } from "./chunk-U3QPBUAC.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
-import {
   PrimeTemplate,
   SharedModule
 } from "./chunk-V5C3C4TU.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -1573,4 +1573,4 @@ export {
   Scroller,
   ScrollerModule
 };
-//# sourceMappingURL=chunk-MST6NYA3.js.map
+//# sourceMappingURL=chunk-V35ZRVD7.js.map

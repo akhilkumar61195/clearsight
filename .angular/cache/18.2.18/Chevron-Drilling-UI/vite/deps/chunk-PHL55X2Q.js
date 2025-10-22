@@ -9,12 +9,12 @@ import {
   TimesIcon
 } from "./chunk-LRLGJR74.js";
 import {
-  Ripple,
-  RippleModule
-} from "./chunk-NJB2RNKT.js";
-import {
   TimesCircleIcon
 } from "./chunk-6IZ3EWJY.js";
+import {
+  Ripple,
+  RippleModule
+} from "./chunk-LYA7WMOY.js";
 import {
   MessageService,
   PrimeNGConfig,
@@ -705,4 +705,4 @@ export {
   Messages,
   MessagesModule
 };
-//# sourceMappingURL=chunk-2ZHEO75U.js.map
+//# sourceMappingURL=chunk-PHL55X2Q.js.map

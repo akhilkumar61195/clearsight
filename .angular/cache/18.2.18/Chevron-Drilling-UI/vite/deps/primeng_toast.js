@@ -9,16 +9,13 @@ import {
   TimesIcon
 } from "./chunk-LRLGJR74.js";
 import {
-  Ripple,
-  RippleModule
-} from "./chunk-NJB2RNKT.js";
-import {
   TimesCircleIcon
 } from "./chunk-6IZ3EWJY.js";
-import "./chunk-7YHFQNWY.js";
 import {
-  DomHandler
-} from "./chunk-BUGEQH7Q.js";
+  Ripple,
+  RippleModule
+} from "./chunk-LYA7WMOY.js";
+import "./chunk-7YHFQNWY.js";
 import {
   MessageService,
   PrimeNGConfig,
@@ -30,6 +27,9 @@ import {
   UniqueComponentId,
   zindexutils
 } from "./chunk-NGXWC2RD.js";
+import {
+  DomHandler
+} from "./chunk-BUGEQH7Q.js";
 import {
   animate,
   animateChild,
@@ -98,8 +98,8 @@ import {
   ɵɵtextInterpolate,
   ɵɵviewQuery
 } from "./chunk-JGLKCP2O.js";
-import "./chunk-37AKNIK6.js";
 import "./chunk-EG6SOSD2.js";
+import "./chunk-37AKNIK6.js";
 import "./chunk-YBINNAIN.js";
 import "./chunk-32HXC6B6.js";
 

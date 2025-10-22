@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/modules/common/rejection-dialog/rejection-dialog.component.scss"],
-  "sourcesContent": ["\n.parentInput{\n    display: flex; \n    align-items: center;\n  }\n  \n  \n  .cancelBtn {\n    color: black;\n    background-color: #d9d9d9;\n  }\n  \n  .saveBtn {\n    margin-left: 10px;\n    background-color: #3ab23a;\n  }\n  \n  .starCss{\n    color:red;\n    font-size: 17px;\n    padding-left: 6px;\n  }\n  .inputFlex{\n    flex: 1;\n  }\n  \n  .schematicLabel{\n    flex: 0 0 150px;\n    font-weight: 500;\n  }"],
-  "mappings": ";AACA,CAAA;AACI,WAAA;AACA,eAAA;;AAIF,CAAA;AACE,SAAA;AACA,oBAAA;;AAGF,CAAA;AACE,eAAA;AACA,oBAAA;;AAGF,CAAA;AACE,SAAA;AACA,aAAA;AACA,gBAAA;;AAEF,CAAA;AACE,QAAA;;AAGF,CAAA;AACE,QAAA,EAAA,EAAA;AACA,eAAA;;",
-  "names": []
-}

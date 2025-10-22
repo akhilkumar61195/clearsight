@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  APIEndpoint: 'https://chevron-staging-api.infovision.com'
+  APIEndpoint: 'https://clearsightapi.azurewebsites.net'
 };

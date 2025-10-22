@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/modules/odinv3/odin-raw-data/odin-ddl/odin-ddl.component.scss"],
-  "sourcesContent": [".text-decoration-black {\n    color: #000000;\n  }\n  \n//   .center {\n//     text-align: center;\n//   }\n  \n//   .relativePosition {\n//     position: relative;\n//     z-index: 1;\n//   }\n  \n  .p-dropdown.custom-dropdown .p-dropdown-label {\n    width: 200px !important;\n  }\n  .p-dropdown.custom-dropdown {\n    width: 200px !important;\n  }\n  "],
-  "mappings": ";AAAA,CAAA;AACI,SAAA;;AAYF,CAAA,UAAA,CAAA,gBAAA,CAAA;AACE,SAAA;;AAEF,CAHA,UAGA,CAHA;AAIE,SAAA;;",
-  "names": []
-}

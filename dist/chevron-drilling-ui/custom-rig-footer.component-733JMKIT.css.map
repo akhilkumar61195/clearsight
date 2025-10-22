@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["custom-rig-footer.component.ts"],
-  "sourcesContent": ["\n    .custom-cell {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n    }\n    .bottom-div-1, .bottom-div-2 {\n      margin-top: .5em;\n      line-height: 1;\n      color: red;\n    }\n  "],
-  "mappings": ";AACI,CAAA;AACE,WAAA;AACA,kBAAA;AACA,eAAA;;AAEF,CAAA;AAAA,CAAA;AACE,cAAA;AACA,eAAA;AACA,SAAA;;",
-  "names": []
-}

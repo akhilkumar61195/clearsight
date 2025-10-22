@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["odin-balance-tooltip.component.ts"],
+  "sourcesContent": ["\n      :hostx {\n        position: absolute;\n        pointer-events: none;\n        transition: opacity 1s;\n      }\n\n      :hostx.Xag-tooltip-hiding {\n        opacity: 0;\n      }\n      .custom-tooltip {\n        background-color: #166568;\n        color: #166568;\n\n        border-radius: 5px;\n        padding: 5px;\n        border-width: 1px;\n        border-style: solid;\n        border-color: #166568;\n        flex-wrap: wrap;\n      }\n\n      .green-row {\n        background-color: var(--theme-green-medium-color);\n      }\n      .yellow-row {\n        background-color: #ffc65c;\n      }\n\n      tr td:nth-child(odd) {\n        float: left;\n        margin-right: 25px;\n      }\n      tr td:nth-child(even) {\n        float: right;\n      }\n\n      .custom-tooltip p:first-of-type {\n        font-weight: bold;\n      }\n\n      .custom-tooltip .total {\n        color: #fff;\n        font-weight: 700;\n      }\n\n      tr {\n          border: 1px solid white;\n      }\n    "],
+  "mappings": ";AACM;AACE,YAAA;AACA,kBAAA;AACA,cAAA,QAAA;;AAGF,MAAA,CAAA;AACE,WAAA;;AAEF,CAAA;AACE,oBAAA;AACA,SAAA;AAEA,iBAAA;AACA,WAAA;AACA,gBAAA;AACA,gBAAA;AACA,gBAAA;AACA,aAAA;;AAGF,CAAA;AACE,oBAAA,IAAA;;AAEF,CAAA;AACE,oBAAA;;AAGF,GAAA,EAAA;AACE,SAAA;AACA,gBAAA;;AAEF,GAAA,EAAA;AACE,SAAA;;AAGF,CA3BA,eA2BA,CAAA;AACE,eAAA;;AAGF,CA/BA,eA+BA,CAAA;AACE,SAAA;AACA,eAAA;;AAGF;AACI,UAAA,IAAA,MAAA;;",
+  "names": []
+}

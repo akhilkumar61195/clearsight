@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/odinv3/odin-completion-raw-data/odin-completion-ddl/odin-completion-ddl.component.scss"],
+  "sourcesContent": [".text-decoration-black {\n    color: #000000;\n  }\n  \n  .p-dropdown.custom-dropdown .p-dropdown-label {\n    width: 200px !important;\n  }\n  .p-dropdown.custom-dropdown {\n    width: 200px !important;\n  }\n  "],
+  "mappings": ";AAAA,CAAA;AACI,SAAA;;AAGF,CAAA,UAAA,CAAA,gBAAA,CAAA;AACE,SAAA;;AAEF,CAHA,UAGA,CAHA;AAIE,SAAA;;",
+  "names": []
+}

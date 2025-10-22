@@ -5,7 +5,7 @@ export const environment = {
   //APIEndpoint: 'https://localhost:7106'
   //APIEndpoint: 'https://localhost:7035'
  // APIEndpoint: 'https://gateway-chevron-api-staging.infovision.com',
-  APIEndpoint: 'https://gateway-chevron-api-dev.infovision.com'
+  APIEndpoint: 'https://clearsightapi.azurewebsites.net'
 };
 /*
  * For easier debugging in development mode, you can import the following file

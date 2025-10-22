@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/schematic/master-table/master-table.component.scss"],
+  "sourcesContent": ["\n.select-button-container{\n  display: flex;\n  min-width: 232px;\n  background: #F0F9FA;\n  font-weight: bold !important;\n  border-radius: 5px;\n}\n.button-container {\n  display: flex;\n  gap: 10px;\n}\n\n.export-container {\n  margin-left: auto; \n}\n\n.export-btn {\n  margin-left: auto !important; \n}\n"],
+  "mappings": ";AACA,CAAA;AACE,WAAA;AACA,aAAA;AACA,cAAA;AACA,eAAA;AACA,iBAAA;;AAEF,CAAA;AACE,WAAA;AACA,OAAA;;AAGF,CAAA;AACE,eAAA;;AAGF,CAAA;AACE,eAAA;;",
+  "names": []
+}

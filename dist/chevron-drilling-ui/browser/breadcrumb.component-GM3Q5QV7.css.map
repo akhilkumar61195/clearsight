@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/breadcrumb/breadcrumb.component.scss"],
+  "sourcesContent": [".breadcrumb {\n    // border: 1px solid #cbd2d9;\n    width: 100%;\n    height: 25px;\n    // background-color: white;\n    display: inline-flex;\n    font-size: 13px;\n    font-weight: 700;\n    overflow: hidden;\n    cursor: default;\n}\n\nol.breadcrumb{\n    padding-left: 5px;\n}\n\n.breadcrumb a {\n    cursor: pointer;\n//     color: var(--txt-black);\n}\n\n.breadcrumb a.active {\n    color: var(--bg-medium-gray);\n}\n\n.breadcrumb li {\n    display: flex;\n    align-items: center;\n}\n\n.breadcrumb li a {\n    text-decoration: none;\n    color: #007bff;\n    transition: color 0.3s ease;\n}\n\n.breadcrumb li a:hover {\n    color: #0056b3;\n}\n\n.breadcrumb li.active span {\n    color: #6c757d;\n}\n\n.breadcrumb .separator {\n    margin: 0 5px;\n    color: #6c757d;\n}"],
+  "mappings": ";AAAA,CAAA;AAEI,SAAA;AACA,UAAA;AAEA,WAAA;AACA,aAAA;AACA,eAAA;AACA,YAAA;AACA,UAAA;;AAGJ,EAAA,CAZA;AAaI,gBAAA;;AAGJ,CAhBA,WAgBA;AACI,UAAA;;AAIJ,CArBA,WAqBA,CAAA,CAAA;AACI,SAAA,IAAA;;AAGJ,CAzBA,WAyBA;AACI,WAAA;AACA,eAAA;;AAGJ,CA9BA,WA8BA,GAAA;AACI,mBAAA;AACA,SAAA;AACA,cAAA,MAAA,KAAA;;AAGJ,CApCA,WAoCA,GAAA,CAAA;AACI,SAAA;;AAGJ,CAxCA,WAwCA,EAAA,CAnBA,OAmBA;AACI,SAAA;;AAGJ,CA5CA,WA4CA,CAAA;AACI,UAAA,EAAA;AACA,SAAA;;",
+  "names": []
+}

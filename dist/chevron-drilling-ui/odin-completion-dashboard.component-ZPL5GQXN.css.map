@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/modules/odinv3/odin-dashboard/odin-completion-dashboard/odin-completion-dashboard.component.scss"],
-  "sourcesContent": [".ag-theme-alpine  .ag-tooltip{\n    background-color: #0f1014;\n    color: #fefeff;\n    width: 150px;\n    border-radius: 2px;\n    padding: 5px;\n    border-width: 1px;\n    border-style: solid;\n    border-color: #545454;\n    flex-wrap: wrap;\n  }"],
-  "mappings": ";AAAA,CAAA,gBAAA,CAAA;AACI,oBAAA;AACA,SAAA;AACA,SAAA;AACA,iBAAA;AACA,WAAA;AACA,gBAAA;AACA,gBAAA;AACA,gBAAA;AACA,aAAA;;",
-  "names": []
-}

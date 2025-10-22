@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/common/equipment-interactive-dialog/equipment-interactive-dialog.component.scss"],
+  "sourcesContent": [".p-dialog .p-dialog-footer {\n    padding: 0.5rem 0.5rem .5rem 1.5rem;\n  }\n  \n  // .filterBTN .p-button {\n  //   background-color: var(--theme-light-blue-color);\n  //   color: var(--bg-dark-gray);\n  // }\n  \n  .equipment-dialog .p-dialog .p-dialog-content {\n    overflow-y: hidden;  \n    overflow-x: hidden; \n    padding-top: 50px !important;  \n  }\n  .dialog-content-container {\n    position: sticky;\n    top: 0;  \n    background-color: #fff;  \n    z-index: 10;  \n  }\n\n    .requiredField {\n      color: red;\n      font-size: 18px;\n      line-height: 10px;\n      position: relative;\n      top: -1px;\n      display: inline-block;\n    }"],
+  "mappings": ";AAAA,CAAA,SAAA,CAAA;AACI,WAAA,OAAA,OAAA,OAAA;;AAQF,CAAA,iBAAA,CATF,SASE,CAAA;AACE,cAAA;AACA,cAAA;AACA,eAAA;;AAEF,CAAA;AACE,YAAA;AACA,OAAA;AACA,oBAAA;AACA,WAAA;;AAGA,CAAA;AACE,SAAA;AACA,aAAA;AACA,eAAA;AACA,YAAA;AACA,OAAA;AACA,WAAA;;",
+  "names": []
+}

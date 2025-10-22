@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/modules/odinv3/odin-raw-data/odin-sap-unit-cost/odin-sap-unit-cost.component.scss"],
+  "sourcesContent": [".text-decoration-black {\n    color: #000000;\n  }\n  \n  .center {\n    text-align: center;\n  }\n  .relativePosition {\n    position: relative;\n    z-index: 1;\n  }"],
+  "mappings": ";AAAA,CAAA;AACI,SAAA;;AAGF,CAAA;AACE,cAAA;;AAEF,CAAA;AACE,YAAA;AACA,WAAA;;",
+  "names": []
+}

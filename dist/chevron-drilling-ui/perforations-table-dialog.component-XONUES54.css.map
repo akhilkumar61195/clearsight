@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/modules/schematic/perforations-table-dialog/perforations-table-dialog.component.scss"],
-  "sourcesContent": ["::ng-deep .p-dialog .p-dialog-content {\n    padding: 0;\n}\n\n.footer-buttons-container {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    width: 100%;\n  }\n.perforationTable{\n    width: 100%;\n    height: 40vh; \n}\n.perforationTableHeading{\n    margin:0;\n}\n// ::ng-deep .p-dialog-header {\n//   padding: 0px;\n// }\n\n// ::ng-deep .p-dialog-content {\n//   padding: 0px;\n//   margin-top: -20px;\n// }\n\n// ::ng-deep .p-dialog .p-dialog-footer {\n//   margin: 0px;\n// }\n::ng-deep .p-dialog .p-dialog-header {\n    padding: 0px 0px 20px 0;\n}"],
-  "mappings": ";AAAA,UAAA,CAAA,SAAA,CAAA;AACI,WAAA;;AAGJ,CAAA;AACI,WAAA;AACA,mBAAA;AACA,eAAA;AACA,SAAA;;AAEJ,CAAA;AACI,SAAA;AACA,UAAA;;AAEJ,CAAA;AACI,UAAA;;AAcJ,UAAA,CA7BA,SA6BA,CAAA;AACI,WAAA,IAAA,IAAA,KAAA;;",
-  "names": []
-}

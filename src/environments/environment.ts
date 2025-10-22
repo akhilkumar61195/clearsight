@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // APIEndpoint: 'https://chevron-dev-api.infovision.com',
   // APIEndpoint: 'https://gateway-chevron-api-staging.infovision.com'
-  APIEndpoint: 'https://gateway-chevron-api-dev.infovision.com'
+  APIEndpoint: 'https://clearsightapi.azurewebsites.net'
   //APIEndpoint: 'https://chevron-staging-api.infovision.com'
 };
 

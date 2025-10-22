@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/modules/mdl/mdl-dashboard/mdl-dashboard.component.scss"],
-  "sourcesContent": [".select-button-container{\n    display: flex;\n    background: #F0F9FA;\n    font-weight: bold !important;\n    border-radius: 4px;\n  }"],
-  "mappings": ";AAAA,CAAA;AACI,WAAA;AACA,cAAA;AACA,eAAA;AACA,iBAAA;;",
-  "names": []
-}

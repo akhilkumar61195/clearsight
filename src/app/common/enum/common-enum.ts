@@ -252,14 +252,22 @@ export enum Tyr2InvoiceStatus {
   Completed = 'Completed',
 }
 
+// export const AppHeaderDropdownList = [
+//   { label: 'Demand Planning', value: routeLinks.odinDrillingDashboard3 },
+//   { label: 'Operations Portal', value: routeLinks.thor2LandingDashboard },
+//   // { label: 'Old TYR', value: routeLinks.tyr1Dashboard },
+//   // { label: 'TYR', value: routeLinks.tyrLandingDashboard },
+//   { label: 'Master Data Management', value: routeLinks.mdlDashboard },
+//   { label: 'Schematic Designer', value: routeLinks.schematicDashboard },
+//   { label: 'ADMIN', value: routeLinks.adminDashboard }
+// ];
+
 export const AppHeaderDropdownList = [
-  { label: 'ODIN', value: routeLinks.odinDrillingDashboard3 },
-  { label: 'THOR', value: routeLinks.thor2LandingDashboard },
-  { label: 'Old TYR', value: routeLinks.tyr1Dashboard },
-  { label: 'TYR', value: routeLinks.tyrLandingDashboard },
-  { label: 'MDL', value: routeLinks.mdlDashboard },
-  { label: 'SCHEMATIC', value: routeLinks.schematicDashboard },
-  { label: 'ADMIN', value: routeLinks.adminDashboard }
+  { label: 'Demand Planning', value: routeLinks.odinDrillingDashboard3, permissionKey: 'ODIN' },
+  { label: 'Operations Portal', value: routeLinks.thor2LandingDashboard, permissionKey: 'THOR' },
+  { label: 'Master Data Management', value: routeLinks.mdlDashboard, permissionKey: 'MDL' },
+  { label: 'Schematic Designer', value: routeLinks.schematicDashboard, permissionKey: 'SCHEMATIC' },
+  { label: 'ADMIN', value: routeLinks.adminDashboard, permissionKey: 'ADMIN' }
 ];
 
 // Adding enums for all applications getting from getApplicationPermissionList api
